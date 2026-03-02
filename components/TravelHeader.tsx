@@ -2,7 +2,7 @@
 
 export default function TravelHeader() {
   return (
-    <section className="w-full flex justify-center pb-sp-2xl">
+    <section id="travel" className="w-full flex justify-center pb-sp-2xl">
       <div className="container-width flex items-end justify-between gap-sp-lg">
 
         {/* "Travel & Stay" display heading */}

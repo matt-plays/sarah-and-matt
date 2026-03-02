@@ -47,7 +47,7 @@ const storyCards: StoryCard[] = [
 
 export default function StorySection() {
   return (
-    <section className="w-full overflow-hidden pb-sp-2xl">
+    <section id="celebration" className="w-full overflow-hidden pb-sp-2xl">
       {/* Inner row: justify-center causes cards to overflow symmetrically off both edges */}
       <div
         className="flex items-start justify-center"

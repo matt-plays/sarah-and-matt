@@ -59,6 +59,7 @@ const config: Config = {
         "romie-trial": ["Romie Trial", "Romie", "Cormorant Garamond", "serif"],
         instrument: ["Instrument Sans", "system-ui", "sans-serif"],
         dm: ["DM Sans", "system-ui", "sans-serif"],
+        "gans-fleurons": ["Gans Classical Fleurons", "serif"],
       },
       maxWidth: {
         container: "1600px",

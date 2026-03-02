@@ -1,3 +1,4 @@
+import SiteNav from "@/components/SiteNav";
 import Hero from "@/components/Hero";
 import StorySection from "@/components/StorySection";
 import PhotoGrid from "@/components/PhotoGrid";
@@ -104,7 +105,10 @@ const activities = [
 export default function Home() {
   return (
     <main>
-      {/* ① Hero — invitation card + building illustration */}
+      {/* ① Sticky nav — must be before Hero (Hero has overflow-hidden which breaks sticky) */}
+      <SiteNav />
+
+      {/* ② Hero — invitation card + building illustration */}
       <Hero />
 
       {/* ② Our Story — horizontal bleeding timeline */}

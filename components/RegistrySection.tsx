@@ -32,7 +32,7 @@ const registryLinks: RegistryLink[] = [
 
 export default function RegistrySection() {
   return (
-    <section className="w-full bg-orange-s-700 flex flex-col items-center py-sp-2xl">
+    <section id="registry" className="w-full bg-orange-s-700 flex flex-col items-center py-sp-2xl">
       <div className="container-width flex flex-col gap-sp-xl">
 
         {/* "Registry" display heading */}

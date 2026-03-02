@@ -43,14 +43,15 @@ export default function MarqueeText() {
   return (
     <section
       ref={sectionRef}
-      className="w-full overflow-hidden pb-sp-2xl"
+      className="w-full overflow-hidden pt-6 pb-sp-2xl"
       aria-hidden="true"
     >
       <p
         ref={textRef}
-        className="font-romie-trial font-light italic whitespace-nowrap leading-none"
+        className="font-romie font-light italic whitespace-nowrap leading-none inline-block"
         style={{
           fontSize:           'clamp(96px, 22vw, 320px)',
+          paddingBottom:      '0.2em',
           backgroundImage:    `url('${imgFill}'), linear-gradient(90deg, rgb(220, 211, 202) 0%, rgb(220, 211, 202) 100%)`,
           backgroundSize:     'cover, auto auto',
           backgroundRepeat:   'no-repeat, repeat',

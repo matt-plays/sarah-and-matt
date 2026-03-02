@@ -2,7 +2,7 @@
 
 export default function RSVPSection() {
   return (
-    <section className="w-full bg-warm-green-700 flex justify-center py-sp-2xl">
+    <section id="rsvp" className="w-full bg-warm-green-700 flex justify-center py-sp-2xl">
       <div className="container-width flex gap-sp-lg items-end">
 
         {/* "You in? RSVP" display heading */}

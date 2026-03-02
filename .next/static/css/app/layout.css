@@ -630,11 +630,17 @@ video {
 .visible {
   visibility: visible;
 }
+.fixed {
+  position: fixed;
+}
 .absolute {
   position: absolute;
 }
 .relative {
   position: relative;
+}
+.sticky {
+  position: sticky;
 }
 .inset-0 {
   inset: 0px;
@@ -828,8 +834,17 @@ video {
 .left-0 {
   left: 0px;
 }
+.top-0 {
+  top: 0px;
+}
+.z-50 {
+  z-index: 50;
+}
 .block {
   display: block;
+}
+.inline-block {
+  display: inline-block;
 }
 .flex {
   display: flex;
@@ -1025,10 +1040,6 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
-.object-contain {
-  -o-object-fit: contain;
-     object-fit: contain;
-}
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
@@ -1060,6 +1071,13 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+.pt-6 {
+  padding-top: 1.5rem;
 }
 .text-center {
   text-align: center;
@@ -1122,10 +1140,6 @@ video {
   --tw-text-opacity: 1;
   color: rgb(179 229 255 / var(--tw-text-opacity, 1));
 }
-.text-clay-100 {
-  --tw-text-opacity: 1;
-  color: rgb(220 211 202 / var(--tw-text-opacity, 1));
-}
 .text-cool-green-600 {
   --tw-text-opacity: 1;
   color: rgb(37 73 61 / var(--tw-text-opacity, 1));
@@ -1141,6 +1155,10 @@ video {
 .text-yellow-s-300 {
   --tw-text-opacity: 1;
   color: rgb(167 111 0 / var(--tw-text-opacity, 1));
+}
+.text-clay-700 {
+  --tw-text-opacity: 1;
+  color: rgb(43 37 34 / var(--tw-text-opacity, 1));
 }
 .underline {
   text-decoration-line: underline;
@@ -1185,6 +1203,8 @@ video {
 .py-sp-2xl  { padding-top: var(--sp-2xl); padding-bottom: var(--sp-2xl); }
 /* Fluid spacing — padding x */
 .px-sp-lg   { padding-left: var(--sp-lg);  padding-right: var(--sp-lg); }
+/* Fluid spacing — padding all sides */
+.p-sp-md  { padding: var(--sp-md); }
 /* Fluid spacing — gap */
 .gap-sp-xs  { gap: var(--sp-xs); }
 .gap-sp-sm  { gap: var(--sp-sm); }
@@ -1247,6 +1267,16 @@ video {
   src: url("/fonts/RomieTrial-LightItalic.woff2") format("woff2");
   font-weight: 300;
   font-style: italic;
+  font-display: swap;
+}
+
+/* ─── Gans Classical Fleurons ───────────────────────────────────── */
+@font-face {
+  font-family: "Gans Classical Fleurons";
+  src: url("/fonts/gansclassicalfleurons-webfont.woff2") format("woff2"),
+       url("/fonts/gansclassicalfleurons-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -1330,6 +1360,9 @@ body {
 }
 .hover\:opacity-90:hover {
   opacity: 0.9;
+}
+.hover\:opacity-60:hover {
+  opacity: 0.6;
 }
 @media (min-width: 1024px) {
 

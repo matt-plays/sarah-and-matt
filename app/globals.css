@@ -43,6 +43,16 @@
   font-display: swap;
 }
 
+/* ─── Gans Classical Fleurons ───────────────────────────────────── */
+@font-face {
+  font-family: "Gans Classical Fleurons";
+  src: url("/fonts/gansclassicalfleurons-webfont.woff2") format("woff2"),
+       url("/fonts/gansclassicalfleurons-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ─── Fluid Design Tokens ───────────────────────────────────────── */
 /*
   Viewport range: 390px (mobile) → 1600px (desktop)
@@ -156,6 +166,12 @@ body {
   /* Fluid spacing — padding x */
   .px-sp-sm   { padding-left: var(--sp-sm);  padding-right: var(--sp-sm); }
   .px-sp-lg   { padding-left: var(--sp-lg);  padding-right: var(--sp-lg); }
+
+  /* Fluid spacing — padding all sides */
+  .p-sp-xs  { padding: var(--sp-xs); }
+  .p-sp-sm  { padding: var(--sp-sm); }
+  .p-sp-md  { padding: var(--sp-md); }
+  .p-sp-lg  { padding: var(--sp-lg); }
 
   /* Fluid spacing — gap */
   .gap-sp-xs  { gap: var(--sp-xs); }
