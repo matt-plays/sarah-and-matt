@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/mattplays/Documents/GitHub/sarah-and-matt/app/layout\":[\"static/media/efbec8287c5f1c22-s.p.woff2\",\"static/media/26d0ba92e140f0dc-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"

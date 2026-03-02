@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Romie Font Faces ─────────────────────────────────────────── */
+@font-face {
+  font-family: "Romie";
+  src: url("/fonts/Romie-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Romie";
+  src: url("/fonts/Romie-LightItalic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Romie Trial";
+  src: url("/fonts/RomieTrial-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Romie Trial";
+  src: url("/fonts/RomieTrial-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Romie Trial";
+  src: url("/fonts/RomieTrial-LightItalic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── Fluid Design Tokens ───────────────────────────────────────── */
+/*
+  Viewport range: 390px (mobile) → 1600px (desktop)
+  Formula: clamp(mobile, calc(intercept + slope * 100vw), desktop)
+  Slope = (desktop - mobile) / (1600 - 390)
+  Intercept = mobile - slope * 390
+*/
+:root {
+  /* Font sizes */
+  --fs-2xs:  clamp(8px,  calc(7.36px  + 0.165vw), 10px);
+  --fs-xs:   clamp(10px, calc(9.36px  + 0.165vw), 12px);
+  --fs-sm:   clamp(12px, calc(11.36px + 0.165vw), 14px);
+  --fs-md:   clamp(13px, calc(12.03px + 0.248vw), 16px);
+  --fs-lg:   clamp(14px, calc(12.71px + 0.331vw), 18px);
+  --fs-xl:   clamp(16px, calc(14.39px + 0.413vw), 21px);
+  --fs-2xl:  clamp(18px, calc(16.07px + 0.496vw), 24px);
+  --fs-3xl:  clamp(20px, calc(17.42px + 0.661vw), 28px);
+  --fs-4xl:  clamp(22px, calc(18.78px + 0.826vw), 32px);
+  --fs-5xl:  clamp(24px, calc(20.13px + 0.992vw), 36px);
+  --fs-6xl:  clamp(28px, calc(23.49px + 1.157vw), 42px);
+  --fs-7xl:  clamp(32px, calc(26.84px + 1.322vw), 48px);
+  --fs-8xl:  clamp(36px, calc(26.98px + 2.314vw), 64px);
+  --fs-9xl:  clamp(40px, calc(29.66px + 2.645vw), 72px);
+  --fs-10xl: clamp(44px, calc(27.24px + 4.298vw), 96px);
+  --fs-11xl: clamp(48px, calc(22.22px + 6.612vw), 128px);
+  --fs-12xl: clamp(54px, calc(19.83px + 8.760vw), 160px);
+
+  /* Spacing */
+  --sp-2xs:  clamp(8px,   calc(6.71px  + 0.331vw), 12px);
+  --sp-xs:   clamp(12px,  calc(10.71px + 0.331vw), 16px);
+  --sp-sm:   clamp(20px,  calc(16.13px + 0.992vw), 32px);
+  --sp-md:   clamp(32px,  calc(26.84px + 1.322vw), 48px);
+  --sp-lg:   clamp(52px,  calc(43.03px + 2.314vw), 80px);
+  --sp-xl:   clamp(74px,  calc(56.60px + 4.463vw), 128px);
+  --sp-2xl:  clamp(126px, calc(99.57px + 6.777vw), 208px);
+
+  /* Colors */
+  --clay-0:         #FAF7F5;
+  --clay-50:        #EBE5DF;
+  --clay-100:       #DCD3CA;
+  --cool-green-600: #25493D;
+  --red-m-25:       #F7CCC3;
+  --red-m-50:       #F0B7AB;
+  --red-s-25:       #F89C8A;
+  --yellow-s-300:   #A76F00;
+  --blue-s-0:       #B3E5FF;
+  --warm-green-700: #213200;
+  --orange-s-700:   #320D00;
+
+  /* Layout */
+  --container-max: 1600px;
+  --container-px:  var(--sp-sm);
+}
+
+/* ─── Base ──────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--clay-0);
+  color: var(--cool-green-600);
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── Utilities ─────────────────────────────────────────────────── */
+@layer utilities {
+  /* Fluid font sizes */
+  .text-fs-2xs  { font-size: var(--fs-2xs); }
+  .text-fs-xs   { font-size: var(--fs-xs); }
+  .text-fs-sm   { font-size: var(--fs-sm); }
+  .text-fs-md   { font-size: var(--fs-md); }
+  .text-fs-lg   { font-size: var(--fs-lg); }
+  .text-fs-xl   { font-size: var(--fs-xl); }
+  .text-fs-2xl  { font-size: var(--fs-2xl); }
+  .text-fs-3xl  { font-size: var(--fs-3xl); }
+  .text-fs-4xl  { font-size: var(--fs-4xl); }
+  .text-fs-5xl  { font-size: var(--fs-5xl); }
+  .text-fs-6xl  { font-size: var(--fs-6xl); }
+  .text-fs-7xl  { font-size: var(--fs-7xl); }
+  .text-fs-8xl  { font-size: var(--fs-8xl); }
+  .text-fs-9xl  { font-size: var(--fs-9xl); }
+  .text-fs-10xl { font-size: var(--fs-10xl); }
+  .text-fs-11xl { font-size: var(--fs-11xl); }
+  .text-fs-12xl { font-size: var(--fs-12xl); }
+
+  /* Fluid spacing — padding bottom */
+  .pb-sp-2xs  { padding-bottom: var(--sp-2xs); }
+  .pb-sp-xs   { padding-bottom: var(--sp-xs); }
+  .pb-sp-sm   { padding-bottom: var(--sp-sm); }
+  .pb-sp-md   { padding-bottom: var(--sp-md); }
+  .pb-sp-lg   { padding-bottom: var(--sp-lg); }
+  .pb-sp-xl   { padding-bottom: var(--sp-xl); }
+  .pb-sp-2xl  { padding-bottom: var(--sp-2xl); }
+
+  /* Fluid spacing — padding y */
+  .py-sp-sm   { padding-top: var(--sp-sm);  padding-bottom: var(--sp-sm); }
+  .py-sp-md   { padding-top: var(--sp-md);  padding-bottom: var(--sp-md); }
+  .py-sp-lg   { padding-top: var(--sp-lg);  padding-bottom: var(--sp-lg); }
+  .py-sp-xl   { padding-top: var(--sp-xl);  padding-bottom: var(--sp-xl); }
+  .py-sp-2xl  { padding-top: var(--sp-2xl); padding-bottom: var(--sp-2xl); }
+
+  /* Fluid spacing — padding x */
+  .px-sp-sm   { padding-left: var(--sp-sm);  padding-right: var(--sp-sm); }
+  .px-sp-lg   { padding-left: var(--sp-lg);  padding-right: var(--sp-lg); }
+
+  /* Fluid spacing — gap */
+  .gap-sp-xs  { gap: var(--sp-xs); }
+  .gap-sp-sm  { gap: var(--sp-sm); }
+  .gap-sp-md  { gap: var(--sp-md); }
+  .gap-sp-lg  { gap: var(--sp-lg); }
+  .gap-sp-xl  { gap: var(--sp-xl); }
+  .gap-sp-2xl { gap: var(--sp-2xl); }
+
+  /* Container */
+  .container-width {
+    width: 100%;
+    max-width: var(--container-max);
+    padding-left: var(--container-px);
+    padding-right: var(--container-px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* OpenType features for Instrument Sans */
+  .font-instrument {
+    font-variation-settings: "'wdth' 100";
+    font-feature-settings: "'ss01' 1, 'ss04' 1, 'ss05' 1, 'ss07' 1, 'ss08' 1, 'ss09' 1";
+  }
+
+  /* DM Sans optical sizing */
+  .font-dm-overline {
+    font-variation-settings: "'opsz' 14";
+  }
+}
