@@ -4,12 +4,10 @@
 // On entry the left edge of "Lancaster," is visible; as the user scrolls the visible
 // window sweeps left → right, ending on "...Pennsylvania".
 // Image fill is clipped to the text glyphs via background-clip: text.
-// NOTE: Figma asset URL expires ~7 days from generation — replace with a permanent export.
 
 import { useEffect, useRef } from 'react';
 
-const imgFill =
-  'https://www.figma.com/api/mcp/asset/f78d6c53-237f-405a-8ba2-f4cab9850579';
+const imgFill = '/images/lancaster-bg.jpg';
 
 export default function MarqueeText() {
   const sectionRef = useRef<HTMLElement>(null);
