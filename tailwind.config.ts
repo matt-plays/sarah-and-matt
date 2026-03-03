@@ -53,6 +53,9 @@ const config: Config = {
         "orange-s": {
           700: "#320D00",
         },
+        "magenta-s": {
+          700: "#320019",
+        },
       },
       fontFamily: {
         romie: ["Romie", "Cormorant Garamond", "Georgia", "serif"],

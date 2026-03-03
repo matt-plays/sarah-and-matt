@@ -2,9 +2,7 @@
 // Registry photo: Figma asset from node 265:6290
 // Replace REGISTRY_PHOTO_URL with a local asset once downloaded from Figma.
 
-// Figma asset URL (expires 7 days after design context fetch — replace with local):
-const REGISTRY_PHOTO_URL =
-  "https://www.figma.com/api/mcp/asset/0837a66b-ec16-4e9f-9bc4-68c2cb110379";
+const REGISTRY_PHOTO_URL = "/images/engagement-wide.jpg";
 
 interface RegistryLink {
   name: string;

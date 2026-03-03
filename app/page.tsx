@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import StorySection from "@/components/StorySection";
 import PhotoGrid from "@/components/PhotoGrid";
 import MarqueeText from "@/components/MarqueeText";
+import CelebrationSection from "@/components/CelebrationSection";
 import TravelHeader from "@/components/TravelHeader";
 import TravelSubSection from "@/components/TravelSubSection";
 import RSVPSection from "@/components/RSVPSection";
@@ -111,34 +112,49 @@ export default function Home() {
       {/* ② Hero — invitation card + building illustration */}
       <Hero />
 
-      {/* ② Our Story — horizontal bleeding timeline */}
+      {/* ③ Our Story — horizontal bleeding timeline */}
       <StorySection />
 
-      {/* ③ Photo grid — two landscape photos */}
+      {/* ④ Photo grid — 5-photo engagement strip */}
       <PhotoGrid />
 
-      {/* ④ Marquee overflow text */}
+      {/* ⑤ Marquee overflow text */}
       <MarqueeText />
 
-      {/* ⑤ "Travel & Stay" display heading + intro */}
+      {/* ⑥ Our Celebration — dark burgundy section with venue + event details */}
+      <CelebrationSection />
+
+      {/* ⑦ "Travel & Stay" display heading + intro */}
       <TravelHeader />
 
-      {/* ⑥ Where to Stay — 2×2 card grid */}
+      {/* ⑧ Where to Stay — 2×2 card grid */}
       <TravelSubSection heading="Where to stay" cards={whereToStay} />
 
-      {/* ⑦ Where to Eat — 2×3 card grid */}
-      <TravelSubSection heading="Where to eat" cards={whereToEat} />
+      {/* ⑨ Where to Eat — 2×3 card grid + food photo */}
+      <TravelSubSection
+        heading="Where to eat"
+        cards={whereToEat}
+        decorativeImage="/images/food-pasta.jpg"
+        decorativeImageAlt="Local Lancaster dining"
+        decorativeStyle="photo"
+      />
 
-      {/* ⑧ Activities — 2×3 card grid */}
-      <TravelSubSection heading="Activities" cards={activities} />
+      {/* ⑩ Activities — 2×3 card grid + sketch illustration */}
+      <TravelSubSection
+        heading="Activities"
+        cards={activities}
+        decorativeImage="/images/lancaster-sketch.jpg"
+        decorativeImageAlt="Lancaster architecture illustration"
+        decorativeStyle="sketch"
+      />
 
-      {/* ⑨ RSVP — dark green section */}
+      {/* ⑪ RSVP — dark green section + photo strip */}
       <RSVPSection />
 
-      {/* ⑩ Registry — dark brown section */}
+      {/* ⑫ Registry — dark brown section */}
       <RegistrySection />
 
-      {/* ⑪ Footer */}
+      {/* ⑬ Footer */}
       <SiteFooter />
     </main>
   );
