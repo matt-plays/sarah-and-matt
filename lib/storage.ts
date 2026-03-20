@@ -11,10 +11,14 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 export async function getContent(): Promise<SiteContent> {
   if (process.env.GITHUB_TOKEN && isProduction) {
-    return readFromGitHub('content/content.json');
+    try {
+      return await readFromGitHub('content/content.json');
+    } catch {
+      // GitHub unavailable or misconfigured — fall back to bundled content
+      return defaultContent as SiteContent;
+    }
   }
   if (isProduction) {
-    // No GitHub token configured — serve the bundled content.json
     return defaultContent as SiteContent;
   }
   const raw = fs.readFileSync(CONTENT_FILE, 'utf-8');
