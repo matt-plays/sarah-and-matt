@@ -40,6 +40,7 @@ const config: Config = {
         },
         "red-s": {
           25: "#F89C8A",
+          50: "#F07B63",
         },
         "yellow-s": {
           300: "#A76F00",
@@ -54,7 +55,14 @@ const config: Config = {
           700: "#320D00",
         },
         "magenta-s": {
+          600: "#4F0027",
           700: "#320019",
+          800: "#14000A",
+        },
+        slate: {
+          200: "#ACB6BB",
+          700: "#25282A",
+          800: "#0B0C0D",
         },
       },
       fontFamily: {

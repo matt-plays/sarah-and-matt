@@ -1,8 +1,15 @@
 // Figma node: 265:5368
 
-import BuildingIllustration from "./BuildingIllustration";
+import BuildingIllustration from './BuildingIllustration';
+import { EditableText } from './cms/EditableText';
+import { HeroContent } from '@/types/content';
+import defaultContent from '@/content/content.json';
 
-export default function Hero() {
+interface HeroProps {
+  content?: HeroContent;
+}
+
+export default function Hero({ content = defaultContent.hero }: HeroProps) {
   return (
     <section className="w-full bg-red-m-25 px-sp-lg py-sp-xl overflow-hidden">
       <div className="flex gap-sp-lg items-center w-full">
@@ -14,105 +21,137 @@ export default function Hero() {
             {/* Ornamental rule */}
             <div className="w-full flex items-center gap-3">
               <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
-              <span className="font-dm text-fs-xs text-cool-green-600 tracking-[0.25em] uppercase font-bold">
-                ✦
-              </span>
+              <span className="font-dm text-fs-xs text-cool-green-600 tracking-[0.25em] uppercase font-bold">✦</span>
               <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
             </div>
 
-            {/* Sarah Petrokonis */}
-            <p
-              className="font-romie font-light italic text-cool-green-600 leading-none text-center w-full"
-              style={{ fontSize: "clamp(56px, calc(28px + 5.8vw), 118px)" }}
+            {/* Name 1 */}
+            <EditableText
+              tag="p"
+              path="hero.name1Full"
+              multiline
+              className="font-romie font-light italic text-cool-green-600 leading-none text-center w-full whitespace-pre-line"
+              style={{ fontSize: 'clamp(56px, calc(28px + 5.8vw), 118px)' }}
             >
-              Sarah<br />Petrokonis
-            </p>
+              {content.name1Full}
+            </EditableText>
 
             {/* Date row */}
             <div className="flex items-center gap-3 w-full">
-              <span className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline">
-                Friday, August 28th
-              </span>
+              <EditableText
+                tag="span"
+                path="hero.date"
+                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline"
+              >
+                {content.date}
+              </EditableText>
               <div className="flex-1 h-px bg-cool-green-600 opacity-40" />
-              <span className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline">
-                2026
-              </span>
+              <EditableText
+                tag="span"
+                path="hero.year"
+                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline"
+              >
+                {content.year}
+              </EditableText>
             </div>
 
-            {/* Ampersand + Matt Plays */}
+            {/* Ampersand + Name 2 */}
             <div className="flex items-center gap-8">
               {/* & in circle */}
-              <div className="relative shrink-0 flex items-center justify-center"
-                style={{ width: "clamp(80px,12vw,180px)", height: "clamp(80px,12vw,180px)" }}>
+              <div
+                className="relative shrink-0 flex items-center justify-center"
+                style={{ width: 'clamp(80px,12vw,180px)', height: 'clamp(80px,12vw,180px)' }}
+              >
                 <div className="absolute inset-0 rounded-full border border-cool-green-600 opacity-30" />
                 <span
                   className="font-romie-trial italic text-yellow-s-300 leading-none"
-                  style={{
-                    fontSize: "clamp(60px,10vw,134px)",
-                    fontFeatureSettings: "'ss01' 1",
-                  }}
+                  style={{ fontSize: 'clamp(60px,10vw,134px)', fontFeatureSettings: "'ss01' 1" }}
                 >
                   &amp;
                 </span>
               </div>
 
-              {/* Matt Plays */}
-              <p
-                className="font-romie font-light italic text-cool-green-600 leading-none"
-                style={{ fontSize: "clamp(56px, calc(28px + 5.8vw), 118px)" }}
+              {/* Name 2 */}
+              <EditableText
+                tag="p"
+                path="hero.name2Full"
+                multiline
+                className="font-romie font-light italic text-cool-green-600 leading-none whitespace-pre-line"
+                style={{ fontSize: 'clamp(56px, calc(28px + 5.8vw), 118px)' }}
               >
-                Matt<br />Plays
-              </p>
+                {content.name2Full}
+              </EditableText>
             </div>
 
             {/* Time row */}
             <div className="flex items-center gap-3 w-full">
-              <span className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline">
-                5 o&apos;clock
-              </span>
+              <EditableText
+                tag="span"
+                path="hero.time1"
+                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline"
+              >
+                {content.time1}
+              </EditableText>
               <div className="flex-1 h-px bg-cool-green-600 opacity-40" />
-              <span className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline">
-                in the afternoon
-              </span>
+              <EditableText
+                tag="span"
+                path="hero.time2"
+                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline"
+              >
+                {content.time2}
+              </EditableText>
             </div>
 
             {/* Venue address box */}
             <div className="w-full border border-cool-green-600 flex items-center gap-3 px-6 py-3">
-              <span className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0">
-                Excelsior
-              </span>
+              <EditableText
+                tag="span"
+                path="hero.venue"
+                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0"
+              >
+                {content.venue}
+              </EditableText>
               <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
-              <span className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0">
-                125 E King Street
-              </span>
+              <EditableText
+                tag="span"
+                path="hero.address"
+                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0"
+              >
+                {content.address}
+              </EditableText>
               <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
-              <span className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0">
-                Lancaster, PA
-              </span>
+              <EditableText
+                tag="span"
+                path="hero.city"
+                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0"
+              >
+                {content.city}
+              </EditableText>
             </div>
 
             {/* URL */}
-            <span className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase font-dm-overline">
-              sarahandmatt.wedding
-            </span>
+            <EditableText
+              tag="span"
+              path="hero.website"
+              className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase font-dm-overline"
+            >
+              {content.website}
+            </EditableText>
 
             {/* Ornamental rule */}
             <div className="w-full flex items-center gap-3">
               <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
-              <span className="font-dm text-fs-xs text-cool-green-600 tracking-[0.25em] uppercase font-bold">
-                ✦
-              </span>
+              <span className="font-dm text-fs-xs text-cool-green-600 tracking-[0.25em] uppercase font-bold">✦</span>
               <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
             </div>
           </div>
         </div>
 
         {/* ── Excelsior Building Illustration ─────────────── */}
-        {/* Figma node 265:5416 — "Pass Through" blend mode has no CSS equivalent;
-            approximated with opacity: 0.16 on the container (closest CSS analogue). */}
+        {/* Figma node 265:5416 — "Pass Through" blend mode approximated with opacity: 0.16 */}
         <div
           className="shrink-0 hidden lg:block opacity-[0.16]"
-          style={{ width: "min(850px, 45vw)", aspectRatio: "851/1610" }}
+          style={{ width: 'min(850px, 45vw)', aspectRatio: '851/1610' }}
           aria-hidden="true"
         >
           <BuildingIllustration />
