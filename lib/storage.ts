@@ -1,27 +1,35 @@
 import fs from 'fs';
 import path from 'path';
 import { SiteContent, HistorySnapshot } from '@/types/content';
+import defaultContent from '@/content/content.json';
 
 const CONTENT_FILE = path.join(process.cwd(), 'content', 'content.json');
 const HISTORY_FILE = path.join(process.cwd(), 'content', 'history.json');
 const MAX_HISTORY = 20;
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 export async function getContent(): Promise<SiteContent> {
-  if (process.env.GITHUB_TOKEN && process.env.NODE_ENV === 'production') {
+  if (process.env.GITHUB_TOKEN && isProduction) {
     return readFromGitHub('content/content.json');
+  }
+  if (isProduction) {
+    // No GitHub token configured — serve the bundled content.json
+    return defaultContent as SiteContent;
   }
   const raw = fs.readFileSync(CONTENT_FILE, 'utf-8');
   return JSON.parse(raw);
 }
 
 export async function getHistory(): Promise<HistorySnapshot[]> {
-  if (process.env.GITHUB_TOKEN && process.env.NODE_ENV === 'production') {
+  if (process.env.GITHUB_TOKEN && isProduction) {
     try {
       return await readFromGitHub('content/history.json');
     } catch {
       return [];
     }
   }
+  if (isProduction) return [];
   try {
     const raw = fs.readFileSync(HISTORY_FILE, 'utf-8');
     return JSON.parse(raw);
@@ -47,7 +55,10 @@ export async function saveContent(
   const contentJson = JSON.stringify(content, null, 2);
   const historyJson = JSON.stringify(updatedHistory, null, 2);
 
-  if (process.env.GITHUB_TOKEN && process.env.NODE_ENV === 'production') {
+  if (isProduction) {
+    if (!process.env.GITHUB_TOKEN) {
+      throw new Error('GITHUB_TOKEN is not configured — cannot save in production.');
+    }
     await writeToGitHub('content/content.json', contentJson, `CMS: ${label}`);
     await writeToGitHub('content/history.json', historyJson, 'CMS: update history');
   } else {
