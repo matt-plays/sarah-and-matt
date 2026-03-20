@@ -1,0 +1,197 @@
+{
+  "hero": {
+    "name1Full": "Sarah\nPetrokonis",
+    "name2Full": "Matt\nPlays",
+    "date": "Friday, August 28th",
+    "year": "2026",
+    "time1": "5 o'clock",
+    "time2": "in the afternoon",
+    "venue": "Excelsior",
+    "address": "125 E King Street",
+    "city": "Lancaster, PA",
+    "website": "sarahandmatt.wedding"
+  },
+  "story": [
+    {
+      "id": "story-1",
+      "year": "2020",
+      "heading": "Kept in touch\nduring the pandemic",
+      "body": "When the world slowed down, we didn't. Late-night calls and care packages kept us close across the distance."
+    },
+    {
+      "id": "story-2",
+      "year": "2024",
+      "heading": "Reconnected\nin the Poconos",
+      "body": "A weekend in the mountains turned into something neither of us expected — the start of everything."
+    },
+    {
+      "id": "story-3",
+      "year": "2025",
+      "heading": "Got engaged in\nHudson, NY",
+      "body": "Overlooking the river, on a perfect autumn afternoon, Matt asked the question. Sarah said yes."
+    },
+    {
+      "id": "story-4",
+      "year": "2025",
+      "heading": "Sarah moved to\nMassachusetts",
+      "body": "New city, new chapter. Boxes and furniture and a lot of excited energy for what comes next."
+    },
+    {
+      "id": "story-5",
+      "year": "2025",
+      "heading": "More to come",
+      "body": "The story keeps writing itself. Stay tuned for what happens next."
+    },
+    {
+      "id": "story-6",
+      "year": "2026",
+      "heading": "August 28th,\nLancaster PA",
+      "body": "Friends, family, and everyone we love gathered in one place to celebrate with us. We can't wait."
+    }
+  ],
+  "marquee": {
+    "text": "Beautiful Lancaster, Pennsylvania"
+  },
+  "celebration": {
+    "heading": "Our Celebration",
+    "description": "Join us as we celebrate in the heart of Lancaster County. We can't wait to share this day with you!",
+    "events": [
+      { "time": "4:30pm", "label": "Guests arrive" },
+      { "time": "5:00pm", "label": "Ceremony begins" }
+    ],
+    "eventDetails": "A cocktail hour and reception will follow the ceremony. More details to come — check back closer to the date.",
+    "infoRows": [
+      {
+        "icon": "sun",
+        "label": "Weather & Attire",
+        "body": "August in Lancaster is warm and humid — expect highs around 85°F. We suggest semi-formal attire and comfortable shoes for the outdoor ceremony."
+      },
+      {
+        "icon": "car",
+        "label": "Transportation & Parking",
+        "body": "Free street parking is available near the venue. We'll share shuttle information closer to the date for guests staying downtown."
+      },
+      {
+        "icon": "mappin",
+        "label": "Logistics & Accessibility",
+        "body": "Excelsior is fully accessible. If you have any questions or need accommodations, please reach out and we'll be happy to help."
+      }
+    ],
+    "rsvpUrl": "https://withjoy.com/sarah-and-matt-aug26/rsvp",
+    "venueUrl": "https://excelsiorlancaster.com",
+    "mainImage": "/images/excelsior-night.jpg",
+    "overlayImage": "/images/wedding-kiss.jpg"
+  },
+  "travel": {
+    "heading": "Travel & Stay",
+    "body": "Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable."
+  },
+  "whereToStay": [
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "Lancaster Marriott\nat Penn Square",
+      "body": "Centrally located with easy access to restaurants and shopping. Modern amenities and comfortable rooms in the heart of the city."
+    },
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "Cork Factory Hotel",
+      "body": "Unique boutique hotel in a historic brick building. Walking distance to local attractions and the best downtown dining."
+    },
+    {
+      "overline": "Lancaster County",
+      "heading": "Fulton Steamboat Inn",
+      "body": "Distinctive hotel with steamboat-themed rooms. Family-friendly with plenty of amenities and a memorable stay."
+    },
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "The Warehouse Hotel",
+      "body": "A beautifully converted historic warehouse with a modern, local vibe. Great for extended stays and exploring the city."
+    }
+  ],
+  "whereToEat": [
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "Central Market",
+      "body": "America's oldest continuously operating farmers market. Perfect for breakfast or lunch with dozens of local vendors under one roof."
+    },
+    {
+      "overline": "Lancaster",
+      "heading": "The Belvedere Inn",
+      "body": "Upscale dining in a gorgeous Victorian mansion. Perfect for a special dinner out with an impressive wine list."
+    },
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "Luca",
+      "body": "Contemporary American cuisine with rotating seasonal menus. Outstanding cocktails and a warm, lively atmosphere."
+    },
+    {
+      "overline": "East Earl · 20 min",
+      "heading": "Shady Maple\nSmorgasbord",
+      "body": "A massive Pennsylvania Dutch buffet and a true Lancaster County institution. Don't miss it."
+    },
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "Prince Street Cafe",
+      "body": "A beloved neighborhood cafe with exceptional coffee and fresh pastries. The ideal spot for a slow morning."
+    },
+    {
+      "overline": "Intercourse · 20 min",
+      "heading": "Kitchen Kettle\nVillage",
+      "body": "A charming village complex with restaurants, jams, and local crafts. Great for browsing and a laid-back lunch."
+    }
+  ],
+  "activities": [
+    {
+      "overline": "Lancaster County",
+      "heading": "Amish Farm Tours",
+      "body": "Experience authentic Amish culture with guided tours of working farms and the beautiful Lancaster countryside."
+    },
+    {
+      "overline": "Strasburg · 15 min",
+      "heading": "Strasburg Rail Road",
+      "body": "America's oldest operating railroad. Take a scenic steam-powered train ride through Amish farmland and rolling hills."
+    },
+    {
+      "overline": "Lancaster",
+      "heading": "Long's Park",
+      "body": "A beautiful public park perfect for walking, picnics, and summer concerts. Peaceful and family-friendly."
+    },
+    {
+      "overline": "Lancaster",
+      "heading": "Landis Valley Village\n& Farm Museum",
+      "body": "A living history museum showcasing Pennsylvania German rural life, trades, and traditions across 100 acres."
+    },
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "Arts & Shopping\nDowntown",
+      "body": "Explore galleries, boutiques, antique shops, and Lancaster's vibrant arts scene — all walkable from the center."
+    },
+    {
+      "overline": "Intercourse · 20 min",
+      "heading": "Kitchen Kettle\nVillage",
+      "body": "Beyond dining — shop for locally made goods, watch artisan demonstrations, and soak in the countryside charm."
+    }
+  ],
+  "rsvp": {
+    "heading": "Let us know if you can make it",
+    "body": "We'd love to know if you can make it. Please RSVP by June 1, 2026 so we can plan accordingly.",
+    "deadline": "June 1, 2026",
+    "url": "https://withjoy.com/sarah-and-matt-aug26/rsvp"
+  },
+  "registry": {
+    "heading": "Registry",
+    "subheading": "Where we're registered",
+    "body": "Your presence is the greatest gift, but if you wish to celebrate with us, we've registered at the following:",
+    "viewAllUrl": "#",
+    "items": [
+      { "name": "Amazon", "url": "#", "description": "Everyday essentials and home goods." },
+      { "name": "Crate & Barrel", "url": "#", "description": "Modern cookware, dinnerware, and entertaining." },
+      { "name": "Zola", "url": "#", "description": "Our honeymoon fund and curated picks." }
+    ],
+    "photo": "/images/engagement-wide.jpg"
+  },
+  "footer": {
+    "names": "Sarah & Matt",
+    "date": "08.28.2026"
+  }
+}

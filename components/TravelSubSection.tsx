@@ -1,8 +1,6 @@
 // Figma nodes: 265:6108 (stay), 265:6083 (eat), 265:6235 (activities)
-// Layout: heading left (~5 cols), 2-column card grid right (~7 cols)
-// Optional decorativeImage floats on the left behind the heading (eat + activities sections).
 
-import InfoCard from "./InfoCard";
+import InfoCard from './InfoCard';
 
 interface CardData {
   overline: string;
@@ -13,11 +11,11 @@ interface CardData {
 interface TravelSubSectionProps {
   heading: string;
   cards: CardData[];
-  /** Optional decorative image shown behind the left heading column. */
   decorativeImage?: string;
   decorativeImageAlt?: string;
-  /** Controls how the decorative image is positioned/blended. */
   decorativeStyle?: 'sketch' | 'photo';
+  /** When provided, enables inline editing for cards via cmsPath = `${cmsArrayPath}.${index}` */
+  cmsArrayPath?: string;
 }
 
 export default function TravelSubSection({
@@ -26,6 +24,7 @@ export default function TravelSubSection({
   decorativeImage,
   decorativeImageAlt = '',
   decorativeStyle = 'photo',
+  cmsArrayPath,
 }: TravelSubSectionProps) {
   return (
     <section className="w-full flex justify-center pb-sp-2xl">
@@ -55,22 +54,22 @@ export default function TravelSubSection({
           />
         )}
 
-        {/* Section heading — left column */}
+        {/* Section heading */}
         <h2
           className="font-instrument font-medium text-cool-green-600 leading-tight shrink-0 font-instrument relative z-10"
-          style={{
-            fontSize: 'var(--fs-7xl)',
-            letterSpacing: '-0.02em',
-            width: 'min(480px, 38%)',
-          }}
+          style={{ fontSize: 'var(--fs-7xl)', letterSpacing: '-0.02em', width: 'min(480px, 38%)' }}
         >
           {heading}
         </h2>
 
-        {/* Cards grid — right column */}
+        {/* Cards grid */}
         <div className="flex-1 min-w-0 grid grid-cols-2 gap-sp-xs relative z-10">
           {cards.map((card, i) => (
-            <InfoCard key={i} {...card} />
+            <InfoCard
+              key={i}
+              {...card}
+              cmsPath={cmsArrayPath ? `${cmsArrayPath}.${i}` : undefined}
+            />
           ))}
         </div>
       </div>
