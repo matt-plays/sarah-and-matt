@@ -11,7 +11,7 @@ interface HeroProps {
 
 export default function Hero({ content = defaultContent.hero }: HeroProps) {
   return (
-    <section className="w-full bg-red-m-25 px-sp-lg py-sp-xl overflow-hidden">
+    <section className="w-full bg-red-m-25 px-sp-lg pt-sp-xl pb-sp-2xl overflow-hidden">
       <div className="flex gap-sp-lg items-center w-full">
 
         {/* ── Invitation Card ─────────────────────────────── */}

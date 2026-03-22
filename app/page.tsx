@@ -1,11 +1,10 @@
 import SiteNav from '@/components/SiteNav';
 import Hero from '@/components/Hero';
-import StorySection from '@/components/StorySection';
-import PhotoGrid from '@/components/PhotoGrid';
+import TimelineSection from '@/components/TimelineSection';
+import TimelineGallery from '@/components/TimelineGallery';
 import MarqueeText from '@/components/MarqueeText';
 import CelebrationSection from '@/components/CelebrationSection';
-import TravelHeader from '@/components/TravelHeader';
-import TravelSubSection from '@/components/TravelSubSection';
+import TravelSection from '@/components/TravelSection';
 import RSVPSection from '@/components/RSVPSection';
 import RegistrySection from '@/components/RegistrySection';
 import SiteFooter from '@/components/SiteFooter';
@@ -25,11 +24,11 @@ export default function Home() {
       {/* ② Hero — invitation card + building illustration */}
       <Hero content={c.hero} />
 
-      {/* ③ Our Story — horizontal bleeding timeline */}
-      <StorySection cards={c.story} />
+      {/* ③ Timeline — "A tale as old as time" horizontal scroll */}
+      <TimelineSection />
 
-      {/* ④ Photo grid — 5-photo engagement strip */}
-      <PhotoGrid />
+      {/* ④ Photo gallery — auto-scrolling looping strip */}
+      <TimelineGallery />
 
       {/* ⑤ Marquee overflow text */}
       <MarqueeText text={c.marquee.text} />
@@ -37,38 +36,17 @@ export default function Home() {
       {/* ⑥ Our Celebration — dark burgundy section with venue + event details */}
       <CelebrationSection content={c.celebration} />
 
-      {/* ⑦ "Travel & Stay" display heading + intro */}
-      <TravelHeader content={c.travel} />
+      {/* ⑦ Travel & Stay — category nav + card grid + CMYK shader bg */}
+      <TravelSection />
 
-      {/* ⑧ Where to Stay — 2×2 card grid */}
-      <TravelSubSection heading="Where to stay" cards={c.whereToStay} />
+      {/* ⑧ RSVP — green theme + photo strip */}
+      <RSVPSection />
 
-      {/* ⑨ Where to Eat — 2×3 card grid + food photo */}
-      <TravelSubSection
-        heading="Where to eat"
-        cards={c.whereToEat}
-        decorativeImage="/images/food-pasta.jpg"
-        decorativeImageAlt="Local Lancaster dining"
-        decorativeStyle="photo"
-      />
+      {/* ⑨ Registry — taupe theme + photo */}
+      <RegistrySection />
 
-      {/* ⑩ Activities — 2×3 card grid + sketch illustration */}
-      <TravelSubSection
-        heading="Activities"
-        cards={c.activities}
-        decorativeImage="/images/lancaster-sketch.jpg"
-        decorativeImageAlt="Lancaster architecture illustration"
-        decorativeStyle="sketch"
-      />
-
-      {/* ⑪ RSVP — dark green section + photo strip */}
-      <RSVPSection content={c.rsvp} />
-
-      {/* ⑫ Registry — dark brown section */}
-      <RegistrySection content={c.registry} />
-
-      {/* ⑬ Footer */}
-      <SiteFooter content={c.footer} />
+      {/* ⑩ Footer — dark footer theme */}
+      <SiteFooter />
     </main>
   );
 }

@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Matt's Personal Design System — primitive tokens ─────────── */
+@import '@mattplays/mpds/css/mpds-colors.css';
+@import '@mattplays/mpds/css/mpds-metrics-fluid.css';
+@import '@mattplays/mpds/css/mpds-elevation.css';
+@import '@mattplays/mpds/css/mpds-radius.css';
+
 /* ─── Romie Font Faces ─────────────────────────────────────────── */
 @font-face {
   font-family: "Romie";
@@ -102,9 +108,88 @@
   --warm-green-700: #213200;
   --orange-s-700:   #320D00;
 
-  /* Layout */
+  /* Layout (legacy — kept for existing components) */
   --container-max: 1600px;
   --container-px:  var(--sp-sm);
+}
+
+/* ─── Project Site Layout ────────────────────────────────────────── */
+/*
+  Project-specific overrides of MPDS site layout defaults.
+  All new components should use --site-* vars, not --sp-* or --container-*.
+
+  Container:    1600px max-width
+  Grid:         12 columns, space-32 gutters  (~21→32px fluid)
+  Section pad:  space-24 mobile (~16→24px), space-48 desktop (~32→48px)
+*/
+:root {
+  --site-container-width:  1600px;
+  --site-grid-gutter:      var(--mpds-space-32);
+  /* space-24 (24px) at 480px → space-48 (48px) at 1440px */
+  --site-section-padding:  clamp(24px, 12px + 2.5vw, 48px);
+}
+
+/* ─── Semantic Theme Tokens ─────────────────────────────────────── */
+/*
+  5 themes: default | maroon | green | taupe | footer
+  Apply via data-theme="<name>" on any container.
+  The scroll-based ThemeContext also exposes activeTheme for JS consumers.
+*/
+
+:root,
+[data-theme="default"] {
+  --theme-bg:             var(--mpds-color-clay-100);          /* Neutral/Clay/100   */
+  --theme-tonal:          var(--mpds-color-clay-400);          /* Neutral/Clay/400   */
+  --theme-headline:       var(--mpds-color-slate-1200);        /* Neutral/Slate/1200 */
+  --theme-text:           var(--mpds-color-slate-alpha-1000);  /* Alpha/Slate/1000   */
+  --theme-action:         var(--mpds-color-yellow-s-600);      /* Saturated/Yellow/600 */
+  --theme-action-hovered: var(--mpds-color-yellow-s-700);      /* Saturated/Yellow/700 */
+  --theme-action-pressed: var(--mpds-color-yellow-s-800);      /* Saturated/Yellow/800 */
+  --theme-btn-text:       var(--mpds-color-clay-100);          /* Neutral/Clay/100   */
+}
+
+[data-theme="maroon"] {
+  --theme-bg:             var(--mpds-color-magenta-m-1100);    /* Muted/Magenta/1100 */
+  --theme-tonal:          var(--mpds-color-magenta-m-1000);    /* Muted/Magenta/1000 */
+  --theme-headline:       var(--mpds-color-red-m-300);         /* Muted/Red/300      */
+  --theme-text:           color-mix(in srgb, var(--mpds-color-red-m-300) 72%, transparent);
+  --theme-action:         var(--mpds-color-red-s-300);         /* Saturated/Red/300  */
+  --theme-action-hovered: var(--mpds-color-red-s-200);         /* Saturated/Red/200  */
+  --theme-action-pressed: var(--mpds-color-red-s-100);         /* Saturated/Red/100  */
+  --theme-btn-text:       var(--mpds-color-magenta-m-1100);    /* Muted/Magenta/1100 */
+}
+
+[data-theme="green"] {
+  --theme-bg:             var(--mpds-color-warm-green-s-1100); /* Saturated/Warm Green/1100 */
+  --theme-tonal:          var(--mpds-color-warm-green-s-1000); /* Saturated/Warm Green/1000 */
+  --theme-headline:       var(--mpds-color-teal-m-300);        /* Muted/Teal/300     */
+  --theme-text:           color-mix(in srgb, var(--mpds-color-teal-m-300) 72%, transparent);
+  --theme-action:         var(--mpds-color-teal-m-500);        /* Muted/Teal/500     */
+  --theme-action-hovered: var(--mpds-color-teal-m-400);        /* Muted/Teal/400     */
+  --theme-action-pressed: var(--mpds-color-teal-m-300);        /* Muted/Teal/300     */
+  --theme-btn-text:       var(--mpds-color-warm-green-s-1100); /* Saturated/Warm Green/1100 */
+}
+
+[data-theme="taupe"] {
+  --theme-bg:             var(--mpds-color-orange-m-500);      /* Muted/Orange/500   */
+  --theme-tonal:          var(--mpds-color-orange-m-600);      /* Muted/Orange/600   */
+  --theme-headline:       var(--mpds-color-magenta-m-1100);    /* Muted/Magenta/1100 */
+  --theme-text:           color-mix(in srgb, var(--mpds-color-magenta-m-1100) 72%, transparent);
+  --theme-action:         var(--mpds-color-magenta-m-400);     /* Muted/Magenta/400  */
+  --theme-action-hovered: var(--mpds-color-magenta-m-300);     /* Muted/Magenta/300  */
+  --theme-action-pressed: var(--mpds-color-magenta-m-200);     /* Muted/Magenta/200  */
+  --theme-btn-text:       var(--mpds-color-magenta-m-1100);    /* Muted/Magenta/1100 */
+}
+
+[data-theme="footer"] {
+  --theme-bg:             var(--mpds-color-clay-1200);         /* Neutral/Clay/1200  */
+  --theme-tonal:          var(--mpds-color-clay-1100);         /* Neutral/Clay/1100  */
+  --theme-headline:       var(--mpds-color-clay-500);          /* Neutral/Clay/500   */
+  --theme-text:           var(--mpds-color-clay-600);          /* Neutral/Clay/600   */
+  --theme-action:         var(--mpds-color-yellow-s-600);      /* Saturated/Yellow/600 */
+  --theme-action-hovered: var(--mpds-color-yellow-s-700);      /* Saturated/Yellow/700 */
+  --theme-action-pressed: var(--mpds-color-yellow-s-800);      /* Saturated/Yellow/800 */
+  --theme-btn-text:       var(--mpds-color-clay-1200);         /* Neutral/Clay/1200  */
 }
 
 /* ─── Base ──────────────────────────────────────────────────────── */
@@ -119,8 +204,9 @@ html {
 }
 
 body {
-  background-color: var(--clay-0);
-  color: var(--cool-green-600);
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+  transition: background-color 0.5s ease, color 0.5s ease;
   font-family: "Instrument Sans", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -181,7 +267,11 @@ body {
   .gap-sp-xl  { gap: var(--sp-xl); }
   .gap-sp-2xl { gap: var(--sp-2xl); }
 
-  /* Container */
+  /* Scrollbar */
+  .scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+
+  /* Container (legacy) */
   .container-width {
     width: 100%;
     max-width: var(--container-max);
@@ -190,6 +280,39 @@ body {
     margin-left: auto;
     margin-right: auto;
   }
+
+  /* Site container — use for all new sections */
+  .site-container {
+    width: 100%;
+    max-width: var(--site-container-width);
+    padding-left: var(--site-section-padding);
+    padding-right: var(--site-section-padding);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 12-column grid */
+  .site-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--site-grid-gutter);
+  }
+
+  /* ── Semantic theme utilities ────────────────────────────────── */
+  /* Background */
+  .bg-theme         { background-color: var(--theme-bg); }
+  .bg-theme-tonal   { background-color: var(--theme-tonal); }
+  .bg-theme-action  { background-color: var(--theme-action); }
+
+  /* Text */
+  .text-theme-headline { color: var(--theme-headline); }
+  .text-theme-body     { color: var(--theme-text); }
+  .text-theme-action   { color: var(--theme-action); }
+  .text-theme-btn      { color: var(--theme-btn-text); }
+
+  /* Border */
+  .border-theme-tonal  { border-color: var(--theme-tonal); }
+  .border-theme-action { border-color: var(--theme-action); }
 
   /* OpenType features for Instrument Sans */
   .font-instrument {
