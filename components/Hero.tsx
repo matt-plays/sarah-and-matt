@@ -38,14 +38,18 @@ export default function Hero() {
             Travel &amp; Stay
           </a>
           <a
-            href="#registry"
+            href="https://zola.sarahandmatt.wedding/registry"
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-instrument text-[var(--mpds-color-neutral-clay-800)] hover:opacity-60 transition-opacity"
             style={{ fontSize: 'var(--mpds-font-size-lg)' }}
           >
             Registry
           </a>
           <a
-            href="#rsvp"
+            href="https://zola.sarahandmatt.wedding/rsvp"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-[var(--mpds-color-yellow-s-600)] text-[var(--mpds-color-clay-100)] font-instrument font-semibold leading-snug hover:opacity-90 transition-opacity"
             style={{
               fontSize: 'var(--mpds-font-size-lg)',
@@ -54,10 +58,6 @@ export default function Hero() {
               paddingLeft: 'var(--mpds-space-32)',
               paddingRight: 'var(--mpds-space-32)',
               borderRadius: 4,
-            }}
-            onClick={(e) => {
-              e.preventDefault()
-              document.querySelector('#rsvp')?.scrollIntoView({ behavior: 'smooth' })
             }}
           >
             RSVP

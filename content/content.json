@@ -77,7 +77,7 @@
         "body": "Excelsior is fully accessible. If you have any questions or need accommodations, please reach out and we'll be happy to help."
       }
     ],
-    "rsvpUrl": "https://withjoy.com/sarah-and-matt-aug26/rsvp",
+    "rsvpUrl": "https://zola.sarahandmatt.wedding/rsvp",
     "venueUrl": "https://excelsiorlancaster.com",
     "mainImage": "/images/wedding-site--our-celebration-01.png",
     "overlayImage": "/images/wedding-site--our-celebration-02.png"
@@ -216,13 +216,13 @@
     "heading": "Let us know if you can make it",
     "body": "We'd love to know if you can make it. Please RSVP by June 1, 2026 so we can plan accordingly.",
     "deadline": "June 1, 2026",
-    "url": "https://withjoy.com/sarah-and-matt-aug26/rsvp"
+    "url": "https://zola.sarahandmatt.wedding/rsvp"
   },
   "registry": {
     "heading": "Registry",
     "subheading": "Where we're registered",
     "body": "Your presence is the greatest gift, but if you wish to celebrate with us, we've registered at the following:",
-    "viewAllUrl": "#",
+    "viewAllUrl": "https://zola.sarahandmatt.wedding/registry",
     "items": [
       { "name": "Our honeymoon", "url": "#", "description": "Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable." },
       { "name": "Cooking", "url": "#", "description": "Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable." },
