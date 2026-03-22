@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createHash } from 'crypto';
 
-function siteToken(password: string) {
-  return createHash('sha256').update(password + 'site-sm-2026').digest('hex');
+// Web Crypto API — safe for Vercel Edge Runtime (no Node.js 'crypto' import)
+async function siteToken(password: string): Promise<string> {
+  const data = new TextEncoder().encode(password + 'site-sm-2026');
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
 }
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const sitePassword = process.env.SITE_PASSWORD;
 
   // No password set → public site, no gate
@@ -26,7 +30,7 @@ export function middleware(req: NextRequest) {
   }
 
   const cookie = req.cookies.get('site_auth');
-  const expected = siteToken(sitePassword);
+  const expected = await siteToken(sitePassword);
 
   if (cookie?.value !== expected) {
     const url = req.nextUrl.clone();
