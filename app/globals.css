@@ -189,7 +189,7 @@
   --theme-action:         var(--mpds-color-yellow-s-600);      /* Saturated/Yellow/600 */
   --theme-action-hovered: var(--mpds-color-yellow-s-700);      /* Saturated/Yellow/700 */
   --theme-action-pressed: var(--mpds-color-yellow-s-800);      /* Saturated/Yellow/800 */
-  --theme-btn-text:       var(--mpds-color-clay-1200);         /* Neutral/Clay/1200  */
+  --theme-btn-text:       var(--mpds-color-clay-100);          /* Neutral/Clay/100   */
 }
 
 /* ─── Base ──────────────────────────────────────────────────────── */
