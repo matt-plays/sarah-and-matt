@@ -1,192 +1,101 @@
-// Figma node: 265:5368
+'use client'
+// Hero section — placeholder using SVG graphics on 12-col grid
 
-import BuildingIllustration from './BuildingIllustration';
-import { EditableText } from './cms/EditableText';
-import { HeroContent } from '@/types/content';
-import defaultContent from '@/content/content.json';
-
-interface HeroProps {
-  content?: HeroContent;
-}
-
-export default function Hero({ content = defaultContent.hero }: HeroProps) {
+export default function Hero() {
   return (
-    <section id="hero" className="w-full bg-red-m-25 px-sp-lg pt-0 pb-sp-2xl overflow-hidden">
-      {/* ── Hero nav ── */}
-      <div className="container-width flex items-center justify-between py-6 mb-sp-lg">
-        <a href="#" aria-label="Back to top" className="leading-none shrink-0">
-          <span
-            className="font-gans-fleurons text-cool-green-600 select-none leading-none block"
-            style={{ fontSize: 96 }}
-            aria-hidden="true"
-          >
-            Y
-          </span>
+    <section
+      id="hero"
+      className="w-full overflow-hidden"
+      style={{ backgroundColor: '#F0D0DB', paddingTop: 'var(--mpds-space-24)', paddingBottom: 'var(--sp-2xl)', marginBottom: 'var(--sp-2xl)' }}
+    >
+      {/* ── Nav bar ── */}
+      <div
+        className="site-container flex items-center justify-between"
+        style={{ paddingBottom: 'var(--mpds-space-lg)' }}
+      >
+        <a href="#" aria-label="Back to top" className="shrink-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/wedding-site--hero-graphic-01.svg"
+            alt=""
+            className="opacity-60"
+            style={{ width: 56, height: 56 }}
+          />
         </a>
-        <nav className="flex items-center gap-8" aria-label="Main navigation">
-          <a href="#celebration" className="font-instrument text-cool-green-600 hover:opacity-60 transition-opacity" style={{ fontSize: 18 }}>
+        <nav className="hidden md:flex items-center" style={{ gap: 'var(--mpds-space-32)' }} aria-label="Main navigation">
+          <a
+            href="#celebration"
+            className="font-instrument text-[var(--mpds-color-neutral-clay-800)] hover:opacity-60 transition-opacity"
+            style={{ fontSize: 'var(--mpds-font-size-lg)' }}
+          >
             Our Celebration
           </a>
-          <a href="#travel" className="font-instrument text-cool-green-600 hover:opacity-60 transition-opacity" style={{ fontSize: 18 }}>
+          <a
+            href="#travel"
+            className="font-instrument text-[var(--mpds-color-neutral-clay-800)] hover:opacity-60 transition-opacity"
+            style={{ fontSize: 'var(--mpds-font-size-lg)' }}
+          >
             Travel &amp; Stay
           </a>
-          <a href="#registry" className="font-instrument text-cool-green-600 hover:opacity-60 transition-opacity" style={{ fontSize: 18 }}>
+          <a
+            href="#registry"
+            className="font-instrument text-[var(--mpds-color-neutral-clay-800)] hover:opacity-60 transition-opacity"
+            style={{ fontSize: 'var(--mpds-font-size-lg)' }}
+          >
             Registry
           </a>
           <a
             href="#rsvp"
-            className="bg-cool-green-600 text-red-m-25 font-instrument font-semibold rounded-lg leading-snug hover:opacity-90 transition-opacity"
-            style={{ fontSize: 18, paddingTop: 14, paddingBottom: 16, paddingLeft: 32, paddingRight: 32 }}
+            className="bg-[var(--mpds-color-yellow-s-600)] text-[var(--mpds-color-clay-100)] font-instrument font-semibold leading-snug hover:opacity-90 transition-opacity"
+            style={{
+              fontSize: 'var(--mpds-font-size-lg)',
+              paddingTop: 'var(--mpds-space-14)',
+              paddingBottom: 'var(--mpds-space-16)',
+              paddingLeft: 'var(--mpds-space-32)',
+              paddingRight: 'var(--mpds-space-32)',
+              borderRadius: 4,
+            }}
+            onClick={(e) => {
+              e.preventDefault()
+              document.querySelector('#rsvp')?.scrollIntoView({ behavior: 'smooth' })
+            }}
           >
             RSVP
           </a>
         </nav>
       </div>
-      <div className="flex gap-sp-lg items-center w-full">
 
-        {/* ── Invitation Card ─────────────────────────────── */}
-        <div className="flex-1 flex items-center justify-center min-w-0">
-          <div className="flex flex-col items-center gap-8 w-[min(480px,100%)]">
-
-            {/* Ornamental rule */}
-            <div className="w-full flex items-center gap-3">
-              <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
-              <span className="font-dm text-fs-xs text-cool-green-600 tracking-[0.25em] uppercase font-bold">✦</span>
-              <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
-            </div>
-
-            {/* Name 1 */}
-            <EditableText
-              tag="p"
-              path="hero.name1Full"
-              multiline
-              className="font-romie font-light italic text-cool-green-600 leading-none text-center w-full whitespace-pre-line"
-              style={{ fontSize: 'clamp(56px, calc(28px + 5.8vw), 118px)' }}
-            >
-              {content.name1Full}
-            </EditableText>
-
-            {/* Date row */}
-            <div className="flex items-center gap-3 w-full">
-              <EditableText
-                tag="span"
-                path="hero.date"
-                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline"
-              >
-                {content.date}
-              </EditableText>
-              <div className="flex-1 h-px bg-cool-green-600 opacity-40" />
-              <EditableText
-                tag="span"
-                path="hero.year"
-                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline"
-              >
-                {content.year}
-              </EditableText>
-            </div>
-
-            {/* Ampersand + Name 2 */}
-            <div className="flex items-center gap-8">
-              {/* & in circle */}
-              <div
-                className="relative shrink-0 flex items-center justify-center"
-                style={{ width: 'clamp(80px,12vw,180px)', height: 'clamp(80px,12vw,180px)' }}
-              >
-                <div className="absolute inset-0 rounded-full border border-cool-green-600 opacity-30" />
-                <span
-                  className="font-romie-trial italic text-yellow-s-300 leading-none"
-                  style={{ fontSize: 'clamp(60px,10vw,134px)', fontFeatureSettings: "'ss01' 1" }}
-                >
-                  &amp;
-                </span>
-              </div>
-
-              {/* Name 2 */}
-              <EditableText
-                tag="p"
-                path="hero.name2Full"
-                multiline
-                className="font-romie font-light italic text-cool-green-600 leading-none whitespace-pre-line"
-                style={{ fontSize: 'clamp(56px, calc(28px + 5.8vw), 118px)' }}
-              >
-                {content.name2Full}
-              </EditableText>
-            </div>
-
-            {/* Time row */}
-            <div className="flex items-center gap-3 w-full">
-              <EditableText
-                tag="span"
-                path="hero.time1"
-                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline"
-              >
-                {content.time1}
-              </EditableText>
-              <div className="flex-1 h-px bg-cool-green-600 opacity-40" />
-              <EditableText
-                tag="span"
-                path="hero.time2"
-                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline"
-              >
-                {content.time2}
-              </EditableText>
-            </div>
-
-            {/* Venue address box */}
-            <div className="w-full border border-cool-green-600 flex items-center gap-3 px-6 py-3">
-              <EditableText
-                tag="span"
-                path="hero.venue"
-                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0"
-              >
-                {content.venue}
-              </EditableText>
-              <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
-              <EditableText
-                tag="span"
-                path="hero.address"
-                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0"
-              >
-                {content.address}
-              </EditableText>
-              <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
-              <EditableText
-                tag="span"
-                path="hero.city"
-                className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0"
-              >
-                {content.city}
-              </EditableText>
-            </div>
-
-            {/* URL */}
-            <EditableText
-              tag="span"
-              path="hero.website"
-              className="font-dm font-bold text-fs-xs text-cool-green-600 tracking-[0.12em] uppercase font-dm-overline"
-            >
-              {content.website}
-            </EditableText>
-
-            {/* Ornamental rule */}
-            <div className="w-full flex items-center gap-3">
-              <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
-              <span className="font-dm text-fs-xs text-cool-green-600 tracking-[0.25em] uppercase font-bold">✦</span>
-              <div className="flex-1 h-px bg-cool-green-600 opacity-30" />
-            </div>
-          </div>
+      {/* ── Body: 12-col grid with two 5-col SVGs ── */}
+      <div
+        className="site-container"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(12, 1fr)',
+          gap: 'var(--site-grid-gutter)',
+          alignItems: 'center',
+        }}
+      >
+        {/* Left 5 cols — invitation card SVG */}
+        <div style={{ gridColumn: '1 / 6' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/wedding-site--hero-graphic-02.svg"
+            alt="Sarah Petrokonis &amp; Matt Plays — Friday, August 28th 2026 — 5 o'clock in the afternoon — Excelsior, 125 E King Street, Lancaster, PA"
+            className="w-full h-auto"
+          />
         </div>
 
-        {/* ── Excelsior Building Illustration ─────────────── */}
-        {/* Figma node 265:5416 — "Pass Through" blend mode approximated with opacity: 0.16 */}
-        <div
-          className="shrink-0 hidden lg:block opacity-[0.16]"
-          style={{ width: 'min(850px, 45vw)', aspectRatio: '851/1610' }}
-          aria-hidden="true"
-        >
-          <BuildingIllustration />
+        {/* Right 5 cols — building illustration */}
+        <div style={{ gridColumn: '8 / 13' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/wedding-site--hero-graphic-03.svg"
+            alt=""
+            className="w-full h-auto"
+            aria-hidden="true"
+          />
         </div>
       </div>
     </section>
-  );
+  )
 }

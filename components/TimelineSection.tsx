@@ -19,37 +19,44 @@ interface TimelineEntry {
 const ENTRIES: TimelineEntry[] = [
   {
     id: 'btv',
-    year: '2019',
-    heading: 'Met in\nBurlington, VT',
-    body: 'Two strangers at the right place and the right time. Neither of us knew what was beginning.',
+    year: '2018',
+    heading: 'First dates in\nBurlington, VT',
+    body: 'Wintertime hot toddies brought us together for our first dates in Burlington. And while the timing wasn\'t exactly on our side, a beautiful seed was surely planted.',
     photoVariant: 'BTV',
   },
   {
     id: 'covid',
     year: '2020',
     heading: 'Kept in touch\nduring the pandemic',
-    body: 'When the world slowed down, we didn\'t. Late-night calls and care packages kept us close.',
+    body: 'Sarah was getter her Master\'s in Syracuse, Matt bought a houses to Massachusetts, and the world changed entirely. Many texts and Skype calls spanned the distance.',
     photoVariant: 'COVID',
   },
   {
     id: 'poconos',
     year: '2024',
-    heading: 'Reconnected\nin the Poconos',
-    body: 'A weekend in the mountains turned into something neither of us expected — the start of everything.',
+    heading: 'Reconnected in\nthe Poconos',
+    body: 'Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit.',
     photoVariant: 'Poconos',
   },
   {
     id: 'engaged',
     year: '2025',
     heading: 'Got engaged in\nHudson, NY',
-    body: 'Overlooking the river, on a perfect autumn afternoon, Matt asked the question. Sarah said yes.',
+    body: 'Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit.',
     photoVariant: 'Engaged',
+  },
+  {
+    id: 'moved',
+    year: '2025',
+    heading: 'Sarah moved to\nMassachusetts',
+    body: 'Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit.',
+    photoVariant: null,
   },
   {
     id: 'excelsior',
     year: '2026',
-    heading: 'August 28th,\nLancaster PA',
-    body: 'Friends, family, and everyone we love gathered in one place to celebrate with us. We can\'t wait.',
+    heading: 'The Big Day',
+    body: 'Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit.',
     photoVariant: 'Excelsior',
   },
 ]
@@ -99,6 +106,9 @@ function TimelineRuler() {
           y2={tickHeight(i)}
           stroke="currentColor"
           strokeWidth={1}
+          style={{ transformOrigin: `${i * STEP + 0.5}px 0px`, transition: 'transform 0.2s ease' }}
+          onMouseEnter={(e) => { (e.target as SVGLineElement).style.transform = 'scaleY(1.15)' }}
+          onMouseLeave={(e) => { (e.target as SVGLineElement).style.transform = 'scaleY(1)' }}
         />
       ))}
     </svg>
@@ -209,9 +219,10 @@ function Item({ entry, isHovered, isOtherHovered, onMouseEnter, onMouseLeave }: 
           </span>
           {entry.photoVariant && (
             <div
-              className={`absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-300 ${
+              className={`absolute top-1/2 -translate-y-1/2 transition-opacity duration-300 ${
                 isHovered ? 'opacity-100' : 'opacity-0'
               }`}
+              style={{ right: 'var(--mpds-space-80)' }}
             >
               <PhotoGroup variant={entry.photoVariant} />
             </div>
@@ -224,7 +235,7 @@ function Item({ entry, isHovered, isOtherHovered, onMouseEnter, onMouseLeave }: 
           style={{ gap: 'var(--mpds-space-12, 12px)', paddingRight: 'var(--mpds-space-80)' }}
         >
           <h3
-            className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-pre-line w-full"
+            className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-nowrap w-full"
             style={{ fontSize: 'var(--mpds-font-size-2xl)', letterSpacing: '-0.02em' }}
           >
             {entry.heading}
@@ -278,7 +289,7 @@ export default function TimelineSection() {
           >
             A tale as old as time
           </h2>
-          <div className="flex gap-2 shrink-0">
+          <div className="hidden md:flex gap-2 shrink-0">
             <ArrowButton direction="left" onClick={() => scroll('left')} disabled={!canScrollLeft} />
             <ArrowButton direction="right" onClick={() => scroll('right')} disabled={!canScrollRight} />
           </div>

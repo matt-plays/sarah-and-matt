@@ -107,10 +107,10 @@ export default function SiteNav() {
   return (
     <nav
       data-theme="footer"
-      className="fixed bottom-6 left-1/2 z-50 flex items-center bg-[var(--theme-bg)] transition-all duration-500"
+      className="fixed bottom-4 md:bottom-6 left-1/2 z-50 flex items-center bg-[var(--theme-bg)] transition-all duration-500 max-w-[calc(100vw-32px)]"
       style={{
-        gap: 'var(--mpds-space-sm)',
-        paddingLeft: 'var(--mpds-space-40)',
+        gap: 'var(--mpds-space-16)',
+        paddingLeft: 'var(--mpds-space-24)',
         paddingRight: 'var(--mpds-space-8)',
         paddingTop: 'var(--mpds-space-8)',
         paddingBottom: 'var(--mpds-space-8)',
@@ -125,7 +125,7 @@ export default function SiteNav() {
         <a
           key={href}
           href={href}
-          className={`font-instrument transition-colors whitespace-nowrap ${
+          className={`font-instrument transition-colors whitespace-nowrap hidden md:inline ${
             activeSection === id
               ? 'text-[var(--theme-btn-text)]'
               : 'text-[var(--theme-text)] hover:text-[var(--theme-btn-text)]'

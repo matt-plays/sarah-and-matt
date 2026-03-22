@@ -19,7 +19,7 @@ export default function RegistrySection() {
   const { activeTheme } = useTheme()
   const content = c.registry
 
-  // Start green (same as RSVP), switch to taupe when this section triggers
+  // Green until taupe takes over. Once taupe, stay taupe (even when body reverts to default at footer).
   const localTheme = activeTheme === 'taupe' ? 'taupe' : 'green'
 
   return (
@@ -34,12 +34,12 @@ export default function RegistrySection() {
         transition: 'background-color 0.5s ease',
       }}
     >
-      <div className="site-container flex items-start justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
+      <div className="site-container flex flex-col lg:flex-row lg:items-start lg:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
 
         {/* ── Left column ── */}
         <div
-          className="shrink-0 flex flex-col items-start justify-between self-stretch"
-          style={{ width: 504, paddingTop: 'var(--mpds-space-80)', paddingBottom: 'var(--mpds-space-80)' }}
+          className="flex flex-col items-start lg:justify-between lg:self-stretch lg:shrink-0"
+          style={{ maxWidth: 504, paddingTop: 'var(--mpds-space-80)', paddingBottom: 'var(--mpds-space-80)' }}
         >
           {/* Top group: heading + body + CTA */}
           <div className="flex flex-col items-start" style={{ gap: 'var(--mpds-space-80)' }}>
@@ -95,8 +95,8 @@ export default function RegistrySection() {
 
         {/* ── Right column — photo ── */}
         <div
-          className="rounded-2xl overflow-hidden shrink-0"
-          style={{ width: 'min(784px, 50%)', height: 1085 }}
+          className="rounded-2xl overflow-hidden w-full lg:shrink-0"
+          style={{ maxWidth: 784, aspectRatio: '3 / 4' }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
