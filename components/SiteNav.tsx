@@ -8,7 +8,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 const NAV_LINKS = [
   { label: 'Our Celebration', href: '#celebration', id: 'celebration' },
   { label: 'Travel & Stay', href: '#travel', id: 'travel' },
-  { label: 'Registry', href: '#registry', id: 'registry' },
+  { label: 'Registry', href: 'https://zola.sarahandmatt.wedding/registry', id: 'registry' },
 ]
 
 const IDLE_TIMEOUT = 15000 // 15 seconds
@@ -132,15 +132,19 @@ export default function SiteNav() {
           }`}
           style={{ fontSize: 'var(--mpds-font-size-lg)' }}
           onClick={(e) => {
+            if (href.startsWith('http')) return
             e.preventDefault()
             document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
           }}
+          {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         >
           {label}
         </a>
       ))}
       <a
-        href="#rsvp"
+        href="https://zola.sarahandmatt.wedding/rsvp"
+        target="_blank"
+        rel="noopener noreferrer"
         className="font-instrument font-semibold bg-[var(--theme-action)] text-[var(--theme-btn-text)] whitespace-nowrap transition-colors hover:bg-[var(--theme-action-hovered)]"
         style={{
           fontSize: 'var(--mpds-font-size-lg)',
@@ -150,10 +154,6 @@ export default function SiteNav() {
           paddingRight: 'var(--mpds-space-32)',
           borderRadius: 4,
           lineHeight: '1.25',
-        }}
-        onClick={(e) => {
-          e.preventDefault()
-          document.querySelector('#rsvp')?.scrollIntoView({ behavior: 'smooth' })
         }}
       >
         RSVP
