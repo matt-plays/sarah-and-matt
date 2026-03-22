@@ -2,8 +2,6 @@
 // Figma node: 419:2852
 // Footer — dark theme, 3-column layout, large shader type at bottom.
 
-import { HalftoneCmyk } from '@paper-design/shaders-react'
-
 // ─── Separator line ──────────────────────────────────────────────────────────
 
 function HRLine() {
@@ -142,44 +140,16 @@ export default function SiteFooter() {
         </div>
       </div>
 
-      {/* ── Large type with shader texture ── */}
+      {/* ── Large type — texture PNG masked through SVG letterforms ── */}
       <div
-        className="relative w-full overflow-hidden"
+        className="w-full overflow-hidden"
         style={{ height: 284, marginTop: 'var(--mpds-space-xl)' }}
       >
-        {/* Shader canvas behind — fills full width */}
-        <div className="absolute inset-0">
-          <HalftoneCmyk
-            image="/images/wedding-site--footer-texture.png"
-            type="dots"
-            fit="cover"
-            size={0.01}
-            gridNoise={0.48}
-            softness={1.0}
-            contrast={1.0}
-            scale={0.8}
-            colorC="#83BEC2"
-            colorM="#C2839D"
-            colorY="#E2A01C"
-            colorK="#213200"
-            gainC={-0.62}
-            gainM={0.93}
-            gainY={0.20}
-            gainK={0}
-            floodC={0.15}
-            floodM={0}
-            floodY={0}
-            floodK={0}
-            grainSize={0.46}
-            grainMixer={0}
-            grainOverlay={0}
-            style={{ width: '100%', height: '100%', background: 'transparent' }}
-          />
-        </div>
-
-        {/* SVG type mask — uses the shader as fill via CSS mask */}
-        <div
-          className="absolute inset-0 flex items-center justify-center"
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/wedding-site--footer-texture.png"
+          alt="Sarah & Matt"
+          className="w-full h-full object-cover"
           style={{
             maskImage: 'url(/images/wedding-site--footer-type.svg)',
             WebkitMaskImage: 'url(/images/wedding-site--footer-type.svg)',
@@ -188,34 +158,7 @@ export default function SiteFooter() {
             maskRepeat: 'no-repeat',
             WebkitMaskRepeat: 'no-repeat',
           }}
-        >
-          <HalftoneCmyk
-            image="/images/wedding-site--footer-texture.png"
-            type="dots"
-            fit="cover"
-            size={0.01}
-            gridNoise={0.48}
-            softness={1.0}
-            contrast={1.0}
-            scale={0.8}
-            colorC="#83BEC2"
-            colorM="#C2839D"
-            colorY="#E2A01C"
-            colorK="#213200"
-            gainC={-0.62}
-            gainM={0.93}
-            gainY={0.20}
-            gainK={0}
-            floodC={0.15}
-            floodM={0}
-            floodY={0}
-            floodK={0}
-            grainSize={0.46}
-            grainMixer={0}
-            grainOverlay={0}
-            style={{ width: '100%', height: '100%', background: 'transparent' }}
-          />
-        </div>
+        />
       </div>
     </footer>
   )

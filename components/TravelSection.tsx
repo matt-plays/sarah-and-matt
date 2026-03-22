@@ -17,15 +17,15 @@ interface CardData {
 type Category = 'stay' | 'eat' | 'do'
 
 const CATEGORIES: { key: Category; label: string }[] = [
-  { key: 'stay', label: 'Where to stay' },
   { key: 'eat', label: 'Where to eat' },
+  { key: 'stay', label: 'Where to stay' },
   { key: 'do', label: 'What to do' },
 ]
 
 const CATEGORY_IMAGES: Record<Category, string> = {
-  stay: '/images/wedding-site--travel-stay-01.jpg',
-  eat: '/images/wedding-site--travel-stay-02.jpg',
-  do: '/images/wedding-site--travel-stay-03.jpg',
+  eat: '/images/wedding-site--travel-stay-eat.png',
+  stay: '/images/wedding-site--travel-stay-stay.png',
+  do: '/images/wedding-site--travel-stay-do.png',
 }
 
 // ─── Card ────────────────────────────────────────────────────────────────────
@@ -83,7 +83,7 @@ function RecommendationCard({ card, index }: { card: CardData; index: number }) 
 const c = defaultContent as SiteContent
 
 export default function TravelSection() {
-  const [active, setActive] = useState<Category>('eat')
+  const [active, setActive] = useState<Category>('eat') // eat first to show Luca image
   const [cardKey, setCardKey] = useState(0)
 
   const cardMap: Record<Category, CardData[]> = {

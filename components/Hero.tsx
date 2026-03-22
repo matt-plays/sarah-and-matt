@@ -11,7 +11,37 @@ interface HeroProps {
 
 export default function Hero({ content = defaultContent.hero }: HeroProps) {
   return (
-    <section className="w-full bg-red-m-25 px-sp-lg pt-sp-xl pb-sp-2xl overflow-hidden">
+    <section id="hero" className="w-full bg-red-m-25 px-sp-lg pt-0 pb-sp-2xl overflow-hidden">
+      {/* ── Hero nav ── */}
+      <div className="container-width flex items-center justify-between py-6 mb-sp-lg">
+        <a href="#" aria-label="Back to top" className="leading-none shrink-0">
+          <span
+            className="font-gans-fleurons text-cool-green-600 select-none leading-none block"
+            style={{ fontSize: 96 }}
+            aria-hidden="true"
+          >
+            Y
+          </span>
+        </a>
+        <nav className="flex items-center gap-8" aria-label="Main navigation">
+          <a href="#celebration" className="font-instrument text-cool-green-600 hover:opacity-60 transition-opacity" style={{ fontSize: 18 }}>
+            Our Celebration
+          </a>
+          <a href="#travel" className="font-instrument text-cool-green-600 hover:opacity-60 transition-opacity" style={{ fontSize: 18 }}>
+            Travel &amp; Stay
+          </a>
+          <a href="#registry" className="font-instrument text-cool-green-600 hover:opacity-60 transition-opacity" style={{ fontSize: 18 }}>
+            Registry
+          </a>
+          <a
+            href="#rsvp"
+            className="bg-cool-green-600 text-red-m-25 font-instrument font-semibold rounded-lg leading-snug hover:opacity-90 transition-opacity"
+            style={{ fontSize: 18, paddingTop: 14, paddingBottom: 16, paddingLeft: 32, paddingRight: 32 }}
+          >
+            RSVP
+          </a>
+        </nav>
+      </div>
       <div className="flex gap-sp-lg items-center w-full">
 
         {/* ── Invitation Card ─────────────────────────────── */}
