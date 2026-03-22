@@ -141,7 +141,7 @@ export default function ManageClient({ initialContent, initialHistory }: ManageC
         </div>
 
         <main>
-          <Hero content={content.hero} />
+          <Hero />
           <StorySection cards={content.story} />
           <PhotoGrid />
           <MarqueeText text={content.marquee.text} />
