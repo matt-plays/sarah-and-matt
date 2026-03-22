@@ -128,7 +128,7 @@ export default function TravelSection() {
       <section className="relative z-10 w-full flex justify-center">
         <div className="site-container flex flex-col lg:flex-row" style={{ gap: 'var(--mpds-space-sm)' }}>
           {/* Left sidebar — category nav + photo */}
-          <div className="lg:shrink-0 flex flex-col" style={{ gap: 'var(--mpds-space-lg)', maxWidth: 512 }}>
+          <div className="lg:shrink-0 flex flex-col" style={{ gap: 'var(--sp-2xl)', maxWidth: 512 }}>
             {/* Category nav */}
             <nav className="flex flex-row lg:flex-col gap-4 lg:gap-[var(--mpds-space-14)] overflow-x-auto scrollbar-none">
               {CATEGORIES.map(({ key, label }) => (
