@@ -126,9 +126,9 @@ export default function TravelSection() {
 
       {/* ── Content area ── */}
       <section className="relative z-10 w-full flex justify-center">
-        <div className="site-container flex flex-col lg:flex-row" style={{ gap: 'var(--mpds-space-sm)' }}>
-          {/* Left sidebar — category nav + photo */}
-          <div className="lg:shrink-0 flex flex-col" style={{ gap: 'var(--sp-2xl)', maxWidth: 512 }}>
+        <div className="site-container grid grid-cols-1 lg:grid-cols-12" style={{ gap: 'var(--site-grid-gutter)' }}>
+          {/* Left sidebar — 4 cols: category nav + photo */}
+          <div className="lg:col-span-4 flex flex-col" style={{ gap: 'var(--sp-2xl)' }}>
             {/* Category nav */}
             <nav className="flex flex-row lg:flex-col gap-4 lg:gap-[var(--mpds-space-14)] overflow-x-auto scrollbar-none">
               {CATEGORIES.map(({ key, label }) => (
@@ -162,10 +162,10 @@ export default function TravelSection() {
             </div>
           </div>
 
-          {/* Right — card grid */}
+          {/* Right — card grid (8 cols) */}
           <div
             key={cardKey}
-            className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-w-0 content-start"
+            className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-w-0 content-start"
             style={{ columnGap: 'var(--mpds-space-32)', rowGap: 'var(--mpds-space-48)' }}
           >
             {cards.slice(0, 9).map((card, i) => (
