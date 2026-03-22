@@ -82,7 +82,7 @@ function UnlockForm() {
             color: 'rgba(245, 237, 224, 0.45)',
           }}
         >
-          November 7, 2026
+          August 28, 2026
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
