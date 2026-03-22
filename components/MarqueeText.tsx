@@ -13,7 +13,7 @@ interface MarqueeTextProps {
 
 export default function MarqueeText({ text = defaultContent.marquee.text }: MarqueeTextProps) {
   const stripRef = useRef<HTMLDivElement>(null);
-  const animRef = useRef<number>();
+  const animRef = useRef<number>(0);
 
   const SPEED = 0.6; // px per frame
 
