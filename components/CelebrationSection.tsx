@@ -102,7 +102,7 @@ export default function CelebrationSection({
       <div className="site-container flex flex-col" style={{ gap: 'var(--mpds-space-xl)' }}>
 
         {/* ── Header: title + description ── */}
-        <div className="flex items-end justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
           <EditableText
             tag="h2"
             path="celebration.heading"
@@ -115,20 +115,20 @@ export default function CelebrationSection({
             tag="p"
             path="celebration.description"
             multiline
-            className="font-instrument text-[var(--theme-text)] leading-[1.625] shrink-0"
-            style={{ fontSize: 'var(--mpds-font-size-lg)', width: 'min(512px, 40%)', transition: 'color 0.5s ease' }}
+            className="font-instrument text-[var(--theme-text)] leading-[1.625] md:shrink-0"
+            style={{ fontSize: 'var(--mpds-font-size-lg)', maxWidth: 512, transition: 'color 0.5s ease' }}
           >
             {content.description}
           </EditableText>
         </div>
 
         {/* ── Content: details left, photos right ── */}
-        <div className="relative flex items-start justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
+        <div className="relative flex flex-col lg:flex-row lg:items-start lg:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
 
           {/* Left column — event details + info + CTA */}
           <div
-            className="flex flex-col justify-between self-stretch shrink-0"
-            style={{ width: 'min(615px, 45%)', paddingBottom: 'var(--mpds-space-80)' }}
+            className="flex flex-col justify-between lg:self-stretch lg:shrink-0"
+            style={{ maxWidth: 615, paddingBottom: 'var(--mpds-space-80)' }}
           >
             {/* Event details block */}
             <div className="flex flex-col" style={{ gap: 'var(--mpds-space-md)' }}>
@@ -169,18 +169,18 @@ export default function CelebrationSection({
 
               {/* Address box */}
               <div
-                className="flex items-center w-full border border-[var(--theme-headline)]"
-                style={{ gap: '18px', padding: 'var(--mpds-space-16) var(--mpds-space-28)', transition: 'border-color 0.5s ease' }}
+                className="flex flex-wrap items-center w-full border border-[var(--theme-headline)]"
+                style={{ gap: '12px 18px', padding: 'var(--mpds-space-16) var(--mpds-space-28)', transition: 'border-color 0.5s ease' }}
               >
-                <span className="font-dm font-bold text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0">
+                <span className="font-dm font-bold text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase font-dm-overline shrink-0">
                   Excelsior
                 </span>
-                <span className="font-instrument text-[var(--theme-tonal)]">/</span>
-                <span className="font-dm font-bold text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0">
+                <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
+                <span className="font-dm font-bold text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase font-dm-overline shrink-0">
                   125 E King Street
                 </span>
-                <span className="font-instrument text-[var(--theme-tonal)]">/</span>
-                <span className="font-dm font-bold text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0">
+                <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
+                <span className="font-dm font-bold text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase font-dm-overline shrink-0">
                   Lancaster, PA
                 </span>
               </div>
@@ -221,8 +221,8 @@ export default function CelebrationSection({
           </div>
 
           {/* Right column — photos */}
-          <div className="relative shrink-0" style={{ width: 'min(784px, 50%)', height: 1045 }}>
-            <div className="rounded-2xl overflow-hidden w-full h-full bg-[var(--theme-tonal)]">
+          <div className="relative w-full lg:shrink-0 lg:w-auto" style={{ maxWidth: 784 }}>
+            <div className="rounded-2xl overflow-hidden w-full bg-[var(--theme-tonal)]" style={{ aspectRatio: '3 / 4' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={content.mainImage}
@@ -231,10 +231,10 @@ export default function CelebrationSection({
                 loading="eager"
               />
             </div>
-            {/* Overlapping smaller photo */}
+            {/* Overlapping smaller photo — hidden on mobile */}
             <div
-              className="absolute rounded-xl overflow-hidden"
-              style={{ width: 400, height: 400, bottom: -80, right: -48 }}
+              className="absolute rounded-xl overflow-hidden hidden md:block"
+              style={{ width: 'min(400px, 50%)', aspectRatio: '1', bottom: -80, right: -48 }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

@@ -108,7 +108,7 @@ export default function TravelSection() {
         className="w-full flex justify-center"
         style={{ paddingBottom: 'var(--sp-2xl)' }}
       >
-        <div className="site-container flex items-end justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
+        <div className="site-container flex flex-col md:flex-row md:items-end md:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
           <h2
             className="font-romie-trial font-light text-[var(--theme-headline)] leading-none shrink-0"
             style={{ fontSize: 'var(--mpds-font-size-11xl)' }}
@@ -116,8 +116,8 @@ export default function TravelSection() {
             Travel &amp; Stay
           </h2>
           <p
-            className="font-instrument text-[var(--theme-text)] leading-[1.625] shrink-0"
-            style={{ fontSize: 'var(--mpds-font-size-lg)', width: 'min(512px, 40%)' }}
+            className="font-instrument text-[var(--theme-text)] leading-[1.625] md:shrink-0"
+            style={{ fontSize: 'var(--mpds-font-size-lg)', maxWidth: 512 }}
           >
             Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable.
           </p>
@@ -126,16 +126,16 @@ export default function TravelSection() {
 
       {/* ── Content area ── */}
       <section className="relative z-10 w-full flex justify-center">
-        <div className="site-container flex" style={{ gap: 'var(--mpds-space-sm)' }}>
+        <div className="site-container flex flex-col lg:flex-row" style={{ gap: 'var(--mpds-space-sm)' }}>
           {/* Left sidebar — category nav + photo */}
-          <div className="shrink-0 flex flex-col" style={{ gap: 'var(--sp-2xl)', width: 'min(512px, 35%)' }}>
+          <div className="lg:shrink-0 flex flex-col" style={{ gap: 'var(--mpds-space-lg)', maxWidth: 512 }}>
             {/* Category nav */}
-            <nav className="flex flex-col" style={{ gap: 'var(--mpds-space-14)' }}>
+            <nav className="flex flex-row lg:flex-col gap-4 lg:gap-[var(--mpds-space-14)] overflow-x-auto scrollbar-none">
               {CATEGORIES.map(({ key, label }) => (
                 <button
                   key={key}
                   onClick={() => handleCategoryChange(key)}
-                  className={`text-left font-instrument font-medium leading-[1.125] transition-colors ${
+                  className={`text-left font-instrument font-medium leading-[1.125] transition-colors whitespace-nowrap ${
                     active === key
                       ? 'text-[var(--theme-headline)]'
                       : 'text-[var(--theme-tonal)]'
@@ -147,9 +147,9 @@ export default function TravelSection() {
               ))}
             </nav>
 
-            {/* Decorative photo */}
+            {/* Decorative photo — hidden on mobile, shown on lg */}
             <div
-              className="rounded-2xl overflow-hidden"
+              className="hidden lg:block rounded-2xl overflow-hidden"
               style={{ width: 376, height: 376 }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -165,7 +165,7 @@ export default function TravelSection() {
           {/* Right — card grid */}
           <div
             key={cardKey}
-            className="flex-1 grid grid-cols-3 min-w-0 content-start"
+            className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-w-0 content-start"
             style={{ columnGap: 'var(--mpds-space-32)', rowGap: 'var(--mpds-space-48)' }}
           >
             {cards.slice(0, 9).map((card, i) => (

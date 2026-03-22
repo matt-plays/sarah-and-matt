@@ -39,7 +39,7 @@ export default function MarqueeText({ text = defaultContent.marquee.text }: Marq
   }, []);
 
   const textStyle: React.CSSProperties = {
-    fontSize:             'clamp(96px, 22vw, 320px)',
+    fontSize:             'clamp(64px, 22vw, 320px)',
     paddingBottom:        '0.2em',
     backgroundImage:      `url('${imgFill}'), linear-gradient(90deg, rgb(220, 211, 202) 0%, rgb(220, 211, 202) 100%)`,
     backgroundSize:       'cover, auto auto',

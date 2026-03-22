@@ -22,7 +22,7 @@ export default function Home() {
       <SiteNav />
 
       {/* ② Hero — invitation card + building illustration */}
-      <Hero content={c.hero} />
+      <Hero />
 
       {/* ③ Timeline — "A tale as old as time" horizontal scroll */}
       <TimelineSection />

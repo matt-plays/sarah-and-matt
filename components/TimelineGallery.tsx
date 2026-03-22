@@ -15,7 +15,8 @@ const IMAGES = [
 ]
 
 const GAP = 16
-const MAX_W = 500
+// Responsive: 70vw on mobile, 500px cap on desktop
+const MAX_W_CSS = 'min(500px, 70vw)'
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
@@ -58,7 +59,7 @@ export default function TimelineGallery() {
           <div
             key={i}
             className="shrink-0 rounded-2xl overflow-hidden"
-            style={{ width: MAX_W, aspectRatio: img.aspect }}
+            style={{ width: MAX_W_CSS, aspectRatio: img.aspect }}
           >
             <img
               src={img.src}

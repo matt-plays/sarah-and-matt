@@ -31,18 +31,15 @@ export default function SiteFooter() {
     <footer
       data-theme="footer"
       className="w-full flex flex-col items-center bg-[var(--theme-bg)]"
-      style={{ paddingTop: 'var(--sp-2xl)' }}
+      style={{ paddingTop: 'var(--sp-2xl)', paddingBottom: 0 }}
     >
-      {/* ── 3-column info row ── */}
+      {/* ── Info row — stacks on mobile, 3-col on desktop ── */}
       <div
-        className="site-container flex items-start"
-        style={{ gap: 32 }}
+        className="site-container flex flex-col md:flex-row md:items-start"
+        style={{ gap: 'var(--mpds-space-lg)' }}
       >
         {/* Left — ornamental glyph */}
-        <p
-          className="font-romie-trial font-light text-[var(--theme-tonal)] leading-none shrink-0"
-          style={{ fontSize: 'var(--mpds-font-size-11xl)', width: 648 }}
-        >
+        <div className="shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/hero-ornament.svg"
@@ -50,12 +47,12 @@ export default function SiteFooter() {
             className="opacity-60"
             style={{ width: 99, height: 93 }}
           />
-        </p>
+        </div>
 
         {/* Center — nav links */}
         <nav
-          className="shrink-0 flex flex-col justify-between self-stretch font-instrument text-[var(--theme-text)] leading-[1.625]"
-          style={{ fontSize: 'var(--mpds-font-size-lg)', width: 376 }}
+          className="flex flex-row flex-wrap md:flex-col md:justify-between md:self-stretch font-instrument text-[var(--theme-text)] leading-[1.625]"
+          style={{ fontSize: 'var(--mpds-font-size-lg)', gap: 'var(--mpds-space-8)' }}
         >
           <a href="#celebration" className="hover:text-[var(--theme-headline)] transition-colors">Our celebration</a>
           <a href="#travel" className="hover:text-[var(--theme-headline)] transition-colors">Travel &amp; Stay</a>
@@ -64,7 +61,7 @@ export default function SiteFooter() {
         </nav>
 
         {/* Right — event details */}
-        <div className="flex-1 flex flex-col min-w-0" style={{ gap: 48 }}>
+        <div className="flex-1 flex flex-col min-w-0" style={{ gap: 'var(--mpds-space-48)' }}>
           {/* Date row */}
           <div
             className="flex items-center"
@@ -87,7 +84,7 @@ export default function SiteFooter() {
 
           {/* Address pill */}
           <div
-            className="flex items-center border border-[var(--theme-text)]"
+            className="flex flex-wrap items-center border border-[var(--theme-text)]"
             style={{
               gap: 'var(--mpds-space-16)',
               paddingLeft: 'var(--mpds-space-28)',
@@ -143,20 +140,23 @@ export default function SiteFooter() {
       {/* ── Large type — texture PNG masked through SVG letterforms ── */}
       <div
         className="w-full overflow-hidden"
-        style={{ height: 284, marginTop: 'var(--mpds-space-xl)' }}
+        style={{ marginTop: 'var(--mpds-space-xl)', fontSize: 0, lineHeight: 0 }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/wedding-site--footer-texture.png"
           alt="Sarah & Matt"
-          className="w-full h-full object-cover"
+          className="w-full"
           style={{
+            display: 'block',
             maskImage: 'url(/images/wedding-site--footer-type.svg)',
             WebkitMaskImage: 'url(/images/wedding-site--footer-type.svg)',
-            maskSize: '100% 100%',
-            WebkitMaskSize: '100% 100%',
+            maskSize: '100% auto',
+            WebkitMaskSize: '100% auto',
             maskRepeat: 'no-repeat',
             WebkitMaskRepeat: 'no-repeat',
+            maskPosition: 'bottom left',
+            WebkitMaskPosition: 'bottom left',
           }}
         />
       </div>
