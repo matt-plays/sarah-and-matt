@@ -89,29 +89,23 @@ function TimelineRuler() {
 
   return (
     // Ruler always renders at full opacity — ticks are consistent across all states
-    <svg
-      width={ITEM_W}
-      height={MAJOR}
-      viewBox={`0 0 ${ITEM_W} ${MAJOR}`}
-      className="text-[var(--theme-tonal)] shrink-0"
-      aria-hidden="true"
-    >
-      <line x1={0} y1={0.5} x2={ITEM_W} y2={0.5} stroke="currentColor" strokeWidth={1} />
+    // Uses CSS divs instead of SVG for reliable hover interactions
+    <div className="relative shrink-0 flex" style={{ width: ITEM_W, height: MAJOR }} aria-hidden="true">
+      {/* Horizontal baseline */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-[var(--theme-tonal)]" />
+      {/* Ticks — outer div is the hover target (padded), inner div is the visible 1px line */}
       {Array.from({ length: count }, (_, i) => (
-        <line
+        <div
           key={i}
-          x1={i * STEP + 0.5}
-          y1={0}
-          x2={i * STEP + 0.5}
-          y2={tickHeight(i)}
-          stroke="currentColor"
-          strokeWidth={1}
-          style={{ transformOrigin: `${i * STEP + 0.5}px 0px`, transition: 'transform 0.2s ease' }}
-          onMouseEnter={(e) => { (e.target as SVGLineElement).style.transform = 'scaleY(1.15)' }}
-          onMouseLeave={(e) => { (e.target as SVGLineElement).style.transform = 'scaleY(1)' }}
-        />
+          className="absolute top-0 group"
+          style={{ left: i * STEP - 3, width: 7, height: tickHeight(i), cursor: 'default' }}
+        >
+          <div
+            className="absolute left-[3px] top-0 w-px h-full bg-[var(--theme-tonal)] origin-top transition-transform duration-200 group-hover:scale-y-[1.15]"
+          />
+        </div>
       ))}
-    </svg>
+    </div>
   )
 }
 
