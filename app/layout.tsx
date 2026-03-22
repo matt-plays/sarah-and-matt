@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, DM_Sans } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
@@ -33,7 +34,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${instrumentSans.variable} ${dmSans.variable}`}>
-      <body>{children}</body>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

@@ -1,83 +1,95 @@
-// Figma node: 265:6145
+'use client'
+// Figma node: 342:6253
 // Dark-green RSVP section: heading + CTA, then a 4-column photo strip below.
+// Starts green, transitions to taupe when Registry enters viewport.
 
-import { EditableText } from './cms/EditableText';
-import { RSVPContent } from '@/types/content';
-import defaultContent from '@/content/content.json';
+import { useScrollSection, useTheme } from '@/context/ThemeContext'
+import Button from './Button'
+import { SiteContent } from '@/types/content'
+import defaultContent from '@/content/content.json'
 
-const ENGAGEMENT = '/images/engagement-umbrella.jpg';
-const PHOTOBOOTH = '/images/photobooth-bw.jpg';
+const c = defaultContent as SiteContent
 
-// [src, height, objectPos]
-const imageStrip: [string, number, string][] = [
-  [ENGAGEMENT, 501, '30% 25%'],
-  [PHOTOBOOTH, 668, '50% 30%'],
-  [ENGAGEMENT, 376, '55% 35%'],
-  [ENGAGEMENT, 668, '70% 20%'],
-];
+const PHOTO_STRIP = [
+  '/images/wedding-site--rsvp-01.png',
+  '/images/wedding-site--rsvp-02.png',
+  '/images/wedding-site--rsvp-03.png',
+  '/images/wedding-site--rsvp-04.png',
+]
 
-interface RSVPSectionProps {
-  content?: RSVPContent;
-}
+export default function RSVPSection() {
+  const sectionRef = useScrollSection<HTMLElement>('green')
+  const { activeTheme } = useTheme()
+  const content = c.rsvp
 
-export default function RSVPSection({ content = defaultContent.rsvp }: RSVPSectionProps) {
+  // Start green, switch to taupe when Registry triggers it
+  const localTheme = activeTheme === 'taupe' ? 'taupe' : 'green'
+
   return (
-    <section id="rsvp" className="w-full bg-warm-green-700 flex flex-col items-center py-sp-2xl gap-sp-xl">
+    <section
+      ref={sectionRef}
+      id="rsvp"
+      data-theme={localTheme}
+      className="w-full flex flex-col items-center bg-[var(--theme-bg)] overflow-hidden"
+      style={{
+        paddingTop: 'var(--sp-2xl)',
+        paddingBottom: 'var(--sp-2xl)',
+        transition: 'background-color 0.5s ease',
+      }}
+    >
+      <div
+        className="site-container flex flex-col"
+        style={{ gap: 'var(--mpds-space-xl)' }}
+      >
+        {/* ── Heading + CTA row ── */}
+        <div className="flex items-end justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
+          <h2
+            className="font-romie-trial font-light text-[var(--theme-headline)] leading-none flex-1 min-w-0"
+            style={{ fontSize: 'var(--mpds-font-size-11xl)', transition: 'color 0.5s ease' }}
+          >
+            Let us know if{'\n'}you can make it
+          </h2>
+          <div
+            className="flex flex-col items-start shrink-0"
+            style={{ gap: 'var(--mpds-space-sm)', width: 'min(512px, 40%)' }}
+          >
+            <p
+              className="font-instrument text-[var(--theme-text)] leading-[1.625]"
+              style={{ fontSize: 'var(--mpds-font-size-lg)', transition: 'color 0.5s ease' }}
+            >
+              {content.body}
+            </p>
+            <Button
+              onClick={() => window.open(content.url, '_blank', 'noopener,noreferrer')}
+            >
+              Join us and RSVP now
+            </Button>
+          </div>
+        </div>
 
-      {/* ── Heading + CTA row ── */}
-      <div className="container-width flex gap-sp-lg items-end">
-        <EditableText
-          tag="h2"
-          path="rsvp.heading"
-          multiline
-          className="font-romie-trial font-light text-blue-s-0 leading-none flex-1 min-w-0"
-          style={{ fontSize: 'var(--fs-11xl)' }}
-        >
-          {content.heading}
-        </EditableText>
+        {/* ── Photo strip — left-aligned to container, bleeds right ── */}
         <div
-          className="flex flex-col gap-sp-sm items-start shrink-0"
-          style={{ width: 'min(504px, 40%)' }}
+          className="flex items-end"
+          style={{ gap: 'var(--mpds-space-16)' }}
         >
-          <EditableText
-            tag="p"
-            path="rsvp.body"
-            multiline
-            className="font-instrument text-blue-s-0 leading-relaxed"
-            style={{ fontSize: 'var(--fs-xl)' }}
-          >
-            {content.body}
-          </EditableText>
-          <a
-            href={content.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-red-s-25 text-cool-green-600 font-instrument font-semibold rounded-lg px-8 py-4 text-fs-2xl leading-snug transition-opacity hover:opacity-90"
-          >
-            RSVP
-          </a>
+          {PHOTO_STRIP.map((src, i) => (
+            <div
+              key={i}
+              className="shrink-0 rounded-2xl overflow-hidden bg-[var(--theme-bg)]"
+              style={{ width: 512, maxWidth: 512, transition: 'background-color 0.5s ease' }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={src}
+                alt=""
+                className="w-full h-auto block"
+                style={{ mixBlendMode: 'screen' }}
+                loading="lazy"
+              />
+            </div>
+          ))}
         </div>
       </div>
-
-      {/* ── Photo strip ── */}
-      <div className="container-width flex items-end gap-sp-xs">
-        {imageStrip.map(([src, h, pos], i) => (
-          <div
-            key={i}
-            className="flex-1 min-w-0 rounded-2xl overflow-hidden bg-warm-green-700"
-            style={{ height: h }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={src}
-              alt="Sarah and Matt"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: pos, mixBlendMode: 'screen', opacity: 0.72 }}
-            />
-          </div>
-        ))}
-      </div>
-
     </section>
-  );
+  )
 }

@@ -168,9 +168,9 @@ export default function ManageClient({ initialContent, initialHistory }: ManageC
             decorativeImageAlt="Lancaster architecture illustration"
             decorativeStyle="sketch"
           />
-          <RSVPSection content={content.rsvp} />
-          <RegistrySection content={content.registry} />
-          <SiteFooter content={content.footer} />
+          <RSVPSection />
+          <RegistrySection />
+          <SiteFooter />
         </main>
       </div>
     </CMSProvider>

@@ -10,7 +10,7 @@ interface TravelHeaderProps {
 
 export default function TravelHeader({ content = defaultContent.travel }: TravelHeaderProps) {
   return (
-    <section id="travel" className="w-full flex justify-center pb-sp-2xl">
+    <section id="travel" data-theme="default" className="w-full flex justify-center pb-sp-2xl">
       <div className="container-width flex items-end justify-between gap-sp-lg">
 
         {/* "Travel & Stay" display heading */}

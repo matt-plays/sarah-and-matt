@@ -50,7 +50,7 @@
     }
   ],
   "marquee": {
-    "text": "Beautiful Lancaster, Pennsylvania"
+    "text": "Meet us in Lancaster, Pennsylvania"
   },
   "celebration": {
     "heading": "Our Celebration",
@@ -79,8 +79,8 @@
     ],
     "rsvpUrl": "https://withjoy.com/sarah-and-matt-aug26/rsvp",
     "venueUrl": "https://excelsiorlancaster.com",
-    "mainImage": "/images/excelsior-night.jpg",
-    "overlayImage": "/images/wedding-kiss.jpg"
+    "mainImage": "/images/wedding-site--our-celebration-01.png",
+    "overlayImage": "/images/wedding-site--our-celebration-02.png"
   },
   "travel": {
     "heading": "Travel & Stay",
@@ -106,6 +106,31 @@
       "overline": "Downtown Lancaster",
       "heading": "The Warehouse Hotel",
       "body": "A beautifully converted historic warehouse with a modern, local vibe. Great for extended stays and exploring the city."
+    },
+    {
+      "overline": "Lititz · 15 min",
+      "heading": "The Inn &\nSpa at Intercourse",
+      "body": "A charming countryside retreat with a full-service spa. Perfect for a relaxing weekend getaway before the wedding."
+    },
+    {
+      "overline": "Lancaster County",
+      "heading": "AmishView Inn\n& Suites",
+      "body": "Wake up to stunning views of Amish farmland. Comfortable rooms with a country breakfast included."
+    },
+    {
+      "overline": "Bird-in-Hand · 15 min",
+      "heading": "Bird-in-Hand\nFamily Inn",
+      "body": "A family-owned inn with cozy rooms and a warm, welcoming atmosphere. Close to shops and restaurants."
+    },
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "Lancaster Arts Hotel",
+      "body": "A boutique hotel in a renovated tobacco warehouse. Original artwork throughout and a sophisticated, creative vibe."
+    },
+    {
+      "overline": "Strasburg · 15 min",
+      "heading": "The Limestone Inn",
+      "body": "A beautifully restored 1786 Georgian home. Intimate bed-and-breakfast with period charm and modern comforts."
     }
   ],
   "whereToEat": [
@@ -138,6 +163,21 @@
       "overline": "Intercourse · 20 min",
       "heading": "Kitchen Kettle\nVillage",
       "body": "A charming village complex with restaurants, jams, and local crafts. Great for browsing and a laid-back lunch."
+    },
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "Horse Inn",
+      "body": "A cozy neighborhood spot with creative cocktails and a seasonal small-plates menu. Great date-night energy."
+    },
+    {
+      "overline": "Lititz · 15 min",
+      "heading": "Bulls Head\nPublic House",
+      "body": "An award-winning gastropub in a historic building. Elevated comfort food and an excellent craft beer selection."
+    },
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "Rachel's Cafe\nand Creperie",
+      "body": "Perfect for brunch with sweet and savory crepes, fresh juices, and a charming sidewalk patio."
     }
   ],
   "activities": [
@@ -170,6 +210,21 @@
       "overline": "Intercourse · 20 min",
       "heading": "Kitchen Kettle\nVillage",
       "body": "Beyond dining — shop for locally made goods, watch artisan demonstrations, and soak in the countryside charm."
+    },
+    {
+      "overline": "Lititz · 15 min",
+      "heading": "Julius Sturgis\nPretzel Bakery",
+      "body": "America's first pretzel bakery. Take a hands-on tour, twist your own pretzel, and sample the originals."
+    },
+    {
+      "overline": "Lititz · 15 min",
+      "heading": "Lititz Springs Park\n& Main Street",
+      "body": "Stroll through one of America's coolest small towns. Boutique shops, chocolatiers, and a lovely spring-fed park."
+    },
+    {
+      "overline": "Lancaster County",
+      "heading": "Cherry Crest\nAdventure Farm",
+      "body": "A fun-filled family farm with a famous corn maze, wagon rides, and plenty of outdoor activities."
     }
   ],
   "rsvp": {
@@ -184,9 +239,9 @@
     "body": "Your presence is the greatest gift, but if you wish to celebrate with us, we've registered at the following:",
     "viewAllUrl": "#",
     "items": [
-      { "name": "Amazon", "url": "#", "description": "Everyday essentials and home goods." },
-      { "name": "Crate & Barrel", "url": "#", "description": "Modern cookware, dinnerware, and entertaining." },
-      { "name": "Zola", "url": "#", "description": "Our honeymoon fund and curated picks." }
+      { "name": "Our honeymoon", "url": "#", "description": "Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable." },
+      { "name": "Cooking", "url": "#", "description": "Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable." },
+      { "name": "House", "url": "#", "description": "Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable." }
     ],
     "photo": "/images/engagement-wide.jpg"
   },

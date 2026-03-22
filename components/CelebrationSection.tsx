@@ -1,67 +1,69 @@
-// Figma node: 267:6567
-// "Our Celebration" dark-burgundy section — event details, venue + wedding photos.
+'use client'
+// Figma node: 342:6179
+// "Our Celebration" section — event details, venue address, info rows + photos.
 
-import { EditableText } from './cms/EditableText';
-import { CelebrationContent, InfoRowData } from '@/types/content';
-import defaultContent from '@/content/content.json';
+import { ChevronRight } from '@mattplays/mpds/icons'
+import { EditableText } from './cms/EditableText'
+import { CelebrationContent, InfoRowData } from '@/types/content'
+import { useScrollSection } from '@/context/ThemeContext'
+import defaultContent from '@/content/content.json'
+
+// ─── Icons ───────────────────────────────────────────────────────────────────
 
 function SunIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <circle cx="11" cy="11" r="4.5" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="11" y1="1" x2="11" y2="3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="11" y1="18.5" x2="11" y2="21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="1" y1="11" x2="3.5" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="18.5" y1="11" x2="21" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="3.64" y1="3.64" x2="5.4" y2="5.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="16.6" y1="16.6" x2="18.36" y2="18.36" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="18.36" y1="3.64" x2="16.6" y2="5.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="5.4" y1="16.6" x2="3.64" y2="18.36" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" aria-hidden="true">
+      <circle cx="13.5" cy="13.5" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+      <line x1="13.5" y1="4.5" x2="13.5" y2="7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="13.5" y1="20" x2="13.5" y2="22.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="4.5" y1="13.5" x2="7" y2="13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="20" y1="13.5" x2="22.5" y2="13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="7.14" y1="7.14" x2="8.9" y2="8.9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="18.1" y1="18.1" x2="19.86" y2="19.86" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="19.86" y1="7.14" x2="18.1" y2="8.9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="8.9" y1="18.1" x2="7.14" y2="19.86" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
-  );
+  )
 }
 
 function CarIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <path d="M4 13h14M5.5 13l1.5-5h8l1.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <rect x="2" y="13" width="18" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="6" cy="18" r="1.5" fill="currentColor" />
-      <circle cx="16" cy="18" r="1.5" fill="currentColor" />
+    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" aria-hidden="true">
+      <path d="M6.5 16h14M8 16l1.5-5h8l1.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="4.5" y="16" width="18" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="8.5" cy="21" r="1.5" fill="currentColor" />
+      <circle cx="18.5" cy="21" r="1.5" fill="currentColor" />
     </svg>
-  );
+  )
 }
 
 function MapPinIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <path d="M11 2C8.24 2 6 4.24 6 7c0 4.25 5 10 5 10s5-5.75 5-10c0-2.76-2.24-5-5-5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <circle cx="11" cy="7" r="2" stroke="currentColor" strokeWidth="1.5" />
+    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" aria-hidden="true">
+      <path d="M13.5 5C10.74 5 8.5 7.24 8.5 10c0 4.25 5 10 5 10s5-5.75 5-10c0-2.76-2.24-5-5-5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <circle cx="13.5" cy="10" r="2" stroke="currentColor" strokeWidth="1.5" />
     </svg>
-  );
+  )
 }
 
 function getIcon(name: string) {
-  if (name === 'sun') return <SunIcon />;
-  if (name === 'car') return <CarIcon />;
-  return <MapPinIcon />;
+  if (name === 'sun') return <SunIcon />
+  if (name === 'car') return <CarIcon />
+  return <MapPinIcon />
 }
 
-interface InfoRowProps {
-  row: InfoRowData;
-  cmsPath: string;
-}
+// ─── Info Row ────────────────────────────────────────────────────────────────
 
-function InfoRow({ row, cmsPath }: InfoRowProps) {
+function InfoRow({ row, cmsPath }: { row: InfoRowData; cmsPath: string }) {
   return (
-    <div className="flex flex-col gap-2.5 w-full">
-      <div className="flex items-center gap-2.5 text-red-m-25">
+    <div className="flex flex-col gap-[10px] w-full">
+      <div className="flex items-start gap-[10px] text-[var(--theme-headline)]">
         <span className="shrink-0">{getIcon(row.icon)}</span>
         <EditableText
           tag="span"
           path={`${cmsPath}.label`}
-          className="font-instrument font-medium text-red-m-25 leading-tight font-instrument"
-          style={{ fontSize: 'var(--fs-2xl)', letterSpacing: '-0.02em' }}
+          className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
+          style={{ fontSize: 'var(--mpds-font-size-2xl)', letterSpacing: '-0.02em' }}
         >
           {row.label}
         </EditableText>
@@ -70,33 +72,42 @@ function InfoRow({ row, cmsPath }: InfoRowProps) {
         tag="p"
         path={`${cmsPath}.body`}
         multiline
-        className="font-instrument text-red-m-25 leading-relaxed font-instrument"
-        style={{ fontSize: 'var(--fs-lg)', opacity: 0.8 }}
+        className="font-instrument text-[var(--theme-text)] leading-[1.625]"
+        style={{ fontSize: 'var(--mpds-font-size-lg)' }}
       >
         {row.body}
       </EditableText>
     </div>
-  );
+  )
 }
 
+// ─── Section ─────────────────────────────────────────────────────────────────
+
 interface CelebrationSectionProps {
-  content?: CelebrationContent;
+  content?: CelebrationContent
 }
 
 export default function CelebrationSection({
   content = defaultContent.celebration as CelebrationContent,
 }: CelebrationSectionProps) {
-  return (
-    <section className="w-full flex justify-center py-sp-2xl" style={{ backgroundColor: '#320019' }}>
-      <div className="container-width flex flex-col gap-sp-xl">
+  const sectionRef = useScrollSection<HTMLElement>('maroon')
 
-        {/* ── Header row: title + description ── */}
-        <div className="flex items-end justify-between gap-sp-lg">
+  return (
+    <section
+      ref={sectionRef}
+      id="celebration"
+      className="w-full flex justify-center bg-[var(--theme-bg)]"
+      style={{ paddingTop: 'var(--sp-2xl)', paddingBottom: 'var(--sp-2xl)', transition: 'background-color 0.5s ease' }}
+    >
+      <div className="site-container flex flex-col" style={{ gap: 'var(--mpds-space-xl)' }}>
+
+        {/* ── Header: title + description ── */}
+        <div className="flex items-end justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
           <EditableText
             tag="h2"
             path="celebration.heading"
-            className="font-romie-trial font-light text-red-m-50 leading-none shrink-0"
-            style={{ fontSize: 'var(--fs-11xl)' }}
+            className="font-romie-trial font-light text-[var(--theme-headline)] leading-none shrink-0"
+            style={{ fontSize: 'var(--mpds-font-size-11xl)', transition: 'color 0.5s ease' }}
           >
             {content.heading}
           </EditableText>
@@ -104,51 +115,51 @@ export default function CelebrationSection({
             tag="p"
             path="celebration.description"
             multiline
-            className="font-instrument text-red-m-25 leading-relaxed font-instrument shrink-0"
-            style={{ fontSize: 'var(--fs-xl)', width: 'min(504px, 40%)', opacity: 0.8 }}
+            className="font-instrument text-[var(--theme-text)] leading-[1.625] shrink-0"
+            style={{ fontSize: 'var(--mpds-font-size-lg)', width: 'min(512px, 40%)', transition: 'color 0.5s ease' }}
           >
             {content.description}
           </EditableText>
         </div>
 
-        {/* ── Content row: details left, images right ── */}
-        <div className="flex items-start justify-between gap-sp-lg">
+        {/* ── Content: details left, photos right ── */}
+        <div className="relative flex items-start justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
 
-          {/* Left: event details */}
+          {/* Left column — event details + info + CTA */}
           <div
             className="flex flex-col justify-between self-stretch shrink-0"
-            style={{ width: 'min(615px, 48%)' }}
+            style={{ width: 'min(615px, 45%)', paddingBottom: 'var(--mpds-space-80)' }}
           >
             {/* Event details block */}
-            <div className="flex flex-col gap-sp-sm">
+            <div className="flex flex-col" style={{ gap: 'var(--mpds-space-md)' }}>
               <h3
-                className="font-instrument font-medium text-red-m-25 leading-tight font-instrument"
-                style={{ fontSize: 'var(--fs-7xl)', letterSpacing: '-0.02em' }}
+                className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
+                style={{ fontSize: 'var(--mpds-font-size-4xl)', letterSpacing: '-0.02em', transition: 'color 0.5s ease' }}
               >
-                Event details
+                Friday, August 28, 2026
               </h3>
 
-              {/* Time boxes */}
-              <div className="flex gap-2.5">
+              {/* Time boxes — left-bordered */}
+              <div className="flex" style={{ gap: 'var(--mpds-space-48)' }}>
                 {content.events.map((event, i) => (
                   <div
                     key={i}
-                    className="flex-1 flex flex-col gap-2.5 rounded-2xl p-4"
-                    style={{ border: '1px solid rgba(255,255,255,0.24)' }}
+                    className="flex-1 flex flex-col border-l border-[var(--theme-tonal)]"
+                    style={{ gap: '10px', padding: '16px' }}
                   >
                     <EditableText
                       tag="span"
                       path={`celebration.events.${i}.time`}
-                      className="font-romie-trial font-light text-red-m-50 leading-none whitespace-nowrap"
-                      style={{ fontSize: 'var(--fs-8xl)' }}
+                      className="font-romie-trial font-light text-[var(--theme-headline)] leading-none whitespace-nowrap"
+                      style={{ fontSize: 'var(--mpds-font-size-8xl)', transition: 'color 0.5s ease' }}
                     >
                       {event.time}
                     </EditableText>
                     <EditableText
                       tag="span"
                       path={`celebration.events.${i}.label`}
-                      className="font-instrument text-red-m-25 leading-relaxed font-instrument"
-                      style={{ fontSize: 'var(--fs-xl)', opacity: 0.8 }}
+                      className="font-instrument text-[var(--theme-text)] leading-[1.625]"
+                      style={{ fontSize: 'var(--mpds-font-size-xl)', transition: 'color 0.5s ease' }}
                     >
                       {event.label}
                     </EditableText>
@@ -156,65 +167,81 @@ export default function CelebrationSection({
                 ))}
               </div>
 
-              <EditableText
-                tag="p"
-                path="celebration.eventDetails"
-                multiline
-                className="font-instrument text-red-m-25 leading-relaxed font-instrument"
-                style={{ fontSize: 'var(--fs-xl)', opacity: 0.8, maxWidth: 504 }}
+              {/* Address box */}
+              <div
+                className="flex items-center w-full border border-[var(--theme-headline)]"
+                style={{ gap: '18px', padding: 'var(--mpds-space-16) var(--mpds-space-28)', transition: 'border-color 0.5s ease' }}
               >
-                {content.eventDetails}
-              </EditableText>
+                <span className="font-dm font-bold text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0">
+                  Excelsior
+                </span>
+                <span className="font-instrument text-[var(--theme-tonal)]">/</span>
+                <span className="font-dm font-bold text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0">
+                  125 E King Street
+                </span>
+                <span className="font-instrument text-[var(--theme-tonal)]">/</span>
+                <span className="font-dm font-bold text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase whitespace-nowrap font-dm-overline shrink-0">
+                  Lancaster, PA
+                </span>
+              </div>
             </div>
 
-            {/* Info rows */}
-            <div className="flex flex-col gap-sp-sm">
-              {content.infoRows.map((row, i) => (
-                <InfoRow key={i} row={row} cmsPath={`celebration.infoRows.${i}`} />
-              ))}
-            </div>
+            {/* Info rows + CTA */}
+            <div className="flex flex-col" style={{ gap: 'var(--mpds-space-48)' }}>
+              {/* Info rows */}
+              <div className="flex flex-col" style={{ gap: 'var(--mpds-space-32)' }}>
+                {content.infoRows.map((row, i) => (
+                  <InfoRow key={i} row={row} cmsPath={`celebration.infoRows.${i}`} />
+                ))}
+              </div>
 
-            {/* CTA row */}
-            <div className="flex items-center gap-sp-lg">
-              <a
-                href={content.rsvpUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-red-s-25 text-cool-green-600 font-instrument font-semibold rounded-lg px-8 py-4 text-fs-2xl leading-snug transition-opacity hover:opacity-90 font-instrument"
-              >
-                RSVP
-              </a>
-              <a
-                href={content.venueUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-instrument font-semibold text-red-s-25 leading-snug transition-opacity hover:opacity-70 font-instrument"
-                style={{ fontSize: 'var(--fs-2xl)' }}
-              >
-                Visit Excelsior website »
-              </a>
+              {/* CTA row */}
+              <div className="flex items-center" style={{ gap: 'var(--mpds-space-sm)' }}>
+                <a
+                  href={content.rsvpUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[var(--theme-action)] text-[var(--theme-btn-text)] font-instrument font-semibold rounded px-8 py-4 leading-[1.25] transition-opacity hover:opacity-90"
+                  style={{ fontSize: 'var(--mpds-font-size-lg)', transition: 'background-color 0.5s ease, color 0.5s ease' }}
+                >
+                  RSVP today
+                </a>
+                <a
+                  href={content.venueUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center font-instrument font-semibold text-[var(--theme-action)] leading-[1.25] transition-opacity hover:opacity-70"
+                  style={{ fontSize: 'var(--mpds-font-size-lg)', transition: 'color 0.5s ease' }}
+                >
+                  Visit the Excelsior website
+                  <ChevronRight className="shrink-0" />
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Right: images */}
-          <div className="relative shrink-0" style={{ width: 'min(616px, 48%)', height: 923 }}>
-            <div className="rounded-2xl overflow-hidden w-full h-full">
+          {/* Right column — photos */}
+          <div className="relative shrink-0" style={{ width: 'min(784px, 50%)', height: 1045 }}>
+            <div className="rounded-2xl overflow-hidden w-full h-full bg-[var(--theme-tonal)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={content.mainImage}
                 alt="Excelsior, Lancaster PA"
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover"
+                loading="eager"
               />
             </div>
+            {/* Overlapping smaller photo */}
             <div
-              className="absolute rounded-2xl overflow-hidden"
-              style={{ width: 320, height: 320, bottom: -48, right: -48 }}
+              className="absolute rounded-xl overflow-hidden"
+              style={{ width: 400, height: 400, bottom: -80, right: -48 }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={content.overlayImage}
                 alt="Sarah and Matt"
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover"
+                loading="eager"
               />
             </div>
           </div>
@@ -222,5 +249,5 @@ export default function CelebrationSection({
         </div>
       </div>
     </section>
-  );
+  )
 }

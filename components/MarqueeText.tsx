@@ -1,6 +1,6 @@
 'use client';
 // Figma node: 265:6227
-// Scroll-scrubbed display text with image fill clipped to glyphs.
+// Constant auto-scrolling display text with image fill clipped to glyphs.
 
 import { useEffect, useRef } from 'react';
 import defaultContent from '@/content/content.json';
@@ -12,52 +12,69 @@ interface MarqueeTextProps {
 }
 
 export default function MarqueeText({ text = defaultContent.marquee.text }: MarqueeTextProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const textRef    = useRef<HTMLParagraphElement>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
+  const animRef = useRef<number>();
+
+  const SPEED = 0.6; // px per frame
 
   useEffect(() => {
-    const section = sectionRef.current;
-    const textEl  = textRef.current;
-    if (!section || !textEl) return;
+    const strip = stripRef.current;
+    if (!strip) return;
 
-    const handleScroll = () => {
-      const rect     = section.getBoundingClientRect();
-      const vh       = window.innerHeight;
-      const raw      = 1 - rect.bottom / (vh + rect.height);
-      const progress = Math.max(0, Math.min(1, raw));
-      const overflow = Math.max(0, textEl.scrollWidth - window.innerWidth);
-      textEl.style.transform = `translateX(${-overflow * progress}px)`;
-    };
+    // Wait a frame for layout so scrollWidth is accurate
+    requestAnimationFrame(() => {
+      const setWidth = strip.scrollWidth / 2;
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+      let offset = 0;
+      const tick = () => {
+        offset += SPEED;
+        if (offset >= setWidth) offset -= setWidth;
+        strip.style.transform = `translateX(${-offset}px)`;
+        animRef.current = requestAnimationFrame(tick);
+      };
+      animRef.current = requestAnimationFrame(tick);
+    });
+
+    return () => { if (animRef.current) cancelAnimationFrame(animRef.current); };
   }, []);
+
+  const textStyle: React.CSSProperties = {
+    fontSize:             'clamp(96px, 22vw, 320px)',
+    paddingBottom:        '0.2em',
+    backgroundImage:      `url('${imgFill}'), linear-gradient(90deg, rgb(220, 211, 202) 0%, rgb(220, 211, 202) 100%)`,
+    backgroundSize:       'cover, auto auto',
+    backgroundRepeat:     'no-repeat, repeat',
+    backgroundPosition:   'center, top left',
+    WebkitBackgroundClip: 'text',
+    backgroundClip:       'text',
+    color:                'transparent',
+  };
 
   return (
     <section
-      ref={sectionRef}
+      data-theme="default"
       className="w-full overflow-hidden pt-6 pb-sp-2xl"
       aria-hidden="true"
     >
-      <p
-        ref={textRef}
-        className="font-romie font-light italic whitespace-nowrap leading-none inline-block"
-        style={{
-          fontSize:             'clamp(96px, 22vw, 320px)',
-          paddingBottom:        '0.2em',
-          backgroundImage:      `url('${imgFill}'), linear-gradient(90deg, rgb(220, 211, 202) 0%, rgb(220, 211, 202) 100%)`,
-          backgroundSize:       'cover, auto auto',
-          backgroundRepeat:     'no-repeat, repeat',
-          backgroundPosition:   'center, top left',
-          WebkitBackgroundClip: 'text',
-          backgroundClip:       'text',
-          color:                'transparent',
-          willChange:           'transform',
-        }}
+      <div
+        ref={stripRef}
+        className="flex whitespace-nowrap"
+        style={{ willChange: 'transform' }}
       >
-        {text}
-      </p>
+        {/* Render text twice for seamless loop */}
+        <p
+          className="font-romie font-light italic whitespace-nowrap leading-none shrink-0"
+          style={{ ...textStyle, paddingRight: '0.5em' }}
+        >
+          {text}
+        </p>
+        <p
+          className="font-romie font-light italic whitespace-nowrap leading-none shrink-0"
+          style={{ ...textStyle, paddingRight: '0.5em' }}
+        >
+          {text}
+        </p>
+      </div>
     </section>
   );
 }

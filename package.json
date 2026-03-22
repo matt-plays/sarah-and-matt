@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "node scripts/build-mpds-tokens.mjs"
   },
   "dependencies": {
+    "@mattplays/mpds": "github:matt-plays/mpds",
+    "@paper-design/shaders-react": "^0.0.72",
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
