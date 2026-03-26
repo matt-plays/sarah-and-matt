@@ -74,13 +74,14 @@ const PHOTO_PAIRS: Record<PhotoVariant, [string, string]> = {
 const ITEM_W = 536
 
 function TimelineRuler() {
+  const [hoveredTick, setHoveredTick] = useState<number | null>(null)
   const MAJOR = 80
   const MED   = 48
   const MINOR = 32
   const STEP  = 8                          // 8px grid — ITEM_W must be a multiple of 8
   const count = Math.floor(ITEM_W / STEP) // 536 / 8 = 67 ticks, no remainder
 
-  const tickHeight = (i: number) => {
+  const baseHeight = (i: number) => {
     if (i === 1)            return MAJOR  // event marker
     if (i === 0 || i === 2) return MED    // flanking markers
     if (i === count - 1)    return MED    // end cap
@@ -88,23 +89,29 @@ function TimelineRuler() {
   }
 
   return (
-    // Ruler always renders at full opacity — ticks are consistent across all states
-    // Uses CSS divs instead of SVG for reliable hover interactions
-    <div className="relative shrink-0 flex" style={{ width: ITEM_W, height: MAJOR }} aria-hidden="true">
-      {/* Horizontal baseline */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-[var(--theme-tonal)]" />
-      {/* Ticks — outer div is the hover target (padded), inner div is the visible 1px line */}
-      {Array.from({ length: count }, (_, i) => (
-        <div
-          key={i}
-          className="absolute top-0 group"
-          style={{ left: i * STEP - 3, width: 7, height: tickHeight(i), cursor: 'default' }}
-        >
+    // Hover targets span the full MAJOR height so small ticks are easy to hit.
+    // Height is animated via inline style — scale-y was unreliable on short ticks.
+    <div className="relative shrink-0" style={{ width: ITEM_W, height: MAJOR }} aria-hidden="true">
+      {Array.from({ length: count }, (_, i) => {
+        const base = baseHeight(i)
+        const dist = hoveredTick === null ? Infinity : Math.abs(i - hoveredTick)
+        const bump = Math.max(0, 14 - dist * 4)  // 14, 10, 6, 2, 0 at distances 0–4
+        const h = Math.min(base + bump, MAJOR)
+        return (
           <div
-            className="absolute left-[3px] top-0 w-px h-full bg-[var(--theme-tonal)] origin-top transition-transform duration-200 group-hover:scale-y-[1.15]"
-          />
-        </div>
-      ))}
+            key={i}
+            className="absolute top-0"
+            style={{ left: i * STEP - 3, width: 7, height: MAJOR, cursor: 'default' }}
+            onMouseEnter={() => setHoveredTick(i)}
+            onMouseLeave={() => setHoveredTick(null)}
+          >
+            <div
+              className="absolute left-[3px] top-0 w-px bg-[var(--theme-tonal)]"
+              style={{ height: h, transition: 'height 120ms ease-out' }}
+            />
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -268,14 +275,14 @@ export default function TimelineSection() {
   return (
     <section
       data-theme="default"
-      className="w-full bg-[var(--theme-bg)] overflow-hidden"
+      className="w-full bg-[var(--theme-bg)]"
       style={{ paddingTop: 'var(--site-section-padding)', paddingBottom: 'var(--sp-2xl)' }}
     >
+      {/* Header stays within the container */}
       <div
-        className="site-container flex flex-col"
-        style={{ gap: 'var(--mpds-space-48)' }}
+        className="site-container"
+        style={{ marginBottom: 'var(--mpds-space-48)' }}
       >
-        {/* Section header + arrow controls */}
         <div className="flex items-center justify-between w-full">
           <h2
             className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
@@ -288,25 +295,28 @@ export default function TimelineSection() {
             <ArrowButton direction="right" onClick={() => scroll('right')} disabled={!canScrollRight} />
           </div>
         </div>
+      </div>
 
-        {/* Scrollable items — no gap so rulers form one continuous line */}
-        <div
-          ref={scrollRef}
-          className="w-full overflow-x-auto scrollbar-none"
-          onScroll={handleScroll}
-        >
-          <div className="flex">
-            {ENTRIES.map((entry) => (
-              <Item
-                key={entry.id}
-                entry={entry}
-                isHovered={hoveredId === entry.id}
-                isOtherHovered={hoveredId !== null && hoveredId !== entry.id}
-                onMouseEnter={() => setHoveredId(entry.id)}
-                onMouseLeave={() => setHoveredId(null)}
-              />
-            ))}
-          </div>
+      {/* Scrollable — left edge aligns with container content, right edge bleeds to viewport */}
+      <div
+        ref={scrollRef}
+        className="w-full overflow-x-auto scrollbar-none"
+        style={{
+          paddingLeft: 'max(var(--site-section-padding), calc((100vw - var(--site-container-width)) / 2 + var(--site-section-padding)))',
+        }}
+        onScroll={handleScroll}
+      >
+        <div className="flex">
+          {ENTRIES.map((entry) => (
+            <Item
+              key={entry.id}
+              entry={entry}
+              isHovered={hoveredId === entry.id}
+              isOtherHovered={hoveredId !== null && hoveredId !== entry.id}
+              onMouseEnter={() => setHoveredId(entry.id)}
+              onMouseLeave={() => setHoveredId(null)}
+            />
+          ))}
         </div>
       </div>
     </section>
