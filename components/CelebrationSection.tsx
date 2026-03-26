@@ -3,10 +3,8 @@
 // "Our Celebration" section — event details, venue address, info rows + photos.
 
 import { ChevronRight } from '@mattplays/mpds/icons'
-import { EditableText } from './cms/EditableText'
 import { CelebrationContent, InfoRowData } from '@/types/content'
 import { useScrollSection } from '@/context/ThemeContext'
-import defaultContent from '@/content/content.json'
 
 // ─── Icons ───────────────────────────────────────────────────────────────────
 
@@ -54,42 +52,31 @@ function getIcon(name: string) {
 
 // ─── Info Row ────────────────────────────────────────────────────────────────
 
-function InfoRow({ row, cmsPath }: { row: InfoRowData; cmsPath: string }) {
+function InfoRow({ row }: { row: InfoRowData }) {
   return (
     <div className="flex flex-col gap-[10px] w-full">
       <div className="flex items-start gap-[10px] text-[var(--theme-headline)]">
         <span className="shrink-0">{getIcon(row.icon)}</span>
-        <EditableText
-          tag="span"
-          path={`${cmsPath}.label`}
+        <span
           className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
           style={{ fontSize: 'var(--mpds-font-size-2xl)', letterSpacing: '-0.02em' }}
         >
           {row.label}
-        </EditableText>
+        </span>
       </div>
-      <EditableText
-        tag="p"
-        path={`${cmsPath}.body`}
-        multiline
+      <p
         className="font-instrument text-[var(--theme-text)] leading-[1.625]"
         style={{ fontSize: 'var(--mpds-font-size-lg)' }}
       >
         {row.body}
-      </EditableText>
+      </p>
     </div>
   )
 }
 
 // ─── Section ─────────────────────────────────────────────────────────────────
 
-interface CelebrationSectionProps {
-  content?: CelebrationContent
-}
-
-export default function CelebrationSection({
-  content = defaultContent.celebration as CelebrationContent,
-}: CelebrationSectionProps) {
+export default function CelebrationSection({ content }: { content: CelebrationContent }) {
   const sectionRef = useScrollSection<HTMLElement>('maroon')
 
   return (
@@ -103,23 +90,18 @@ export default function CelebrationSection({
 
         {/* ── Header: title + description ── */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
-          <EditableText
-            tag="h2"
-            path="celebration.heading"
+          <h2
             className="font-romie-trial font-light text-[var(--theme-headline)] leading-none shrink-0"
             style={{ fontSize: 'var(--mpds-font-size-11xl)', transition: 'color 0.5s ease' }}
           >
             {content.heading}
-          </EditableText>
-          <EditableText
-            tag="p"
-            path="celebration.description"
-            multiline
+          </h2>
+          <p
             className="font-instrument text-[var(--theme-text)] leading-[1.625] md:shrink-0"
             style={{ fontSize: 'var(--mpds-font-size-lg)', maxWidth: 512, transition: 'color 0.5s ease' }}
           >
             {content.description}
-          </EditableText>
+          </p>
         </div>
 
         {/* ── Content: details left, photos right ── */}
@@ -147,22 +129,18 @@ export default function CelebrationSection({
                     className="flex-1 flex flex-col border-l border-[var(--theme-tonal)]"
                     style={{ gap: '10px', padding: '16px' }}
                   >
-                    <EditableText
-                      tag="span"
-                      path={`celebration.events.${i}.time`}
+                    <span
                       className="font-romie-trial font-light text-[var(--theme-headline)] leading-none whitespace-nowrap"
                       style={{ fontSize: 'var(--mpds-font-size-8xl)', transition: 'color 0.5s ease' }}
                     >
                       {event.time}
-                    </EditableText>
-                    <EditableText
-                      tag="span"
-                      path={`celebration.events.${i}.label`}
+                    </span>
+                    <span
                       className="font-instrument text-[var(--theme-text)] leading-[1.625]"
                       style={{ fontSize: 'var(--mpds-font-size-xl)', transition: 'color 0.5s ease' }}
                     >
                       {event.label}
-                    </EditableText>
+                    </span>
                   </div>
                 ))}
               </div>
@@ -191,7 +169,7 @@ export default function CelebrationSection({
               {/* Info rows */}
               <div className="flex flex-col" style={{ gap: 'var(--mpds-space-32)' }}>
                 {content.infoRows.map((row, i) => (
-                  <InfoRow key={i} row={row} cmsPath={`celebration.infoRows.${i}`} />
+                  <InfoRow key={i} row={row} />
                 ))}
               </div>
 

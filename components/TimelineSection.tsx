@@ -3,8 +3,9 @@
 import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { ArrowLeft, ArrowRight } from '@mattplays/mpds/icons'
+import type { StoryCard } from '@/types/content'
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 type PhotoVariant = 'BTV' | 'COVID' | 'Poconos' | 'Engaged' | 'Excelsior'
 
@@ -16,50 +17,8 @@ interface TimelineEntry {
   photoVariant: PhotoVariant | null
 }
 
-const ENTRIES: TimelineEntry[] = [
-  {
-    id: 'btv',
-    year: '2018',
-    heading: 'First dates in\nBurlington, VT',
-    body: 'Wintertime hot toddies brought us together for our first dates in Burlington. And while the timing wasn\'t exactly on our side, a beautiful seed was surely planted.',
-    photoVariant: 'BTV',
-  },
-  {
-    id: 'covid',
-    year: '2020',
-    heading: 'Kept in touch\nduring the pandemic',
-    body: 'Sarah was getter her Master\'s in Syracuse, Matt bought a houses to Massachusetts, and the world changed entirely. Many texts and Skype calls spanned the distance.',
-    photoVariant: 'COVID',
-  },
-  {
-    id: 'poconos',
-    year: '2024',
-    heading: 'Reconnected in\nthe Poconos',
-    body: 'Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit.',
-    photoVariant: 'Poconos',
-  },
-  {
-    id: 'engaged',
-    year: '2025',
-    heading: 'Got engaged in\nHudson, NY',
-    body: 'Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit.',
-    photoVariant: 'Engaged',
-  },
-  {
-    id: 'moved',
-    year: '2025',
-    heading: 'Sarah moved to\nMassachusetts',
-    body: 'Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit.',
-    photoVariant: null,
-  },
-  {
-    id: 'excelsior',
-    year: '2026',
-    heading: 'The Big Day',
-    body: 'Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit.',
-    photoVariant: 'Excelsior',
-  },
-]
+// Photo variants assigned by position — tied to specific image files
+const PHOTO_VARIANTS: (PhotoVariant | null)[] = ['BTV', 'COVID', 'Poconos', 'Engaged', null, null, 'Excelsior']
 
 const PHOTO_PAIRS: Record<PhotoVariant, [string, string]> = {
   BTV:       ['/images/timeline/wedding-site--timeline-vingnette-01-left.png',  '/images/timeline/wedding-site--timeline-vingnette-01-right.png'],
@@ -255,7 +214,15 @@ function Item({ entry, isHovered, isOtherHovered, onMouseEnter, onMouseLeave }: 
 
 // ─── Section ──────────────────────────────────────────────────────────────────
 
-export default function TimelineSection() {
+export default function TimelineSection({ story }: { story: StoryCard[] }) {
+  const entries: TimelineEntry[] = story.map((card, i) => ({
+    id:           card.id,
+    year:         card.year,
+    heading:      card.heading,
+    body:         card.body,
+    photoVariant: PHOTO_VARIANTS[i] ?? null,
+  }))
+
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
@@ -307,7 +274,7 @@ export default function TimelineSection() {
         onScroll={handleScroll}
       >
         <div className="flex">
-          {ENTRIES.map((entry) => (
+          {entries.map((entry) => (
             <Item
               key={entry.id}
               entry={entry}
