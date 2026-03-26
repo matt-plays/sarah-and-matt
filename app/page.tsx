@@ -8,44 +8,50 @@ import TravelSection from '@/components/TravelSection';
 import RSVPSection from '@/components/RSVPSection';
 import RegistrySection from '@/components/RegistrySection';
 import SiteFooter from '@/components/SiteFooter';
-import content from '@/content/content.json';
-import { SiteContent } from '@/types/content';
+import { getNotionContent } from '@/lib/notion';
 
-const c = content as SiteContent;
+// Revalidate page content from Notion every hour
+export const revalidate = 3600;
 
-// ─── Page ─────────────────────────────────────────────────────────
+export default async function Home() {
+  const c = await getNotionContent();
 
-export default function Home() {
   return (
     <main>
-      {/* ① Sticky nav — must be before Hero (Hero has overflow-hidden which breaks sticky) */}
+      {/* ① Sticky nav */}
       <SiteNav />
 
-      {/* ② Hero — invitation card + building illustration */}
+      {/* ② Hero */}
       <Hero />
 
-      {/* ③ Timeline — "A tale as old as time" horizontal scroll */}
-      <TimelineSection />
+      {/* ③ Timeline */}
+      <TimelineSection story={c.story} />
 
-      {/* ④ Photo gallery — auto-scrolling looping strip */}
+      {/* ④ Photo gallery */}
       <TimelineGallery />
 
-      {/* ⑤ Marquee overflow text */}
+      {/* ⑤ Marquee */}
       <MarqueeText text={c.marquee.text} />
 
-      {/* ⑥ Our Celebration — dark burgundy section with venue + event details */}
+      {/* ⑥ Our Celebration */}
       <CelebrationSection content={c.celebration} />
 
-      {/* ⑦ Travel & Stay — category nav + card grid + CMYK shader bg */}
-      <TravelSection />
+      {/* ⑦ Travel & Stay */}
+      <TravelSection
+        heading={c.travel.heading}
+        body={c.travel.body}
+        whereToStay={c.whereToStay}
+        whereToEat={c.whereToEat}
+        activities={c.activities}
+      />
 
-      {/* ⑧ RSVP — green theme + photo strip */}
-      <RSVPSection />
+      {/* ⑧ RSVP */}
+      <RSVPSection rsvp={c.rsvp} />
 
-      {/* ⑨ Registry — taupe theme + photo */}
-      <RegistrySection />
+      {/* ⑨ Registry */}
+      <RegistrySection registry={c.registry} />
 
-      {/* ⑩ Footer — dark footer theme */}
+      {/* ⑩ Footer */}
       <SiteFooter />
     </main>
   );

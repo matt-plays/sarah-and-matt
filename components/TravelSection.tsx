@@ -3,16 +3,9 @@
 // "Travel & Stay" — category nav switches a 3-col card grid. CMYK shader bg image.
 
 import { useState, useEffect, useRef } from 'react'
-import { SiteContent } from '@/types/content'
-import defaultContent from '@/content/content.json'
+import { TravelCard } from '@/types/content'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-
-interface CardData {
-  overline: string
-  heading: string
-  body: string
-}
 
 type Category = 'stay' | 'eat' | 'do'
 
@@ -30,7 +23,7 @@ const CATEGORY_IMAGES: Record<Category, string> = {
 
 // ─── Card ────────────────────────────────────────────────────────────────────
 
-function RecommendationCard({ card, index }: { card: CardData; index: number }) {
+function RecommendationCard({ card, index }: { card: TravelCard; index: number }) {
   const [visible, setVisible] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -80,16 +73,22 @@ function RecommendationCard({ card, index }: { card: CardData; index: number }) 
 
 // ─── Section ─────────────────────────────────────────────────────────────────
 
-const c = defaultContent as SiteContent
+interface TravelSectionProps {
+  heading: string
+  body: string
+  whereToStay: TravelCard[]
+  whereToEat: TravelCard[]
+  activities: TravelCard[]
+}
 
-export default function TravelSection() {
+export default function TravelSection({ heading, body, whereToStay, whereToEat, activities }: TravelSectionProps) {
   const [active, setActive] = useState<Category>('eat') // eat first to show Luca image
   const [cardKey, setCardKey] = useState(0)
 
-  const cardMap: Record<Category, CardData[]> = {
-    stay: c.whereToStay,
-    eat: c.whereToEat,
-    do: c.activities,
+  const cardMap: Record<Category, TravelCard[]> = {
+    stay: whereToStay,
+    eat:  whereToEat,
+    do:   activities,
   }
 
   const cards = cardMap[active]
@@ -113,13 +112,13 @@ export default function TravelSection() {
             className="font-romie-trial font-light text-[var(--theme-headline)] leading-none shrink-0"
             style={{ fontSize: 'var(--mpds-font-size-11xl)' }}
           >
-            Travel &amp; Stay
+            {heading}
           </h2>
           <p
             className="font-instrument text-[var(--theme-text)] leading-[1.625] md:shrink-0"
             style={{ fontSize: 'var(--mpds-font-size-lg)', maxWidth: 512 }}
           >
-            Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable.
+            {body}
           </p>
         </div>
       </section>

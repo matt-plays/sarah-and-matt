@@ -5,10 +5,7 @@
 
 import { useScrollSection, useTheme } from '@/context/ThemeContext'
 import Button from './Button'
-import { SiteContent } from '@/types/content'
-import defaultContent from '@/content/content.json'
-
-const c = defaultContent as SiteContent
+import { RSVPContent } from '@/types/content'
 
 const PHOTO_STRIP = [
   '/images/wedding-site--rsvp-01.png',
@@ -17,10 +14,10 @@ const PHOTO_STRIP = [
   '/images/wedding-site--rsvp-04.png',
 ]
 
-export default function RSVPSection() {
+export default function RSVPSection({ rsvp }: { rsvp: RSVPContent }) {
   const sectionRef = useScrollSection<HTMLElement>('green')
   const { activeTheme } = useTheme()
-  const content = c.rsvp
+  const content = rsvp
 
   // Green until taupe takes over. Once taupe, stay taupe (even when body reverts to default at footer).
   const localTheme = activeTheme === 'taupe' ? 'taupe' : 'green'

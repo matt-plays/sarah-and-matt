@@ -5,19 +5,16 @@
 import { useScrollSection, useTheme } from '@/context/ThemeContext'
 import { Sunrise2, Pot2, Home } from '@mattplays/mpds/icons'
 import Button from './Button'
-import { SiteContent } from '@/types/content'
-import defaultContent from '@/content/content.json'
-
-const c = defaultContent as SiteContent
+import { RegistryContent } from '@/types/content'
 
 const REGISTRY_ICONS = [Sunrise2, Pot2, Home]
 
 // ─── Section ─────────────────────────────────────────────────────────────────
 
-export default function RegistrySection() {
+export default function RegistrySection({ registry }: { registry: RegistryContent }) {
   const sectionRef = useScrollSection<HTMLElement>('taupe')
   const { activeTheme } = useTheme()
-  const content = c.registry
+  const content = registry
 
   // Green until taupe takes over. Once taupe, stay taupe (even when body reverts to default at footer).
   const localTheme = activeTheme === 'taupe' ? 'taupe' : 'green'
