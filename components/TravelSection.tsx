@@ -56,20 +56,20 @@ function RecommendationCard({ card, index }: { card: CardData; index: number }) 
     >
       <span
         className="font-dm font-bold text-[var(--theme-action)] uppercase tracking-[0.12em] leading-[1.125]"
-        style={{ fontSize: 'var(--mpds-font-size-2xs)' }}
+        style={{ fontSize: 'var(--mpds-font-size-xs)' }}
       >
         {card.overline}
       </span>
       <div className="flex flex-col" style={{ gap: 'var(--mpds-space-4)' }}>
         <p
           className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-pre-line"
-          style={{ fontSize: 'var(--mpds-font-size-md)', letterSpacing: '-0.02em' }}
+          style={{ fontSize: 'var(--mpds-font-size-lg)', letterSpacing: '-0.02em' }}
         >
           {card.heading}
         </p>
         <p
           className="font-instrument text-[var(--theme-text)] leading-[1.5]"
-          style={{ fontSize: 'var(--mpds-font-size-xs)' }}
+          style={{ fontSize: 'var(--mpds-font-size-sm)' }}
         >
           {card.body}
         </p>
