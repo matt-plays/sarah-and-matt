@@ -255,7 +255,7 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
             className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
             style={{ fontSize: 'clamp(32px, 2vw + 20px, 48px)', letterSpacing: '-0.02em' }}
           >
-            Our long and winding road
+            Our winding road
           </h2>
           <div className="hidden md:flex gap-2 shrink-0">
             <ArrowButton direction="left" onClick={() => scroll('left')} disabled={!canScrollLeft} />
