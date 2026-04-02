@@ -53,6 +53,24 @@ function getIcon(name: string) {
 // ─── Info Row ────────────────────────────────────────────────────────────────
 
 function InfoRow({ row }: { row: InfoRowData }) {
+  const bodyContent = row.bodySegments
+    ? row.bodySegments.map((seg, i) =>
+        seg.href ? (
+          <a
+            key={i}
+            href={seg.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-[var(--theme-action)] hover:opacity-70 transition-opacity"
+          >
+            {seg.text}
+          </a>
+        ) : (
+          <span key={i}>{seg.text}</span>
+        )
+      )
+    : row.body
+
   return (
     <div className="flex flex-col gap-[10px] w-full">
       <div className="flex items-start gap-[10px] text-[var(--theme-headline)]">
@@ -68,7 +86,7 @@ function InfoRow({ row }: { row: InfoRowData }) {
         className="font-instrument text-[var(--theme-text)] leading-[1.625]"
         style={{ fontSize: 'var(--mpds-font-size-lg)' }}
       >
-        {row.body}
+        {bodyContent}
       </p>
     </div>
   )

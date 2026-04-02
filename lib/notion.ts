@@ -32,8 +32,18 @@ function getTitle(page: NotionPage, key: string): string {
 
 function getText(page: NotionPage, key: string): string {
   const prop = page.properties[key]
-  if (prop?.type === 'rich_text') return prop.rich_text[0]?.plain_text ?? ''
+  if (prop?.type === 'rich_text') return prop.rich_text.map((rt: NotionPage) => rt.plain_text ?? '').join('')
   return ''
+}
+
+// Returns rich-text segments with optional href — null if no links present (plain text only).
+function getRichTextSegments(page: NotionPage, key: string): { text: string; href?: string }[] | null {
+  const prop = page.properties[key]
+  if (prop?.type !== 'rich_text') return null
+  const segments = prop.rich_text
+    .map((rt: NotionPage) => ({ text: rt.plain_text ?? '', href: rt.href ?? undefined }))
+    .filter((s: { text: string }) => s.text)
+  return segments.some((s: { href?: string }) => s.href) ? segments : null
 }
 
 function getNumber(page: NotionPage, key: string): number {
@@ -127,9 +137,10 @@ export async function getNotionContent(): Promise<SiteContent> {
         })),
         eventDetails: get('celebration.eventDetails', fallback.celebration.eventDetails),
         infoRows: sortedMap(infoRowPages, (p) => ({
-          icon:  getText(p, 'Icon'),
-          label: getTitle(p, 'Label'),
-          body:  getText(p, 'Body'),
+          icon:         getText(p, 'Icon'),
+          label:        getTitle(p, 'Label'),
+          body:         getText(p, 'Body'),
+          bodySegments: getRichTextSegments(p, 'Body') ?? undefined,
         })),
         rsvpUrl:      get('celebration.rsvpUrl',      fallback.celebration.rsvpUrl),
         venueUrl:     get('celebration.venueUrl',     fallback.celebration.venueUrl),

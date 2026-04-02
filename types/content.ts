@@ -23,10 +23,16 @@ export interface CelebrationEvent {
   label: string;
 }
 
+export interface RichTextSegment {
+  text: string;
+  href?: string;
+}
+
 export interface InfoRowData {
   icon: string;
   label: string;
   body: string;
+  bodySegments?: RichTextSegment[];
 }
 
 export interface CelebrationContent {
