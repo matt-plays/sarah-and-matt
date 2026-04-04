@@ -172,7 +172,7 @@ function Item({ entry, isHovered, isOtherHovered, onMouseEnter, onMouseLeave }: 
         <div className="relative flex items-center gap-[10px] w-full">
           <Dot active={isHovered} />
           <span
-            className="flex-1 font-dm font-bold uppercase text-[var(--theme-action)] leading-[1.125] tracking-[0.12em]"
+            className="flex-1 font-spezia uppercase text-[var(--theme-action)] leading-[1.125] tracking-[0.12em]"
             style={{ fontSize: 'var(--mpds-font-size-sm)' }}
           >
             {entry.year}

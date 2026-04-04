@@ -48,7 +48,7 @@ function RecommendationCard({ card, index }: { card: TravelCard; index: number }
       }}
     >
       <span
-        className="font-dm font-bold text-[var(--theme-action)] uppercase tracking-[0.12em] leading-[1.125]"
+        className="font-spezia text-[var(--theme-action)] uppercase tracking-[0.12em] leading-[1.125]"
         style={{ fontSize: 'var(--mpds-font-size-xs)' }}
       >
         {card.overline}

@@ -80,6 +80,7 @@ const config: Config = {
         instrument: ["Instrument Sans", "system-ui", "sans-serif"],
         dm: ["DM Sans", "system-ui", "sans-serif"],
         "gans-fleurons": ["Gans Classical Fleurons", "serif"],
+        spezia: ["Spezia Extended", "system-ui", "sans-serif"],
       },
       maxWidth: {
         container: "1600px",
