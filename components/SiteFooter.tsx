@@ -16,7 +16,7 @@ function HRLine() {
 function SlashSep() {
   return (
     <span
-      className="font-dm font-bold text-[var(--theme-text)] uppercase tracking-[0.12em] opacity-40 select-none"
+      className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] opacity-40 select-none"
       style={{ fontSize: 'var(--mpds-font-size-sm)' }}
     >
       /
@@ -68,14 +68,14 @@ export default function SiteFooter() {
             style={{ gap: 'var(--mpds-space-12)' }}
           >
             <span
-              className="font-dm font-bold text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
+              className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
               style={{ fontSize: 'var(--mpds-font-size-sm)' }}
             >
               Friday, August 28th
             </span>
             <HRLine />
             <span
-              className="font-dm font-bold text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
+              className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
               style={{ fontSize: 'var(--mpds-font-size-sm)' }}
             >
               2026
@@ -94,21 +94,21 @@ export default function SiteFooter() {
             }}
           >
             <span
-              className="font-dm font-bold text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
+              className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
               style={{ fontSize: 'var(--mpds-font-size-sm)' }}
             >
               Excelsior
             </span>
             <SlashSep />
             <span
-              className="font-dm font-bold text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
+              className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
               style={{ fontSize: 'var(--mpds-font-size-sm)' }}
             >
               125 E King Street
             </span>
             <SlashSep />
             <span
-              className="font-dm font-bold text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
+              className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
               style={{ fontSize: 'var(--mpds-font-size-sm)' }}
             >
               Lancaster, PA
@@ -121,14 +121,14 @@ export default function SiteFooter() {
             style={{ gap: 'var(--mpds-space-12)' }}
           >
             <span
-              className="font-dm font-bold text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
+              className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
               style={{ fontSize: 'var(--mpds-font-size-sm)' }}
             >
               5 o&apos;clock
             </span>
             <HRLine />
             <span
-              className="font-dm font-bold text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
+              className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
               style={{ fontSize: 'var(--mpds-font-size-sm)' }}
             >
               in the afternoon

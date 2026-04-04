@@ -22,7 +22,7 @@ export default function StorySection({ cards = [] }: StorySectionProps) {
             }}
           >
             <p
-              className="font-dm font-bold text-yellow-s-300 uppercase tracking-[0.12em] font-dm-overline"
+              className="font-spezia text-yellow-s-300 uppercase tracking-[0.12em]"
               style={{ fontSize: 'var(--fs-sm)' }}
             >
               {card.year}

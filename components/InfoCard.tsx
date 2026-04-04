@@ -11,7 +11,7 @@ interface InfoCardProps {
 export default function InfoCard({ overline, heading, body }: InfoCardProps) {
   return (
     <article className="border border-clay-50 rounded-2xl p-sp-md flex flex-col gap-sp-lg">
-      <p className="font-dm font-bold text-fs-sm text-yellow-s-300 uppercase tracking-[0.12em] font-dm-overline">
+      <p className="font-spezia text-fs-sm text-yellow-s-300 uppercase tracking-[0.12em]">
         {overline}
       </p>
       <div className="flex flex-col gap-6">
