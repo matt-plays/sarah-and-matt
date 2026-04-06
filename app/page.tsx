@@ -18,11 +18,11 @@ export default async function Home() {
 
   return (
     <main>
-      {/* ① Sticky nav */}
-      <SiteNav />
-
-      {/* ② Hero */}
-      <Hero />
+      {/* ① Hero + inline nav wrapper */}
+      <div className="relative" style={{ marginBottom: 'var(--sp-2xl)' }}>
+        <Hero />
+        <SiteNav />
+      </div>
 
       {/* ③ Timeline */}
       <TimelineSection story={c.story} />

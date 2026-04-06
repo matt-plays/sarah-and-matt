@@ -10,6 +10,7 @@
     "postinstall": "node scripts/build-mpds-tokens.mjs"
   },
   "dependencies": {
+    "@chenglou/pretext": "^0.0.4",
     "@mattplays/mpds": "github:matt-plays/mpds",
     "@notionhq/client": "^5.15.0",
     "@paper-design/shaders-react": "^0.0.72",

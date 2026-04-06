@@ -41,7 +41,7 @@ export default function RegistrySection({ registry }: { registry: RegistryConten
           {/* Top group: heading + body + CTA */}
           <div className="flex flex-col items-start" style={{ gap: 'var(--mpds-space-80)' }}>
             <h2
-              className="font-romie-trial font-light text-[var(--theme-headline)] leading-none w-full"
+              className="font-romie font-light text-[var(--theme-headline)] leading-none w-full"
               style={{ fontSize: 'var(--mpds-font-size-11xl)' }}
             >
               {content.heading}

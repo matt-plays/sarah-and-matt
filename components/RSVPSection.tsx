@@ -41,7 +41,7 @@ export default function RSVPSection({ rsvp }: { rsvp: RSVPContent }) {
         {/* ── Heading + CTA row ── */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
           <h2
-            className="font-romie-trial font-light text-[var(--theme-headline)] leading-none flex-1 min-w-0"
+            className="font-romie font-light text-[var(--theme-headline)] leading-none flex-1 min-w-0"
             style={{ fontSize: 'var(--mpds-font-size-11xl)', transition: 'color 0.5s ease' }}
           >
             Let us know if{'\n'}you can make it

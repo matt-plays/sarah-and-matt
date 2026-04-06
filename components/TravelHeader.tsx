@@ -11,7 +11,7 @@ export default function TravelHeader({ content }: TravelHeaderProps) {
     <section id="travel" data-theme="default" className="w-full flex justify-center pb-sp-2xl">
       <div className="container-width flex items-end justify-between gap-sp-lg">
         <h2
-          className="font-romie-trial font-light text-cool-green-600 leading-none shrink-0"
+          className="font-romie font-light text-cool-green-600 leading-none shrink-0"
           style={{ fontSize: 'var(--fs-11xl)' }}
         >
           {content.heading}

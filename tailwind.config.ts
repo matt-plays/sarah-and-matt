@@ -76,7 +76,6 @@ const config: Config = {
       },
       fontFamily: {
         romie: ["Romie", "Cormorant Garamond", "Georgia", "serif"],
-        "romie-trial": ["Romie Trial", "Romie", "Cormorant Garamond", "serif"],
         instrument: ["Instrument Sans", "system-ui", "sans-serif"],
         dm: ["DM Sans", "system-ui", "sans-serif"],
         "gans-fleurons": ["Gans Classical Fleurons", "serif"],

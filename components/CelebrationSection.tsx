@@ -1,58 +1,61 @@
 'use client'
 // Figma node: 342:6179
-// "Our Celebration" section — event details, venue address, info rows + photos.
+// "Our Celebration" section — event details, venue address, accordion info rows + photos.
 
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { prepare, layout, type PreparedText } from '@chenglou/pretext'
 import { ChevronRight } from '@mattplays/mpds/icons'
 import { CelebrationContent, InfoRowData } from '@/types/content'
 import { useScrollSection } from '@/context/ThemeContext'
 
-// ─── Icons ───────────────────────────────────────────────────────────────────
+// ─── Accordion Item ─────────────────────────────────────────────────────────
 
-function SunIcon() {
-  return (
-    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" aria-hidden="true">
-      <circle cx="13.5" cy="13.5" r="4.5" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="13.5" y1="4.5" x2="13.5" y2="7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="13.5" y1="20" x2="13.5" y2="22.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="4.5" y1="13.5" x2="7" y2="13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="20" y1="13.5" x2="22.5" y2="13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="7.14" y1="7.14" x2="8.9" y2="8.9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="18.1" y1="18.1" x2="19.86" y2="19.86" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="19.86" y1="7.14" x2="18.1" y2="8.9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="8.9" y1="18.1" x2="7.14" y2="19.86" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
+function AccordionItem({
+  row,
+  isOpen,
+  onToggle,
+  isLast,
+}: {
+  row: InfoRowData
+  isOpen: boolean
+  onToggle: () => void
+  isLast: boolean
+}) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const preparedRef = useRef<PreparedText | null>(null)
+  const [contentHeight, setContentHeight] = useState(0)
 
-function CarIcon() {
-  return (
-    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" aria-hidden="true">
-      <path d="M6.5 16h14M8 16l1.5-5h8l1.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <rect x="4.5" y="16" width="18" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="8.5" cy="21" r="1.5" fill="currentColor" />
-      <circle cx="18.5" cy="21" r="1.5" fill="currentColor" />
-    </svg>
-  )
-}
+  const plainText = row.bodySegments
+    ? row.bodySegments.map((s) => s.text).join('')
+    : row.body
 
-function MapPinIcon() {
-  return (
-    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" aria-hidden="true">
-      <path d="M13.5 5C10.74 5 8.5 7.24 8.5 10c0 4.25 5 10 5 10s5-5.75 5-10c0-2.76-2.24-5-5-5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <circle cx="13.5" cy="10" r="2" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  )
-}
+  const measure = useCallback(() => {
+    if (!containerRef.current || !preparedRef.current) return
+    const width = containerRef.current.offsetWidth
+    const fontSize = parseFloat(getComputedStyle(containerRef.current).fontSize)
+    const lineHeight = fontSize * 1.625
+    const { height } = layout(preparedRef.current, width, lineHeight)
+    // Add top padding (12px from design) + bottom padding (32px)
+    setContentHeight(Math.ceil(height) + 12 + 32)
+  }, [])
 
-function getIcon(name: string) {
-  if (name === 'sun') return <SunIcon />
-  if (name === 'car') return <CarIcon />
-  return <MapPinIcon />
-}
+  useEffect(() => {
+    if (!plainText) return
+    // Resolve the font string from the container's computed style
+    const el = containerRef.current
+    if (!el) return
+    const cs = getComputedStyle(el)
+    const font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`
+    preparedRef.current = prepare(plainText, font)
+    measure()
+  }, [plainText, measure])
 
-// ─── Info Row ────────────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!plainText) return
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [plainText, measure])
 
-function InfoRow({ row }: { row: InfoRowData }) {
   const bodyContent = row.bodySegments
     ? row.bodySegments.map((seg, i) =>
         seg.href ? (
@@ -72,22 +75,68 @@ function InfoRow({ row }: { row: InfoRowData }) {
     : row.body
 
   return (
-    <div className="flex flex-col gap-[10px] w-full">
-      <div className="flex items-start gap-[10px] text-[var(--theme-headline)]">
-        <span className="shrink-0">{getIcon(row.icon)}</span>
+    <div
+      className={isLast ? '' : 'border-b border-[var(--theme-tonal)]'}
+      style={{ transition: 'border-color 0.5s ease' }}
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        className="flex items-center justify-between w-full text-left cursor-pointer"
+        style={{
+          paddingTop: isOpen ? 'var(--mpds-space-32)' : 'var(--mpds-space-16)',
+          paddingBottom: isOpen ? '0' : 'var(--mpds-space-16)',
+        }}
+        aria-expanded={isOpen}
+      >
         <span
           className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
-          style={{ fontSize: 'var(--mpds-font-size-2xl)', letterSpacing: '-0.02em' }}
+          style={{
+            fontSize: 'var(--mpds-font-size-xl)',
+            letterSpacing: '-0.02em',
+            transition: 'color 0.5s ease',
+          }}
         >
           {row.label}
         </span>
-      </div>
-      <p
-        className="font-instrument text-[var(--theme-text)] leading-[1.625]"
-        style={{ fontSize: 'var(--mpds-font-size-lg)' }}
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          className="shrink-0 ml-4 transition-transform duration-300"
+          style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          aria-hidden="true"
+        >
+          <path
+            d="M5 7.5L10 12.5L15 7.5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      <div
+        ref={containerRef}
+        className="overflow-hidden font-instrument text-[var(--theme-text)] leading-[1.625]"
+        style={{
+          fontSize: 'var(--mpds-font-size-lg)',
+          maxHeight: isOpen ? contentHeight : 0,
+          opacity: isOpen ? 1 : 0,
+          transition: 'max-height 0.3s ease, opacity 0.3s ease',
+        }}
       >
-        {bodyContent}
-      </p>
+        <p
+          style={{
+            paddingTop: 'var(--mpds-space-12)',
+            paddingBottom: 'var(--mpds-space-32)',
+            transition: 'color 0.5s ease',
+          }}
+        >
+          {bodyContent}
+        </p>
+      </div>
     </div>
   )
 }
@@ -96,6 +145,7 @@ function InfoRow({ row }: { row: InfoRowData }) {
 
 export default function CelebrationSection({ content }: { content: CelebrationContent }) {
   const sectionRef = useScrollSection<HTMLElement>('maroon')
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
     <section
@@ -109,7 +159,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
         {/* ── Header: title + description ── */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
           <h2
-            className="font-romie-trial font-light text-[var(--theme-headline)] leading-none shrink-0"
+            className="font-romie font-light text-[var(--theme-headline)] leading-none shrink-0"
             style={{ fontSize: 'var(--mpds-font-size-11xl)', transition: 'color 0.5s ease' }}
           >
             {content.heading}
@@ -125,7 +175,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
         {/* ── Content: details left, photos right ── */}
         <div className="relative flex flex-col lg:flex-row lg:items-start lg:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
 
-          {/* Left column — event details + info + CTA */}
+          {/* Left column — event details + accordion + CTA */}
           <div
             className="flex flex-col justify-between lg:self-stretch lg:shrink-0"
             style={{ maxWidth: 615, paddingBottom: 'var(--mpds-space-80)' }}
@@ -140,7 +190,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
               </h3>
 
               {/* Time boxes — left-bordered */}
-              <div className="flex" style={{ gap: 'var(--mpds-space-48)' }}>
+              <div className="flex flex-col sm:flex-row" style={{ gap: 'var(--mpds-space-48)' }}>
                 {content.events.map((event, i) => (
                   <div
                     key={i}
@@ -148,7 +198,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                     style={{ gap: '10px', padding: '16px' }}
                   >
                     <span
-                      className="font-romie-trial font-light text-[var(--theme-headline)] leading-none whitespace-nowrap"
+                      className="font-romie font-light text-[var(--theme-headline)] leading-none whitespace-nowrap"
                       style={{ fontSize: 'var(--mpds-font-size-8xl)', transition: 'color 0.5s ease' }}
                     >
                       {event.time}
@@ -182,17 +232,36 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
               </div>
             </div>
 
-            {/* Info rows + CTA */}
+            {/* Accordion info rows + CTA */}
             <div className="flex flex-col" style={{ gap: 'var(--mpds-space-48)' }}>
-              {/* Info rows */}
-              <div className="flex flex-col" style={{ gap: 'var(--mpds-space-32)' }}>
-                {content.infoRows.map((row, i) => (
-                  <InfoRow key={i} row={row} />
-                ))}
+              {/* Accordion */}
+              <div className="flex flex-col" style={{ gap: 0 }}>
+                <h3
+                  className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
+                  style={{
+                    fontSize: 'var(--mpds-font-size-4xl)',
+                    letterSpacing: '-0.02em',
+                    paddingBottom: 'var(--mpds-space-48)',
+                    transition: 'color 0.5s ease',
+                  }}
+                >
+                  The finer details
+                </h3>
+                <div className="flex flex-col">
+                  {content.infoRows.map((row, i) => (
+                    <AccordionItem
+                      key={i}
+                      row={row}
+                      isOpen={openIndex === i}
+                      onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+                      isLast={i === content.infoRows.length - 1}
+                    />
+                  ))}
+                </div>
               </div>
 
               {/* CTA row */}
-              <div className="flex items-center" style={{ gap: 'var(--mpds-space-sm)' }}>
+              <div className="flex flex-col sm:flex-row sm:items-center" style={{ gap: 'var(--mpds-space-sm)' }}>
                 <a
                   href={content.rsvpUrl}
                   target="_blank"

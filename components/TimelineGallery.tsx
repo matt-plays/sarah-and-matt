@@ -45,6 +45,7 @@ export default function TimelineGallery() {
 
   return (
     <section
+      id="gallery"
       ref={sectionRef}
       data-theme="default"
       className="w-full overflow-hidden"

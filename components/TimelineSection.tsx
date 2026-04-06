@@ -241,6 +241,7 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
 
   return (
     <section
+      id="timeline"
       data-theme="default"
       className="w-full bg-[var(--theme-bg)]"
       style={{ paddingTop: 'var(--site-section-padding)', paddingBottom: 'var(--sp-2xl)' }}

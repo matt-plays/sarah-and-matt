@@ -109,7 +109,7 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
       >
         <div className="site-container flex flex-col md:flex-row md:items-end md:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
           <h2
-            className="font-romie-trial font-light text-[var(--theme-headline)] leading-none shrink-0"
+            className="font-romie font-light text-[var(--theme-headline)] leading-none shrink-0"
             style={{ fontSize: 'var(--mpds-font-size-11xl)' }}
           >
             {heading}

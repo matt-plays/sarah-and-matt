@@ -38,14 +38,14 @@ export default function SiteFooter() {
         className="site-container flex flex-col md:flex-row md:items-start"
         style={{ gap: 'var(--mpds-space-lg)' }}
       >
-        {/* Left — ornamental glyph */}
+        {/* Left — footer mark */}
         <div className="shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/hero-ornament.svg"
+            src="/images/wedding-site--footer-mark.svg"
             alt=""
             className="opacity-60"
-            style={{ width: 99, height: 93 }}
+            style={{ width: 99, height: 99 }}
           />
         </div>
 
