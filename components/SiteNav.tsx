@@ -1,9 +1,8 @@
 'use client'
-// Floating navigation bar.
-// Inline in hero — absolutely positioned at the hero's bottom edge, straddling it.
-// Fixed at viewport bottom elsewhere (scroll-up to reveal).
+// Simplified site navigation — Figma node 615:8601.
+// Hero state: transparent on pink, sits at the top of the hero section.
+// Fixed state: dark pill at viewport bottom (scroll-up to reveal, idle timer).
 // Suppressed in timeline/gallery sections.
-// Uses footer theme (dark pill).
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 
@@ -13,33 +12,24 @@ const NAV_LINKS = [
   { label: 'Registry', href: 'https://zola.sarahandmatt.wedding/registry', id: 'registry' },
 ]
 
-const IDLE_TIMEOUT = 15000 // 15 seconds
-
-// Sections where the nav is suppressed (no scroll-up trigger, hidden)
+const IDLE_TIMEOUT = 15000
 const SUPPRESSED_IDS = ['timeline', 'gallery']
 
 export default function SiteNav() {
-  const [visible, setVisible] = useState(false)
-  const [inHero, setInHero] = useState(true) // start inline
+  const [visible, setVisible] = useState(true)
+  const [inHero, setInHero] = useState(true)
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const lastScrollY = useRef(0)
   const scrollUpDistance = useRef(0)
   const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const clearIdle = useCallback(() => {
-    if (idleTimer.current) {
-      clearTimeout(idleTimer.current)
-      idleTimer.current = null
-    }
+    if (idleTimer.current) { clearTimeout(idleTimer.current); idleTimer.current = null }
   }, [])
 
   const startIdle = useCallback((inRange: boolean) => {
     clearIdle()
-    idleTimer.current = setTimeout(() => {
-      if (inRange) {
-        setVisible(true)
-      }
-    }, IDLE_TIMEOUT)
+    idleTimer.current = setTimeout(() => { if (inRange) setVisible(true) }, IDLE_TIMEOUT)
   }, [clearIdle])
 
   useEffect(() => {
@@ -51,24 +41,17 @@ export default function SiteNav() {
     const onScroll = () => {
       const currentY = window.scrollY
       const delta = currentY - lastScrollY.current
-
+      const vh = window.innerHeight
       const heroRect = heroEl?.getBoundingClientRect()
       const footerRect = footerEl?.getBoundingClientRect()
-      const vh = window.innerHeight
 
-      // Check if hero bottom is still on screen
       const heroVisible = heroRect ? heroRect.bottom > vh * 0.25 : false
-
-      // Check if we're inside a suppressed section
       const inSuppressed = suppressedEls.some((el) => {
         const r = el.getBoundingClientRect()
         return r.top < vh * 0.75 && r.bottom > vh * 0.25
       })
-
-      // Check if footer is in view
       const atFooter = footerRect ? footerRect.top < vh : false
 
-      // Hero mode — truly inline, always visible
       if (heroVisible) {
         setInHero(true)
         setVisible(true)
@@ -78,10 +61,8 @@ export default function SiteNav() {
         return
       }
 
-      // Leaving hero — switch to fixed mode
       setInHero(false)
 
-      // Suppressed in timeline/gallery — hide and don't trigger
       if (inSuppressed || atFooter) {
         setVisible(false)
         scrollUpDistance.current = 0
@@ -90,12 +71,9 @@ export default function SiteNav() {
         return
       }
 
-      // Normal scroll-up / scroll-down behavior
       if (delta < 0) {
         scrollUpDistance.current += Math.abs(delta)
-        if (scrollUpDistance.current > 30) {
-          setVisible(true)
-        }
+        if (scrollUpDistance.current > 30) setVisible(true)
       } else if (delta > 5) {
         scrollUpDistance.current = 0
         setVisible(false)
@@ -104,44 +82,107 @@ export default function SiteNav() {
       lastScrollY.current = currentY
       startIdle(true)
 
-      // Active section tracking
-      let best: string | null = null
-      let bestDist = Infinity
+      let best: string | null = null, bestDist = Infinity
       for (const el of sectionEls) {
         const rect = el.getBoundingClientRect()
         if (rect.top < vh * 0.5 && rect.bottom > 0) {
           const dist = Math.abs(rect.top)
-          if (dist < bestDist) {
-            bestDist = dist
-            best = el.id
-          }
+          if (dist < bestDist) { bestDist = dist; best = el.id }
         }
       }
       setActiveSection(best)
     }
 
-    // Initial state
     const heroRect = heroEl?.getBoundingClientRect()
     if (heroRect && heroRect.bottom > window.innerHeight * 0.25) {
-      setInHero(true)
-      setVisible(true)
+      setInHero(true); setVisible(true)
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      clearIdle()
-    }
+    return () => { window.removeEventListener('scroll', onScroll); clearIdle() }
   }, [startIdle, clearIdle])
 
+  // ── Hero state — transparent bar at top of hero ───────────────────────────
+  if (inHero) {
+    return (
+      <nav
+        className="absolute top-0 left-0 w-full z-50 flex items-center justify-between"
+        style={{
+          paddingTop: 'var(--mpds-space-24)',
+          paddingBottom: 'var(--mpds-space-24)',
+          paddingLeft: 'var(--mpds-space-48)',
+          paddingRight: 'var(--mpds-space-48)',
+          opacity: visible ? 1 : 0,
+          transition: 'opacity 0.5s ease',
+          pointerEvents: visible ? 'auto' : 'none',
+        }}
+        aria-label="Main navigation"
+      >
+        {/* Mark — logo ornament */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/wedding-site--footer-mark.svg"
+          alt=""
+          aria-hidden="true"
+          style={{ width: 64, height: 64 }}
+        />
+
+        {/* Links */}
+        <div className="hidden md:flex items-center" style={{ gap: 'var(--mpds-space-32)' }}>
+          {NAV_LINKS.map(({ label, href, id }) => (
+            <a
+              key={href}
+              href={href}
+              className="font-instrument transition-colors whitespace-nowrap"
+              style={{
+                fontSize: 'var(--mpds-font-size-lg)',
+                color: activeSection === id
+                  ? 'var(--mpds-color-neutral-clay-1200)'
+                  : 'color-mix(in srgb, var(--mpds-color-neutral-clay-1200) 72%, transparent)',
+              }}
+              onClick={(e) => {
+                if (href.startsWith('http')) return
+                e.preventDefault()
+                document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+              }}
+              {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+
+        {/* RSVP */}
+        <a
+          href="https://zola.sarahandmatt.wedding/rsvp"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-instrument font-semibold whitespace-nowrap transition-colors"
+          style={{
+            fontSize: 'var(--mpds-font-size-lg)',
+            paddingTop: 'var(--mpds-space-14)',
+            paddingBottom: 'var(--mpds-space-16)',
+            paddingLeft: 'var(--mpds-space-32)',
+            paddingRight: 'var(--mpds-space-32)',
+            borderRadius: 4,
+            lineHeight: '1.25',
+            backgroundColor: 'var(--mpds-color-yellow-800)',
+            color: 'var(--mpds-color-neutral-clay-100)',
+          }}
+        >
+          RSVP
+        </a>
+      </nav>
+    )
+  }
+
+  // ── Fixed state — dark pill at viewport bottom ────────────────────────────
   return (
     <nav
       data-theme="footer"
-      className="left-1/2 z-50 flex items-center bg-[var(--theme-bg)] max-w-[calc(100vw-32px)]"
+      className="fixed left-1/2 z-50 flex items-center bg-[var(--theme-bg)] max-w-[calc(100vw-32px)]"
       style={{
-        position: inHero ? 'absolute' : 'fixed',
-        bottom: inHero ? 0 : 16,
+        bottom: 16,
         gap: 'var(--mpds-space-16)',
         paddingLeft: 'var(--mpds-space-24)',
         paddingRight: 'var(--mpds-space-8)',
@@ -149,11 +190,9 @@ export default function SiteNav() {
         paddingBottom: 'var(--mpds-space-8)',
         borderRadius: 12,
         opacity: visible ? 1 : 0,
-        transform: visible
-          ? `translate(-50%, ${inHero ? '50%' : '0'})`
-          : 'translate(-50%, 20px)',
+        transform: visible ? 'translate(-50%, 0)' : 'translate(-50%, 20px)',
         pointerEvents: visible ? 'auto' : 'none',
-        transition: inHero ? 'opacity 0.5s ease' : 'opacity 0.5s ease, transform 0.5s ease',
+        transition: 'opacity 0.5s ease, transform 0.5s ease',
       }}
       aria-label="Main navigation"
     >

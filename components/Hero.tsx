@@ -1,6 +1,8 @@
 'use client'
-// Hero section — pink background, landscape panorama, invitation SVG + building illustration.
+// Hero section — Three.js invite card, centered, pink background, landscape panorama.
 // Figma node: 342:6133 (desktop), 583:4403 (tablet), 584:3503 (mobile)
+
+import InviteCanvas from './InviteCanvas'
 
 export default function Hero() {
   return (
@@ -24,47 +26,24 @@ export default function Hero() {
         <div className="absolute inset-0" style={{ backgroundColor: '#F7CCC3' }} />
       </div>
 
-      {/* ── Main content ── */}
+      {/* ── Centered Three.js invite card ── */}
       <div
-        className="site-container relative"
+        className="site-container relative flex justify-center"
         style={{ paddingBottom: 'var(--mpds-space-128)' }}
       >
-        {/*
-          Mobile/tablet: centered invitation card, constrained width.
-          Desktop (lg): 12-col grid with card in left 6 columns.
-        */}
-        <div className="flex justify-center lg:grid lg:grid-cols-12" style={{ gap: 'var(--site-grid-gutter)' }}>
-          <div
-            className="w-[74%] max-w-[320px] md:max-w-[480px] lg:col-span-6 lg:w-auto lg:max-w-none lg:ml-[-7.8%] relative"
-            style={{ marginBottom: 'var(--sp-xl)' }}
-          >
+        <div
+          className="w-[74%] max-w-[320px] md:max-w-[480px] lg:max-w-[720px]"
+          style={{ marginBottom: 'var(--sp-xl)' }}
+        >
+          <InviteCanvas />
+          <noscript>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/wedding-site--hero-graphic-02.svg"
+              src="/images/hero-invite-front.svg"
               alt="Sarah Petrokonis &amp; Matt Plays — Friday, August 28th 2026 — 5 o'clock in the afternoon — Excelsior, 125 E King Street, Lancaster, PA"
               className="w-full h-auto"
             />
-          </div>
-        </div>
-      </div>
-
-      {/* ── Building illustration — desktop only ── */}
-      <div
-        className="absolute inset-0 z-10 pointer-events-none hidden lg:grid grid-cols-2"
-        aria-hidden="true"
-        style={{ paddingTop: 'var(--sp-xl)', gap: 'var(--sp-xl)' }}
-      >
-        {/* Empty first column */}
-        <div />
-        {/* Second column — building anchored bottom-right, overflow clipped by section */}
-        <div className="relative overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/wedding-site--hero-graphic-03.svg"
-            alt=""
-            className="absolute bottom-0 h-full w-auto max-w-none"
-            style={{ right: 'clamp(-314px, calc(43.21vw - 756px), -65px)' }}
-          />
+          </noscript>
         </div>
       </div>
 
