@@ -11,8 +11,7 @@ export default function Hero() {
       className="relative w-full overflow-clip"
       style={{
         backgroundColor: '#F7CCC3',
-        paddingTop: 'calc(var(--mpds-space-128) + var(--mpds-space-24) + var(--mpds-space-80))',
-        paddingBottom: 'var(--sp-2xl)',
+        paddingTop: 'var(--mpds-space-48)',
       }}
     >
       {/* ── Background landscape with pink overlay ── */}
