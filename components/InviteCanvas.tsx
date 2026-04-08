@@ -61,34 +61,33 @@ export default function InviteCanvas() {
     mount.appendChild(renderer.domElement)
 
     // ── Scene & Camera ────────────────────────────────────────────────────────────
-    const scene = new THREE.Scene()
+    const scene  = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(28, mount.clientWidth / mount.clientHeight, 0.01, 100)
     camera.position.z = 6
 
     // ── Lighting ─────────────────────────────────────────────────────────────────
-    scene.add(new THREE.AmbientLight(0xfff8ef, 0.3))
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4))
 
-    const key = new THREE.DirectionalLight(0xfff5e0, 2.8)
+    const key = new THREE.DirectionalLight(0xffffff, 2.8)
     key.position.set(2.5, 4, 5)
     scene.add(key)
 
-    const fill = new THREE.DirectionalLight(0xe8f0ff, 0.3)
+    const fill = new THREE.DirectionalLight(0xffffff, 1.0)
     fill.position.set(-3, -1, 3)
     scene.add(fill)
 
-    const rim = new THREE.DirectionalLight(0xfff0e0, 0.1)
+    const rim = new THREE.DirectionalLight(0xffffff, 0.39)
     rim.position.set(0, -2, -2)
     scene.add(rim)
 
     // ── Materials ─────────────────────────────────────────────────────────────────
-    const edgeMat = new THREE.MeshStandardMaterial({ color: 0xf0ebe3, roughness: 0.95, metalness: 0 })
-
-    const frontMat = new THREE.MeshStandardMaterial({ color: 0xf7ccc3, roughness: 0.88, metalness: 0 })
-    const backMat  = new THREE.MeshStandardMaterial({ color: 0xf7ccc3, roughness: 0.88, metalness: 0 })
+    const edgeMat  = new THREE.MeshStandardMaterial({ color: 0xf0ebe3, roughness: 0.95, metalness: 0 })
+    const frontMat = new THREE.MeshStandardMaterial({ color: 0xf7ccc3, roughness: 0.78, metalness: 0 })
+    const backMat  = new THREE.MeshStandardMaterial({ color: 0xf7ccc3, roughness: 0.78, metalness: 0 })
 
     // ── Geometry ──────────────────────────────────────────────────────────────────
-    const boxGeo = new THREE.BoxGeometry(CARD_W, CARD_H, CARD_D)
-    const box = new THREE.Mesh(boxGeo, [
+    const boxGeo   = new THREE.BoxGeometry(CARD_W, CARD_H, CARD_D)
+    const box      = new THREE.Mesh(boxGeo, [
       edgeMat, edgeMat, edgeMat, edgeMat,
       new THREE.MeshBasicMaterial({ visible: false }),
       backMat,
@@ -118,24 +117,17 @@ export default function InviteCanvas() {
     const tl = new THREE.TextureLoader()
 
     tl.load('/images/hero-invite-front-normal.png', (tex) => {
-      frontMat.normalMap = tex; frontMat.normalScale = new THREE.Vector2(1.2, 1.2); frontMat.needsUpdate = true
-    })
-    tl.load('/images/hero-invite-front-displacement.png', (tex) => {
-      frontMat.displacementMap = tex; frontMat.displacementScale = 0.006; frontMat.displacementBias = -0.003; frontMat.needsUpdate = true
+      frontMat.normalMap = tex; frontMat.normalScale = new THREE.Vector2(3.0, 3.0); frontMat.needsUpdate = true
     })
     tl.load('/images/hero-invite-front-ambient.png', (tex) => {
-      frontMat.aoMap = tex; frontMat.aoMapIntensity = 1.2; frontMat.needsUpdate = true
+      frontMat.aoMap = tex; frontMat.aoMapIntensity = 0.75; frontMat.needsUpdate = true
     })
 
     tl.load('/images/hero-invite-back-normal.png', (tex) => {
-      // Negate X: BoxGeometry back face tangent space is mirrored after 180° Y flip
-      backMat.normalMap = tex; backMat.normalScale = new THREE.Vector2(-1.2, 1.2); backMat.needsUpdate = true
-    })
-    tl.load('/images/hero-invite-back-displacement.png', (tex) => {
-      backMat.displacementMap = tex; backMat.displacementScale = 0.006; backMat.displacementBias = -0.003; backMat.needsUpdate = true
+      backMat.normalMap = tex; backMat.normalScale = new THREE.Vector2(-3.0, 3.0); backMat.needsUpdate = true
     })
     tl.load('/images/hero-invite-back-ambient.png', (tex) => {
-      backMat.aoMap = tex; backMat.aoMapIntensity = 1.2; backMat.needsUpdate = true
+      backMat.aoMap = tex; backMat.aoMapIntensity = 0.75; backMat.needsUpdate = true
     })
 
     // ── Interaction ───────────────────────────────────────────────────────────────
@@ -143,8 +135,8 @@ export default function InviteCanvas() {
 
     const onMove = (e: MouseEvent) => {
       const r = mount.getBoundingClientRect()
-      st.mx = ((e.clientX - r.left) / r.width - 0.5) * 2
-      st.my = ((e.clientY - r.top) / r.height - 0.5) * 2
+      st.mx = ((e.clientX - r.left) / r.width  - 0.5) * 2
+      st.my = ((e.clientY - r.top)  / r.height - 0.5) * 2
     }
     const onClick = () => { st.flipTarget = st.flipTarget === 0 ? Math.PI : 0; st.flipping = true }
     mount.addEventListener('mousemove', onMove)
@@ -164,8 +156,8 @@ export default function InviteCanvas() {
       if (Math.abs(st.flipCurrent - st.flipTarget) < 0.0005) { st.flipCurrent = st.flipTarget; st.flipping = false }
       group.position.y = Math.sin(t * 0.38) * 0.025
       const tiltMul = st.flipping ? 0 : 1
-      group.rotation.y = st.flipCurrent + st.lx * 0.15 * tiltMul
-      group.rotation.x = -st.ly * 0.1 * tiltMul
+      group.rotation.y = st.flipCurrent + st.lx * 0.165 * tiltMul  // +10%
+      group.rotation.x = -st.ly * 0.11 * tiltMul                   // +10%
       if (!st.flipping && Math.abs(st.mx) < 0.02 && Math.abs(st.my) < 0.02) {
         group.rotation.y += Math.sin(t * 0.20) * 0.014
         group.rotation.x += Math.sin(t * 0.16 + 1.2) * 0.008
