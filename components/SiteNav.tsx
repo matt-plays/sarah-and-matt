@@ -108,8 +108,8 @@ export default function SiteNav() {
       <nav
         className="absolute top-0 left-0 w-full z-50 flex items-center justify-between"
         style={{
-          paddingTop: 'var(--mpds-space-24)',
-          paddingBottom: 'var(--mpds-space-24)',
+          paddingTop: 'var(--mpds-space-12)',
+          paddingBottom: 'var(--mpds-space-12)',
           paddingLeft: 'var(--mpds-space-48)',
           paddingRight: 'var(--mpds-space-48)',
           opacity: visible ? 1 : 0,
@@ -121,10 +121,10 @@ export default function SiteNav() {
         {/* Mark — logo ornament */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/wedding-site--footer-mark.svg"
+          src="/images/wedding-site--nav-mark.svg"
           alt=""
           aria-hidden="true"
-          style={{ width: 64, height: 64 }}
+          style={{ width: 128, height: 128 }}
         />
 
         {/* Links */}
@@ -166,8 +166,8 @@ export default function SiteNav() {
             paddingRight: 'var(--mpds-space-32)',
             borderRadius: 4,
             lineHeight: '1.25',
-            backgroundColor: 'var(--mpds-color-yellow-800)',
-            color: 'var(--mpds-color-neutral-clay-100)',
+            backgroundColor: 'var(--mpds-color-yellow-s-600)',
+            color: 'var(--mpds-color-clay-100)',
           }}
         >
           RSVP

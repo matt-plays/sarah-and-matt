@@ -11,7 +11,7 @@ export default function Hero() {
       className="relative w-full overflow-clip"
       style={{
         backgroundColor: '#F7CCC3',
-        paddingTop: 'var(--sp-xl)',
+        paddingTop: 'calc(var(--mpds-space-128) + var(--mpds-space-24) + var(--mpds-space-80))',
         paddingBottom: 'var(--sp-2xl)',
       }}
     >
@@ -27,14 +27,8 @@ export default function Hero() {
       </div>
 
       {/* ── Centered Three.js invite card ── */}
-      <div
-        className="site-container relative flex justify-center"
-        style={{ paddingBottom: 'var(--mpds-space-128)' }}
-      >
-        <div
-          className="w-[74%] max-w-[320px] md:max-w-[480px] lg:max-w-[720px]"
-          style={{ marginBottom: 'var(--sp-xl)' }}
-        >
+      <div className="site-container relative flex justify-center" style={{ zIndex: 1 }}>
+        <div className="w-[74%] max-w-[380px] md:max-w-[640px] lg:max-w-[960px]">
           <InviteCanvas />
           <noscript>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -51,7 +45,7 @@ export default function Hero() {
       <div
         className="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none"
         aria-hidden="true"
-        style={{ height: 'clamp(120px, 18.75vw, 360px)' }}
+        style={{ height: 'clamp(200px, 41.3vw, 793px)', zIndex: 0 }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
