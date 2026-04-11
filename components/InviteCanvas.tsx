@@ -40,8 +40,24 @@ function loadSVGColor(src: string, w: number, h: number): Promise<THREE.Texture>
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
-export default function InviteCanvas() {
+export default function InviteCanvas({ onReady, triggerEntrance }: {
+  onReady?: () => void
+  triggerEntrance?: boolean
+}) {
   const mountRef = useRef<HTMLDivElement>(null)
+  const onReadyRef = useRef(onReady)
+  const entranceStartedRef = useRef(false)
+  const flipReadyRef = useRef(false)
+  const entranceFlipActiveRef = useRef(false) // true = use fast lerp during entrance flip
+  onReadyRef.current = onReady
+
+  // When Hero signals "reveal", start scale-down and flip simultaneously
+  useEffect(() => {
+    if (!triggerEntrance) return
+    entranceStartedRef.current = true
+    entranceFlipActiveRef.current = true
+    flipReadyRef.current = true // flip starts immediately alongside fade-in
+  }, [triggerEntrance])
 
   useEffect(() => {
     const mount = mountRef.current
@@ -106,32 +122,38 @@ export default function InviteCanvas() {
     const TEX_W = 1440
     const TEX_H = Math.round(TEX_W * (CARD_H / CARD_W))
 
+    // ── Asset loading tracker ─────────────────────────────────────────────────────
+    let loadedCount = 0
+    const onAssetLoaded = () => { if (++loadedCount === 6) onReadyRef.current?.() }
+
     loadSVGColor('/images/hero-invite-front.svg', TEX_W, TEX_H).then((color) => {
-      frontMat.map = color; frontMat.color.set(0xffffff); frontMat.needsUpdate = true
+      frontMat.map = color; frontMat.color.set(0xffffff); frontMat.needsUpdate = true; onAssetLoaded()
     })
     loadSVGColor('/images/hero-invite-back.svg', TEX_W, TEX_H).then((color) => {
-      backMat.map = color; backMat.color.set(0xffffff); backMat.needsUpdate = true
+      backMat.map = color; backMat.color.set(0xffffff); backMat.needsUpdate = true; onAssetLoaded()
     })
 
     // ── Load PBR maps ─────────────────────────────────────────────────────────────
     const tl = new THREE.TextureLoader()
 
     tl.load('/images/hero-invite-front-normal.png', (tex) => {
-      frontMat.normalMap = tex; frontMat.normalScale = new THREE.Vector2(3.0, 3.0); frontMat.needsUpdate = true
+      frontMat.normalMap = tex; frontMat.normalScale = new THREE.Vector2(3.0, 3.0); frontMat.needsUpdate = true; onAssetLoaded()
     })
     tl.load('/images/hero-invite-front-ambient.png', (tex) => {
-      frontMat.aoMap = tex; frontMat.aoMapIntensity = 0.75; frontMat.needsUpdate = true
+      frontMat.aoMap = tex; frontMat.aoMapIntensity = 0.75; frontMat.needsUpdate = true; onAssetLoaded()
     })
 
     tl.load('/images/hero-invite-back-normal.png', (tex) => {
-      backMat.normalMap = tex; backMat.normalScale = new THREE.Vector2(-3.0, 3.0); backMat.needsUpdate = true
+      backMat.normalMap = tex; backMat.normalScale = new THREE.Vector2(-3.0, 3.0); backMat.needsUpdate = true; onAssetLoaded()
     })
     tl.load('/images/hero-invite-back-ambient.png', (tex) => {
-      backMat.aoMap = tex; backMat.aoMapIntensity = 0.75; backMat.needsUpdate = true
+      backMat.aoMap = tex; backMat.aoMapIntensity = 0.75; backMat.needsUpdate = true; onAssetLoaded()
     })
 
     // ── Interaction ───────────────────────────────────────────────────────────────
-    const st = { mx: 0, my: 0, lx: 0, ly: 0, flipTarget: 0, flipCurrent: 0, flipping: false, tiltMul: 1 }
+    // Start showing back face; flip to front is triggered by triggerEntrance ref
+    const ENTRANCE_ANGLE = (40 * Math.PI) / 180 // 40° tilt — front face always visible
+    const st = { mx: 0, my: 0, lx: 0, ly: 0, flipTarget: ENTRANCE_ANGLE, flipCurrent: ENTRANCE_ANGLE, flipping: false, tiltMul: 1, scale: 1.125 }
 
     const onMove = (e: MouseEvent) => {
       const r = mount.getBoundingClientRect()
@@ -150,11 +172,31 @@ export default function InviteCanvas() {
       raf = requestAnimationFrame(tick)
       timer.update()
       const t = timer.getElapsed()
+
+      // Entrance: scale from 1.125 → 1.0
+      if (entranceStartedRef.current) {
+        st.scale += (1.0 - st.scale) * 0.09
+        group.scale.setScalar(st.scale)
+      }
+
+      // Flip to front once entrance delay has elapsed
+      if (flipReadyRef.current) {
+        flipReadyRef.current = false
+        st.flipTarget = 0
+        st.flipping = true
+      }
+
       // During flip: drain lx/ly toward 0 so pent-up tilt can't snap in on completion
       st.lx += ((st.flipping ? 0 : st.mx) - st.lx) * 0.055
       st.ly += ((st.flipping ? 0 : st.my) - st.ly) * 0.055
-      st.flipCurrent += (st.flipTarget - st.flipCurrent) * 0.045
-      if (Math.abs(st.flipCurrent - st.flipTarget) < 0.0005) { st.flipCurrent = st.flipTarget; st.flipping = false }
+      // Entrance flip uses faster lerp (~0.6s) to match Hero fade-in; interactive flips use normal speed
+      const flipLerp = entranceFlipActiveRef.current ? 0.09 : 0.10
+      st.flipCurrent += (st.flipTarget - st.flipCurrent) * flipLerp
+      if (Math.abs(st.flipCurrent - st.flipTarget) < 0.0005) {
+        st.flipCurrent = st.flipTarget
+        st.flipping = false
+        entranceFlipActiveRef.current = false // revert to normal speed for interactive flips
+      }
       // Smooth tilt multiplier — fades out when flip starts, fades back in when done
       st.tiltMul += ((st.flipping ? 0 : 1) - st.tiltMul) * 0.08
       group.position.y = Math.sin(t * 0.38) * 0.025

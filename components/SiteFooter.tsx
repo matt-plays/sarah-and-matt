@@ -84,35 +84,36 @@ export default function SiteFooter() {
 
           {/* Address pill */}
           <div
-            className="flex flex-wrap items-center border border-[var(--theme-text)]"
+            className="border border-[var(--theme-text)]"
             style={{
-              gap: 'var(--mpds-space-16)',
               paddingLeft: 'var(--mpds-space-28)',
               paddingRight: 'var(--mpds-space-28)',
               paddingTop: 'var(--mpds-space-16)',
               paddingBottom: 'var(--mpds-space-16)',
             }}
           >
-            <span
-              className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
-              style={{ fontSize: 'var(--mpds-font-size-sm)' }}
-            >
-              Excelsior
-            </span>
-            <SlashSep />
-            <span
-              className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
-              style={{ fontSize: 'var(--mpds-font-size-sm)' }}
-            >
-              125 E King Street
-            </span>
-            <SlashSep />
-            <span
-              className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
-              style={{ fontSize: 'var(--mpds-font-size-sm)' }}
-            >
-              Lancaster, PA
-            </span>
+            {/* Mobile: stacked with tonal rules */}
+            <div className="flex flex-col sm:hidden">
+              {['Excelsior', '125 E King Street', 'Lancaster, PA'].map((item, i) => (
+                <div key={item}>
+                  {i > 0 && <div className="h-px w-full bg-[var(--theme-tonal)]" />}
+                  <span
+                    className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] block"
+                    style={{ fontSize: 'var(--mpds-font-size-sm)', paddingTop: 'var(--mpds-space-8)', paddingBottom: 'var(--mpds-space-8)' }}
+                  >
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+            {/* Tablet/Desktop: inline with slash separators */}
+            <div className="hidden sm:flex flex-wrap items-center" style={{ gap: 'var(--mpds-space-16)' }}>
+              <span className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0" style={{ fontSize: 'var(--mpds-font-size-sm)' }}>Excelsior</span>
+              <SlashSep />
+              <span className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0" style={{ fontSize: 'var(--mpds-font-size-sm)' }}>125 E King Street</span>
+              <SlashSep />
+              <span className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0" style={{ fontSize: 'var(--mpds-font-size-sm)' }}>Lancaster, PA</span>
+            </div>
           </div>
 
           {/* Time row */}

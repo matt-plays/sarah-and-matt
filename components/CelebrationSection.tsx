@@ -65,6 +65,7 @@ function AccordionItem({
             target="_blank"
             rel="noopener noreferrer"
             className="underline text-[var(--theme-action)] hover:opacity-70 transition-opacity"
+            onClick={(e) => e.stopPropagation()}
           >
             {seg.text}
           </a>
@@ -119,13 +120,14 @@ function AccordionItem({
       </button>
       <div
         ref={containerRef}
-        className="overflow-hidden font-instrument text-[var(--theme-text)] leading-[1.625]"
+        className="overflow-hidden font-instrument text-[var(--theme-text)] leading-[1.625] cursor-pointer"
         style={{
           fontSize: 'var(--mpds-font-size-lg)',
           maxHeight: isOpen ? contentHeight : 0,
           opacity: isOpen ? 1 : 0,
           transition: 'max-height 0.3s ease, opacity 0.3s ease',
         }}
+        onClick={onToggle}
       >
         <p
           style={{
@@ -152,7 +154,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
       ref={sectionRef}
       id="celebration"
       className="w-full flex justify-center bg-[var(--theme-bg)]"
-      style={{ paddingTop: 'var(--sp-2xl)', paddingBottom: 'var(--sp-2xl)', transition: 'background-color 0.5s ease' }}
+      style={{ paddingTop: 'var(--sp-2xl)', paddingBottom: 'var(--sp-2xl)', marginBottom: 'var(--sp-2xl)', transition: 'background-color 0.5s ease' }}
     >
       <div className="site-container flex flex-col" style={{ gap: 'var(--mpds-space-xl)' }}>
 
@@ -178,7 +180,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
           {/* Left column — event details + accordion + CTA */}
           <div
             className="flex flex-col justify-between lg:self-stretch lg:shrink-0"
-            style={{ maxWidth: 615, paddingBottom: 'var(--mpds-space-80)' }}
+            style={{ maxWidth: 615 }}
           >
             {/* Event details block */}
             <div className="flex flex-col" style={{ gap: 'var(--mpds-space-md)' }}>
@@ -215,20 +217,37 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
 
               {/* Address box */}
               <div
-                className="flex flex-wrap items-center justify-center sm:justify-between w-full border border-[var(--theme-headline)]"
-                style={{ gap: '12px 18px', padding: 'var(--mpds-space-16) var(--mpds-space-28)', transition: 'border-color 0.5s ease' }}
+                className="w-full border border-[var(--theme-headline)]"
+                style={{ padding: 'var(--mpds-space-16) var(--mpds-space-28)', transition: 'border-color 0.5s ease' }}
               >
-                <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0">
-                  Excelsior
-                </span>
-                <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
-                <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0">
-                  125 E King Street
-                </span>
-                <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
-                <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0">
-                  Lancaster, PA
-                </span>
+                {/* Mobile: stacked with tonal rules */}
+                <div className="flex flex-col sm:hidden">
+                  {['Excelsior', '125 E King Street', 'Lancaster, PA'].map((item, i) => (
+                    <div key={item}>
+                      {i > 0 && <div className="h-px w-full bg-[var(--theme-tonal)]" style={{ transition: 'background-color 0.5s ease' }} />}
+                      <span
+                        className="font-spezia text-[var(--theme-headline)] uppercase tracking-[0.12em] leading-[1.125] block"
+                        style={{ fontSize: 'var(--mpds-font-size-sm)', paddingTop: 'var(--mpds-space-8)', paddingBottom: 'var(--mpds-space-8)', transition: 'color 0.5s ease' }}
+                      >
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                {/* Tablet/Desktop: inline with slash separators */}
+                <div className="hidden sm:flex flex-wrap items-center justify-between" style={{ gap: '12px 18px' }}>
+                  <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
+                    Excelsior
+                  </span>
+                  <span className="font-instrument text-[var(--theme-tonal)]">/</span>
+                  <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
+                    125 E King Street
+                  </span>
+                  <span className="font-instrument text-[var(--theme-tonal)]">/</span>
+                  <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
+                    Lancaster, PA
+                  </span>
+                </div>
               </div>
             </div>
 
