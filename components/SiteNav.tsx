@@ -18,6 +18,7 @@ const SUPPRESSED_IDS = ['timeline', 'gallery']
 export default function SiteNav() {
   const [visible, setVisible] = useState(true)
   const [inHero, setInHero] = useState(true)
+  const [heroReady, setHeroReady] = useState(false)
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const lastScrollY = useRef(0)
   const scrollUpDistance = useRef(0)
@@ -31,6 +32,12 @@ export default function SiteNav() {
     clearIdle()
     idleTimer.current = setTimeout(() => { if (inRange) setVisible(true) }, IDLE_TIMEOUT)
   }, [clearIdle])
+
+  useEffect(() => {
+    const handler = () => setHeroReady(true)
+    window.addEventListener('hero-ready', handler)
+    return () => window.removeEventListener('hero-ready', handler)
+  }, [])
 
   useEffect(() => {
     const heroEl = document.getElementById('hero')
@@ -48,7 +55,7 @@ export default function SiteNav() {
       const heroVisible = heroRect ? heroRect.bottom > vh * 0.25 : false
       const inSuppressed = suppressedEls.some((el) => {
         const r = el.getBoundingClientRect()
-        return r.top < vh * 0.75 && r.bottom > vh * 0.25
+        return r.top < vh && r.bottom > 0
       })
       const atFooter = footerRect ? footerRect.top < vh : false
 
@@ -110,7 +117,7 @@ export default function SiteNav() {
         style={{
           paddingTop: 'var(--mpds-space-24)',
           paddingBottom: 'var(--mpds-space-24)',
-          opacity: visible ? 1 : 0,
+          opacity: visible && heroReady ? 1 : 0,
           transition: 'opacity 0.5s ease',
           pointerEvents: visible ? 'auto' : 'none',
         }}
@@ -187,9 +194,10 @@ export default function SiteNav() {
   return (
     <nav
       data-theme="footer"
-      className="fixed left-1/2 z-50 flex items-center bg-[var(--theme-bg)] max-w-[calc(100vw-32px)]"
+      className="fixed inset-x-0 mx-auto z-50 flex items-center bg-[var(--theme-bg)] max-w-[calc(100vw-32px)]"
       style={{
-        bottom: 16,
+        bottom: 'var(--mpds-space-48)',
+        width: 'fit-content',
         gap: 'var(--mpds-space-16)',
         paddingLeft: 'var(--mpds-space-24)',
         paddingRight: 'var(--mpds-space-8)',
@@ -197,7 +205,7 @@ export default function SiteNav() {
         paddingBottom: 'var(--mpds-space-8)',
         borderRadius: 12,
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translate(-50%, 0)' : 'translate(-50%, 20px)',
+        transform: visible ? 'translateY(0)' : 'translateY(20px)',
         pointerEvents: visible ? 'auto' : 'none',
         transition: 'opacity 0.5s ease, transform 0.5s ease',
       }}

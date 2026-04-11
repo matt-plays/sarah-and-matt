@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { TravelCard } from '@/types/content'
+import { useScrollSection } from '@/context/ThemeContext'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -61,14 +62,14 @@ function RecommendationCard({ card, index }: { card: TravelCard; index: number }
       </span>
       <div className="flex flex-col" style={{ gap: 'var(--mpds-space-4)' }}>
         <p
-          className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-pre-line group-hover:underline"
+          className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-pre-line"
           style={{ fontSize: 'var(--mpds-font-size-lg)', letterSpacing: '-0.02em' }}
         >
           {card.heading}
         </p>
         <p
           className="font-instrument text-[var(--theme-text)] leading-[1.5]"
-          style={{ fontSize: 'var(--mpds-font-size-sm)' }}
+          style={{ fontSize: 'var(--mpds-font-size-md)' }}
         >
           {card.body}
         </p>
@@ -88,6 +89,10 @@ interface TravelSectionProps {
 }
 
 export default function TravelSection({ heading, body, whereToStay, whereToEat, activities }: TravelSectionProps) {
+  // Registered as 'default' so ThemeContext keeps the body at default while Travel
+  // is the topmost visible section — outcompeting RSVP's green until Travel exits.
+  const sectionRef = useScrollSection<HTMLDivElement>('default')
+
   const [active, setActive] = useState<Category>('eat') // eat first to show Luca image
   const [cardKey, setCardKey] = useState(0)
 
@@ -106,7 +111,7 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div ref={sectionRef} className="flex flex-col w-full">
       {/* ── Header ── */}
       <section
         id="travel"
@@ -187,7 +192,7 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/wedding-site--travel-stay-background-cmyk.png"
+          src="/images/wedding-site--travel-stay-background.png"
           alt=""
           className="w-full h-auto block"
         />

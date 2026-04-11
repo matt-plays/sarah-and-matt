@@ -41,7 +41,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         for (const entry of entries) {
           const el = entry.target as HTMLElement
           const theme = sectionMapRef.current.get(el)
-          if (!theme || theme === 'default') continue
+          if (!theme) continue
 
           if (entry.isIntersecting) {
             visibleRef.current.add(el)
