@@ -58,6 +58,29 @@ function getUrl(page: NotionPage, key: string): string {
   return ''
 }
 
+// Returns the first href found in a rich_text property — used as a fallback link
+// when inline Notion links haven't yet been migrated to a dedicated Link URL field.
+function getFirstHref(page: NotionPage, key: string): string {
+  const prop = page.properties[key]
+  if (prop?.type !== 'rich_text') return ''
+  for (const rt of prop.rich_text) {
+    if (rt.href) return rt.href
+  }
+  return ''
+}
+
+// Returns plain text from a rich_text property, stripping any segments that carry
+// an inline href — used to remove URL text that has been migrated to the Link field.
+function getTextStripLinks(page: NotionPage, key: string): string {
+  const prop = page.properties[key]
+  if (prop?.type !== 'rich_text') return ''
+  return prop.rich_text
+    .filter((rt: NotionPage) => !rt.href)
+    .map((rt: NotionPage) => rt.plain_text ?? '')
+    .join('')
+    .trim()
+}
+
 // ─── Query helpers ────────────────────────────────────────────────────────────
 
 async function queryAll(dataSourceId: string): Promise<NotionPage[]> {
@@ -151,21 +174,33 @@ export async function getNotionContent(): Promise<SiteContent> {
         heading: get('travel.heading', fallback.travel.heading),
         body:    get('travel.body',    fallback.travel.body),
       },
-      whereToStay: sortedMap(stayPages, (p) => ({
-        overline: getText(p, 'Overline'),
-        heading:  getTitle(p, 'Heading'),
-        body:     getText(p, 'Body'),
-      })),
-      whereToEat: sortedMap(eatPages, (p) => ({
-        overline: getText(p, 'Overline'),
-        heading:  getTitle(p, 'Heading'),
-        body:     getText(p, 'Body'),
-      })),
-      activities: sortedMap(doPages, (p) => ({
-        overline: getText(p, 'Overline'),
-        heading:  getTitle(p, 'Heading'),
-        body:     getText(p, 'Body'),
-      })),
+      whereToStay: sortedMap(stayPages, (p) => {
+        const link = getUrl(p, 'Link') || getFirstHref(p, 'Body') || undefined
+        return {
+          overline: getText(p, 'Overline'),
+          heading:  getTitle(p, 'Heading'),
+          body:     link ? getTextStripLinks(p, 'Body') : getText(p, 'Body'),
+          link,
+        }
+      }),
+      whereToEat: sortedMap(eatPages, (p) => {
+        const link = getUrl(p, 'Link') || getFirstHref(p, 'Body') || undefined
+        return {
+          overline: getText(p, 'Overline'),
+          heading:  getTitle(p, 'Heading'),
+          body:     link ? getTextStripLinks(p, 'Body') : getText(p, 'Body'),
+          link,
+        }
+      }),
+      activities: sortedMap(doPages, (p) => {
+        const link = getUrl(p, 'Link') || getFirstHref(p, 'Body') || undefined
+        return {
+          overline: getText(p, 'Overline'),
+          heading:  getTitle(p, 'Heading'),
+          body:     link ? getTextStripLinks(p, 'Body') : getText(p, 'Body'),
+          link,
+        }
+      }),
       rsvp: {
         heading:  get('rsvp.heading',  fallback.rsvp.heading),
         body:     get('rsvp.body',     fallback.rsvp.body),

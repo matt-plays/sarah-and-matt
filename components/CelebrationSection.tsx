@@ -215,7 +215,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
 
               {/* Address box */}
               <div
-                className="flex flex-wrap items-center w-full border border-[var(--theme-headline)]"
+                className="flex flex-wrap items-center justify-center sm:justify-between w-full border border-[var(--theme-headline)]"
                 style={{ gap: '12px 18px', padding: 'var(--mpds-space-16) var(--mpds-space-28)', transition: 'border-color 0.5s ease' }}
               >
                 <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0">

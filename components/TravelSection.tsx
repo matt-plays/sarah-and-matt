@@ -2,7 +2,7 @@
 // Figma node: 435:2852
 // "Travel & Stay" — category nav switches a 3-col card grid. CMYK shader bg image.
 
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { TravelCard } from '@/types/content'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -34,10 +34,16 @@ function RecommendationCard({ card, index }: { card: TravelCard; index: number }
     return () => clearTimeout(timeout)
   }, [card, index])
 
+  const Tag = card.link ? 'a' : 'div'
+  const linkProps = card.link
+    ? { href: card.link, target: '_blank', rel: 'noopener noreferrer' }
+    : {}
+
   return (
-    <div
-      ref={ref}
-      className="flex flex-col border-l border-[var(--theme-tonal)] transition-all duration-500 ease-out"
+    <Tag
+      ref={ref as React.RefObject<HTMLDivElement & HTMLAnchorElement>}
+      {...linkProps}
+      className="flex flex-col border-l border-[var(--theme-tonal)] transition-all duration-500 ease-out group"
       style={{
         gap: 'var(--mpds-space-16)',
         paddingLeft: 'var(--mpds-space-16)',
@@ -55,7 +61,7 @@ function RecommendationCard({ card, index }: { card: TravelCard; index: number }
       </span>
       <div className="flex flex-col" style={{ gap: 'var(--mpds-space-4)' }}>
         <p
-          className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-pre-line"
+          className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-pre-line group-hover:underline"
           style={{ fontSize: 'var(--mpds-font-size-lg)', letterSpacing: '-0.02em' }}
         >
           {card.heading}
@@ -67,7 +73,7 @@ function RecommendationCard({ card, index }: { card: TravelCard; index: number }
           {card.body}
         </p>
       </div>
-    </div>
+    </Tag>
   )
 }
 

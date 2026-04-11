@@ -18,7 +18,7 @@ export default function Hero() {
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/wedding-site--hero-graphic-01.png"
+          src="/images/wedding-site--travel-stay-background-cmyk.png"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -27,7 +27,7 @@ export default function Hero() {
 
       {/* ── Centered Three.js invite card ── */}
       <div className="site-container relative flex justify-center" style={{ zIndex: 1 }}>
-        <div className="w-[74%] max-w-[380px] md:max-w-[640px] lg:max-w-[960px]">
+        <div className="w-full lg:max-w-[960px]">
           <InviteCanvas />
           <noscript>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -42,15 +42,15 @@ export default function Hero() {
 
       {/* ── Bottom landscape panorama ── */}
       <div
-        className="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none"
+        className="absolute bottom-0 left-0 w-full pointer-events-none"
         aria-hidden="true"
-        style={{ height: 'clamp(200px, 41.3vw, 793px)', zIndex: 0 }}
+        style={{ zIndex: 0 }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/wedding-site--hero-graphic-01.png"
+          src="/images/wedding-site--travel-stay-background-cmyk.png"
           alt=""
-          className="w-full h-full object-cover"
+          className="w-full h-auto block"
         />
       </div>
     </section>
