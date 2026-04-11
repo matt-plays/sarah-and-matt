@@ -131,7 +131,7 @@ export default function InviteCanvas() {
     })
 
     // ── Interaction ───────────────────────────────────────────────────────────────
-    const st = { mx: 0, my: 0, lx: 0, ly: 0, flipTarget: 0, flipCurrent: 0, flipping: false }
+    const st = { mx: 0, my: 0, lx: 0, ly: 0, flipTarget: 0, flipCurrent: 0, flipping: false, tiltMul: 1 }
 
     const onMove = (e: MouseEvent) => {
       const r = mount.getBoundingClientRect()
@@ -150,14 +150,16 @@ export default function InviteCanvas() {
       raf = requestAnimationFrame(tick)
       timer.update()
       const t = timer.getElapsed()
-      st.lx += (st.mx - st.lx) * 0.055
-      st.ly += (st.my - st.ly) * 0.055
+      // During flip: drain lx/ly toward 0 so pent-up tilt can't snap in on completion
+      st.lx += ((st.flipping ? 0 : st.mx) - st.lx) * 0.055
+      st.ly += ((st.flipping ? 0 : st.my) - st.ly) * 0.055
       st.flipCurrent += (st.flipTarget - st.flipCurrent) * 0.045
       if (Math.abs(st.flipCurrent - st.flipTarget) < 0.0005) { st.flipCurrent = st.flipTarget; st.flipping = false }
+      // Smooth tilt multiplier — fades out when flip starts, fades back in when done
+      st.tiltMul += ((st.flipping ? 0 : 1) - st.tiltMul) * 0.08
       group.position.y = Math.sin(t * 0.38) * 0.025
-      const tiltMul = st.flipping ? 0 : 1
-      group.rotation.y = st.flipCurrent + st.lx * 0.165 * tiltMul  // +10%
-      group.rotation.x = -st.ly * 0.11 * tiltMul                   // +10%
+      group.rotation.y = st.flipCurrent + st.lx * 0.165 * st.tiltMul
+      group.rotation.x = -st.ly * 0.11 * st.tiltMul
       if (!st.flipping && Math.abs(st.mx) < 0.02 && Math.abs(st.my) < 0.02) {
         group.rotation.y += Math.sin(t * 0.20) * 0.014
         group.rotation.x += Math.sin(t * 0.16 + 1.2) * 0.008
@@ -192,11 +194,13 @@ export default function InviteCanvas() {
       ref={mountRef}
       style={{
         position: 'relative', width: '100%', aspectRatio: '720 / 1008', cursor: 'pointer',
+        mixBlendMode: 'multiply',
         filter: [
-          'drop-shadow(0px 8px 16px rgba(19,32,38,0.04))',
-          'drop-shadow(0px 24px 48px rgba(19,32,38,0.08))',
-          'drop-shadow(0px 40px 80px rgba(19,32,38,0.10))',
-          'drop-shadow(0px 48px 96px rgba(19,32,38,0.12))',
+          'drop-shadow(0px 1000px 193px rgba(43,13,0,0.00))',
+          'drop-shadow(0px 660px 177px rgba(43,13,0,0.015))',
+          'drop-shadow(0px 370px 149px rgba(43,13,0,0.06))',
+          'drop-shadow(0px 165px 110px rgba(43,13,0,0.105))',
+          'drop-shadow(0px 42px 61px rgba(43,13,0,0.12))',
         ].join(' '),
       }}
     />

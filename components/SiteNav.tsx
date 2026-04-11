@@ -106,25 +106,31 @@ export default function SiteNav() {
   if (inHero) {
     return (
       <nav
-        className="absolute top-0 left-0 w-full z-50 flex items-center justify-between"
+        className="absolute top-0 left-0 w-full z-50"
         style={{
-          paddingTop: 'var(--mpds-space-12)',
-          paddingBottom: 'var(--mpds-space-12)',
-          paddingLeft: 'var(--mpds-space-48)',
-          paddingRight: 'var(--mpds-space-48)',
+          paddingTop: 'var(--mpds-space-24)',
+          paddingBottom: 'var(--mpds-space-24)',
           opacity: visible ? 1 : 0,
           transition: 'opacity 0.5s ease',
           pointerEvents: visible ? 'auto' : 'none',
         }}
         aria-label="Main navigation"
       >
+        <div
+          className="flex items-center justify-between mx-auto w-full"
+          style={{
+            maxWidth: 1600,
+            paddingLeft: 'var(--mpds-space-48)',
+            paddingRight: 'var(--mpds-space-48)',
+          }}
+        >
         {/* Mark — logo ornament */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/wedding-site--nav-mark.svg"
           alt=""
           aria-hidden="true"
-          style={{ width: 128, height: 128 }}
+          style={{ width: 'var(--mpds-dimension-128)', height: 'var(--mpds-dimension-128)' }}
         />
 
         {/* Links */}
@@ -172,6 +178,7 @@ export default function SiteNav() {
         >
           RSVP
         </a>
+        </div>
       </nav>
     )
   }

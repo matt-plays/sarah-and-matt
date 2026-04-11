@@ -56,6 +56,7 @@ export interface TravelCard {
   overline: string;
   heading: string;
   body: string;
+  link?: string;
 }
 
 export interface RSVPContent {
