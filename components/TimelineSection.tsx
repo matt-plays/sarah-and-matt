@@ -7,7 +7,7 @@ import type { StoryCard } from '@/types/content'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type PhotoVariant = 'BTV' | 'COVID' | 'Poconos' | 'Engaged' | 'Massachusetts' | 'Excelsior'
+type PhotoVariant = 'BTV' | 'COVID' | 'Poconos' | 'Engaged' | 'Massachusetts' | 'MoreToCome' | 'Excelsior'
 
 interface TimelineEntry {
   id: string
@@ -18,7 +18,7 @@ interface TimelineEntry {
 }
 
 // Photo variants assigned by position — tied to specific image files
-const PHOTO_VARIANTS: (PhotoVariant | null)[] = ['BTV', 'COVID', 'Poconos', 'Engaged', 'Massachusetts', null, 'Excelsior']
+const PHOTO_VARIANTS: (PhotoVariant | null)[] = ['BTV', 'COVID', 'Poconos', 'Engaged', 'Massachusetts', 'MoreToCome', 'Excelsior']
 
 const PHOTO_PAIRS: Record<PhotoVariant, [string, string]> = {
   BTV:          ['/images/timeline/wedding-site--timeline-vingnette-01-left.png',  '/images/timeline/wedding-site--timeline-vingnette-01-right.png'],
@@ -26,7 +26,8 @@ const PHOTO_PAIRS: Record<PhotoVariant, [string, string]> = {
   Poconos:      ['/images/timeline/wedding-site--timeline-vingnette-03-left.png',  '/images/timeline/wedding-site--timeline-vingnette-03-right.png'],
   Engaged:      ['/images/timeline/wedding-site--timeline-vingnette-04-left.png',  '/images/timeline/wedding-site--timeline-vingnette-04-right.png'],
   Massachusetts:['/images/timeline/wedding-site--timeline-vingnette-06-left.webp', '/images/timeline/wedding-site--timeline-vingnette-06-right.webp'],
-  Excelsior:    ['/images/timeline/wedding-site--timeline-vingnette-05-left.png',  '/images/timeline/wedding-site--timeline-vingnette-05-right.png'],
+  MoreToCome:   ['/images/timeline/wedding-site--timeline-vingnette-05-left.png',  '/images/timeline/wedding-site--timeline-vingnette-05-right.png'],
+  Excelsior:    ['/images/timeline/wedding-site--timeline-vingnette-06-left.png',  '/images/timeline/wedding-site--timeline-vingnette-06-right.png'],
 }
 
 // ─── Timeline Ruler ───────────────────────────────────────────────────────────
@@ -48,10 +49,14 @@ function TimelineRuler() {
   const STEP  = RULER_STEP
   const count = Math.floor(ITEM_W / STEP) // 536 / 8 = 67 ticks, no remainder
 
+  // Ticks are offset by half a step (4px) so the event marker at i=0
+  // lands at 4px — the center of the 8px dot directly below it.
+  const TICK_OFFSET = STEP / 2
+
   const baseHeight = (i: number) => {
-    if (i === 1)            return MAJOR  // event marker
-    if (i === 0 || i === 2) return MED    // flanking markers
-    if (i === count - 1)    return MED    // end cap
+    if (i === 0)         return MAJOR  // event marker — aligns with dot center
+    if (i === 1)         return MED    // right flanker
+    if (i === count - 1) return MED    // end cap
     return MINOR
   }
 
@@ -68,7 +73,7 @@ function TimelineRuler() {
           <div
             key={i}
             className="absolute top-0"
-            style={{ left: i * STEP - 3, width: 7, height: MAJOR, cursor: 'default' }}
+            style={{ left: i * STEP + TICK_OFFSET - 3, width: 7, height: MAJOR, cursor: 'default' }}
             onMouseEnter={() => setHoveredTick(i)}
             onMouseLeave={() => setHoveredTick(null)}
           >
@@ -91,13 +96,13 @@ function PhotoGroup({ variant }: { variant: PhotoVariant }) {
     <div className="flex items-center shrink-0" style={{ paddingRight: 12 }}>
       <div
         className="relative rounded-full shrink-0 overflow-hidden ring-1 ring-[var(--theme-bg)]"
-        style={{ width: 48, height: 48, marginRight: -12, zIndex: 1 }}
+        style={{ width: 48, height: 48, marginRight: -12, zIndex: 0 }}
       >
         <Image src={left} alt="" fill className="object-cover" sizes="48px" />
       </div>
       <div
         className="relative rounded-full shrink-0 overflow-hidden ring-1 ring-[var(--theme-bg)]"
-        style={{ width: 48, height: 48, marginRight: -12, zIndex: 0 }}
+        style={{ width: 48, height: 48, marginRight: -12, zIndex: 1 }}
       >
         <Image src={right} alt="" fill className="object-cover" sizes="48px" />
       </div>
@@ -109,13 +114,23 @@ function PhotoGroup({ variant }: { variant: PhotoVariant }) {
 
 function Dot({ active }: { active?: boolean }) {
   return (
-    <div
-      className={`shrink-0 rounded-full bg-[var(--theme-action)] transition-opacity duration-300 ${
-        active ? 'opacity-100' : 'opacity-50'
-      }`}
-      style={{ width: 8, height: 8 }}
-      aria-hidden="true"
-    />
+    <div className="relative shrink-0" style={{ width: 8, height: 8 }} aria-hidden="true">
+      {/* Outer ring — always present, 16px, 10% opacity; pulses as sonar beacon on hover */}
+      <div
+        className="absolute rounded-full bg-[var(--theme-action)]"
+        style={{
+          width: 16,
+          height: 16,
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          opacity: 0.10,
+          animation: active ? 'sonar 1.5s ease-out infinite' : undefined,
+        }}
+      />
+      {/* Main dot — always fully opaque */}
+      <div className="absolute inset-0 rounded-full bg-[var(--theme-action)]" />
+    </div>
   )
 }
 
@@ -156,15 +171,17 @@ interface ItemProps {
   isOtherHovered: boolean
   onMouseEnter: () => void
   onMouseLeave: () => void
+  onClick: () => void
 }
 
-function Item({ entry, isHovered, isOtherHovered, onMouseEnter, onMouseLeave }: ItemProps) {
+function Item({ entry, isHovered, isOtherHovered, onMouseEnter, onMouseLeave, onClick }: ItemProps) {
   return (
     <div
       className="flex flex-col gap-2 shrink-0"
       style={{ width: ITEM_W }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onClick={onClick}
     >
       {/* Ruler — always full opacity; ticks never dim */}
       <TimelineRuler />
@@ -187,10 +204,13 @@ function Item({ entry, isHovered, isOtherHovered, onMouseEnter, onMouseLeave }: 
           </span>
           {entry.photoVariant && (
             <div
-              className={`absolute top-1/2 -translate-y-1/2 transition-opacity duration-300 ${
-                isHovered ? 'opacity-100' : 'opacity-0'
-              }`}
-              style={{ right: 'var(--mpds-space-80)' }}
+              className="absolute top-1/2 -translate-y-1/2 transition-[filter,opacity] duration-300"
+              style={{
+                right: 'var(--mpds-space-80)',
+                filter: isHovered ? 'none' : 'grayscale(1) contrast(1.3)',
+                mixBlendMode: 'multiply',
+                opacity: isHovered ? 1 : 0.48,
+              }}
             >
               <PhotoGroup variant={entry.photoVariant} />
             </div>
@@ -273,6 +293,14 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
     scrollRef.current?.scrollBy({ left: dir === 'right' ? ITEM_W : -ITEM_W, behavior: 'smooth' })
   }
 
+  const handleItemClick = useCallback((index: number) => {
+    if (hasDragged.current) return
+    const el = scrollRef.current
+    if (!el) return
+    const target = Math.min(index * ITEM_W, el.scrollWidth - el.clientWidth)
+    el.scrollTo({ left: target, behavior: 'smooth' })
+  }, [])
+
   return (
     <section
       id="timeline"
@@ -315,7 +343,7 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
         onDragStart={(e) => e.preventDefault()}
       >
         <div className="flex">
-          {entries.map((entry) => (
+          {entries.map((entry, i) => (
             <Item
               key={entry.id}
               entry={entry}
@@ -323,6 +351,7 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
               isOtherHovered={hoveredId !== null && hoveredId !== entry.id}
               onMouseEnter={() => { if (!isDragging.current) setHoveredId(entry.id) }}
               onMouseLeave={() => { if (!isDragging.current) setHoveredId(null) }}
+              onClick={() => handleItemClick(i)}
             />
           ))}
           {/* Trailing ruler — fills the right container gutter with ticks so the

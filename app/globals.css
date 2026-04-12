@@ -328,6 +328,12 @@ body {
   .scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
   .scrollbar-none::-webkit-scrollbar { display: none; }
 
+  /* Timeline dot sonar beacon */
+  @keyframes sonar {
+    0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.10; }
+    100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+  }
+
   /* Container (legacy) */
   .container-width {
     width: 100%;
