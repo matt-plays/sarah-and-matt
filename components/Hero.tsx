@@ -72,7 +72,7 @@ export default function Hero() {
 
       {/* ── Progress bar (loading state) ── */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        className="fixed inset-0 flex items-center justify-center pointer-events-none"
         aria-hidden="true"
         style={{ zIndex: 2, opacity: revealed ? 0 : 1, transition: 'opacity 1.2s ease' }}
       >

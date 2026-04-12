@@ -29,18 +29,28 @@ export default function TimelineGallery() {
     const strip = stripRef.current
     if (!section || !strip) return
 
+    // Cache overflow — reading scrollWidth forces layout, so only do it on resize
+    let overflow = Math.max(0, strip.scrollWidth - window.innerWidth)
+
+    const handleResize = () => {
+      overflow = Math.max(0, strip.scrollWidth - window.innerWidth)
+    }
+
     const handleScroll = () => {
       const rect = section.getBoundingClientRect()
       const vh = window.innerHeight
       const raw = 1 - rect.bottom / (vh + rect.height)
       const progress = Math.max(0, Math.min(1, raw))
-      const overflow = Math.max(0, strip.scrollWidth - window.innerWidth)
       strip.style.transform = `translateX(${-overflow * progress}px)`
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleResize, { passive: true })
     handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   return (

@@ -115,6 +115,55 @@
   --site-section-padding:  clamp(24px, 12px + 2.5vw, 48px);
 }
 
+/* ─── Theme Property Registrations ──────────────────────────────── */
+/*
+  Register theme tokens as typed CSS properties so they can be animated.
+  Without @property, CSS variable changes are instant — transitions on
+  background-color / color won't help because the variable itself jumps.
+  With @property + inherits: true, the variable transitions on body and
+  all descendants automatically see the smooth interpolated value.
+*/
+@property --theme-bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #FAF7F5;
+}
+@property --theme-tonal {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #DCD3CA;
+}
+@property --theme-headline {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #0B0C0D;
+}
+@property --theme-text {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(11, 12, 13, 0.72);
+}
+@property --theme-action {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #A76F00;
+}
+@property --theme-action-hovered {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #986600;
+}
+@property --theme-action-pressed {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #8A5C00;
+}
+@property --theme-btn-text {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #FAF7F5;
+}
+
 /* ─── Semantic Theme Tokens ─────────────────────────────────────── */
 /*
   5 themes: default | maroon | green | taupe | footer
@@ -204,7 +253,17 @@ a {
 body {
   background-color: var(--theme-bg);
   color: var(--theme-text);
-  transition: background-color 0.5s ease, color 0.5s ease;
+  /* Animate the CSS variables themselves — with @property + inherits: true,
+     all descendants automatically see the smooth interpolated values. */
+  transition:
+    --theme-bg 0.5s ease,
+    --theme-tonal 0.5s ease,
+    --theme-headline 0.5s ease,
+    --theme-text 0.5s ease,
+    --theme-action 0.5s ease,
+    --theme-action-hovered 0.5s ease,
+    --theme-action-pressed 0.5s ease,
+    --theme-btn-text 0.5s ease;
   font-family: "Instrument Sans", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
