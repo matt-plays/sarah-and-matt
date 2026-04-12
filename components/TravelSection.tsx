@@ -24,16 +24,17 @@ const CATEGORY_IMAGES: Record<Category, string> = {
 
 // ─── Card ────────────────────────────────────────────────────────────────────
 
-function RecommendationCard({ card, index }: { card: TravelCard; index: number }) {
-  const [visible, setVisible] = useState(false)
+function RecommendationCard({ card, index, animate }: { card: TravelCard; index: number; animate: boolean }) {
+  // Start visible on page load (animate=false); only hide+fade-in on category switch (animate=true)
+  const [visible, setVisible] = useState(!animate)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // Reset on card change
+    if (!animate) return
     setVisible(false)
     const timeout = setTimeout(() => setVisible(true), 60 * index)
     return () => clearTimeout(timeout)
-  }, [card, index])
+  }, [animate, index])
 
   const Tag = card.link ? 'a' : 'div'
   const linkProps = card.link
@@ -44,7 +45,7 @@ function RecommendationCard({ card, index }: { card: TravelCard; index: number }
     <Tag
       ref={ref as React.RefObject<HTMLDivElement & HTMLAnchorElement>}
       {...linkProps}
-      className="flex flex-col border-l border-[var(--theme-tonal)] transition-all duration-500 ease-out group"
+      className="flex flex-col border-l border-[var(--theme-tonal)] transition-[opacity,transform] duration-500 ease-out group"
       style={{
         gap: 'var(--mpds-space-16)',
         paddingLeft: 'var(--mpds-space-16)',
@@ -95,6 +96,7 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
 
   const [active, setActive] = useState<Category>('eat') // eat first to show Luca image
   const [cardKey, setCardKey] = useState(0)
+  const [hasInteracted, setHasInteracted] = useState(false)
 
   const cardMap: Record<Category, TravelCard[]> = {
     stay: whereToStay,
@@ -106,6 +108,7 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
 
   function handleCategoryChange(key: Category) {
     if (key === active) return
+    setHasInteracted(true)
     setActive(key)
     setCardKey((k) => k + 1) // force remount for animation
   }
@@ -179,7 +182,7 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
             style={{ columnGap: 'var(--mpds-space-32)', rowGap: 'var(--mpds-space-48)' }}
           >
             {cards.slice(0, 9).map((card, i) => (
-              <RecommendationCard key={`${active}-${i}`} card={card} index={i} />
+              <RecommendationCard key={`${active}-${i}`} card={card} index={i} animate={hasInteracted} />
             ))}
           </div>
         </div>

@@ -81,7 +81,7 @@ export default function RSVPSection({ rsvp }: { rsvp: RSVPContent }) {
                 alt=""
                 className="w-full h-auto block"
                 style={{ mixBlendMode: 'screen' }}
-                loading="lazy"
+                loading="eager"
               />
             </div>
           ))}

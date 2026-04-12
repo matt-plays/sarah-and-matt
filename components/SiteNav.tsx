@@ -2,7 +2,7 @@
 // Simplified site navigation — Figma node 615:8601.
 // Hero state: transparent on pink, sits at the top of the hero section.
 // Fixed state: dark pill at viewport bottom (scroll-up to reveal, idle timer).
-// Suppressed in timeline/gallery sections.
+// Suppressed in timeline/gallery/marquee sections.
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 
@@ -20,6 +20,8 @@ export default function SiteNav() {
   const [inHero, setInHero] = useState(true)
   const [heroReady, setHeroReady] = useState(false)
   const [suppressed, setSuppressed] = useState(false)
+  // Nav is invisible until the user has scrolled to Our Celebration
+  const [celebrationReached, setCelebrationReached] = useState(false)
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const lastScrollY = useRef(0)
   const scrollUpDistance = useRef(0)
@@ -40,6 +42,18 @@ export default function SiteNav() {
     return () => window.removeEventListener('hero-ready', handler)
   }, [])
 
+  // Unlock nav once Our Celebration section has entered the viewport (one-way latch)
+  useEffect(() => {
+    const el = document.getElementById('celebration')
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setCelebrationReached(true) },
+      { threshold: 0.05 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   // Suppress fixed nav when timeline/gallery/marquee sections are visible
   useEffect(() => {
     const els = SUPPRESSED_IDS.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[]
@@ -50,7 +64,9 @@ export default function SiteNav() {
         else visible.delete(entry.target)
       })
       setSuppressed(visible.size > 0)
-    }, { threshold: 0.05 })
+    // rootMargin bottom buffer: suppress the nav before the section actually
+    // enters the viewport, eliminating the race-condition flash during gallery.
+    }, { threshold: 0, rootMargin: '0px 0px 120px 0px' })
     els.forEach(el => observer.observe(el))
     return () => observer.disconnect()
   }, [])
@@ -191,7 +207,7 @@ export default function SiteNav() {
   }
 
   // ── Fixed state — dark pill at viewport bottom ────────────────────────────
-  const pillVisible = visible && !suppressed
+  const pillVisible = celebrationReached && visible && !suppressed
   return (
     <nav
       data-theme="footer"
@@ -204,7 +220,8 @@ export default function SiteNav() {
         opacity: pillVisible ? 1 : 0,
         transform: pillVisible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(20px)',
         pointerEvents: pillVisible ? 'auto' : 'none',
-        transition: 'opacity 0.5s ease, transform 0.5s ease',
+        // Instant hide when suppressed (no animation over gallery); smooth entrance only
+        transition: suppressed ? 'none' : 'opacity 0.5s ease, transform 0.5s ease',
       }}
       aria-label="Main navigation"
     >
