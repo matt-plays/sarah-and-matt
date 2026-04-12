@@ -17,9 +17,9 @@ const CATEGORIES: { key: Category; label: string }[] = [
 ]
 
 const CATEGORY_IMAGES: Record<Category, string> = {
-  eat: '/images/wedding-site--travel-stay-eat.png',
-  stay: '/images/wedding-site--travel-stay-stay.png',
-  do: '/images/wedding-site--travel-stay-do.png',
+  eat: '/images/wedding-site--travel-stay-eat.webp',
+  stay: '/images/wedding-site--travel-stay-stay.webp',
+  do: '/images/wedding-site--travel-stay-do.webp',
 }
 
 // ─── Card ────────────────────────────────────────────────────────────────────
@@ -118,10 +118,10 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
         className="w-full flex justify-center"
         style={{ paddingBottom: 'var(--sp-2xl)' }}
       >
-        <div className="site-container flex flex-col md:flex-row md:items-end md:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
+        <div className="site-container flex flex-col xl:flex-row xl:items-end xl:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
           <h2
             className="font-romie font-light text-[var(--theme-headline)] leading-none shrink-0"
-            style={{ fontSize: 'var(--mpds-font-size-11xl)' }}
+            style={{ fontSize: 'var(--mpds-font-size-10xl)' }}
           >
             {heading}
           </h2>
@@ -135,12 +135,12 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
       </section>
 
       {/* ── Content area ── */}
-      <section className="relative z-10 w-full flex justify-center">
+      <section className="relative z-10 w-full flex justify-center" style={{ paddingBottom: 'var(--sp-2xl)' }}>
         <div className="site-container grid grid-cols-1 lg:grid-cols-12" style={{ gap: 'var(--site-grid-gutter)' }}>
           {/* Left sidebar — 4 cols: category nav + photo */}
           <div className="lg:col-span-4 flex flex-col" style={{ gap: 'var(--sp-2xl)' }}>
             {/* Category nav */}
-            <nav className="flex flex-row lg:flex-col gap-4 lg:gap-[var(--mpds-space-14)] overflow-x-auto scrollbar-none">
+            <nav className="flex flex-row lg:flex-col gap-4 lg:gap-[var(--mpds-space-14)] overflow-x-auto scrollbar-none pb-[var(--mpds-space-lg)]">
               {CATEGORIES.map(({ key, label }) => (
                 <button
                   key={key}
@@ -150,17 +150,17 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
                       ? 'text-[var(--theme-headline)]'
                       : 'text-[var(--theme-tonal)]'
                   }`}
-                  style={{ fontSize: 'var(--mpds-font-size-4xl)', letterSpacing: '-0.02em' }}
+                  style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.02em' }}
                 >
                   {label}
                 </button>
               ))}
             </nav>
 
-            {/* Decorative photo — hidden on mobile, shown on lg */}
+            {/* Decorative photo — full-width on mobile (2× feel), constrained on lg */}
             <div
-              className="hidden lg:block rounded-2xl overflow-hidden"
-              style={{ width: 376, height: 376 }}
+              className="block rounded-2xl overflow-hidden w-full"
+              style={{ aspectRatio: '1 / 1', maxWidth: 376 }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -187,12 +187,13 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
 
       {/* ── CMYK background image — overlaps content by space-2xl via negative margin ── */}
       <div
-        className="w-full"
-        style={{ marginTop: 'calc(-1 * var(--sp-2xl))' }}
+        className="w-full lg:[margin-top:calc(-2*var(--sp-2xl))]"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/wedding-site--travel-stay-background.png"
+          src="/images/wedding-site--travel-stay-background.webp"
+          srcSet="/images/wedding-site--travel-stay-background-480w.webp 480w, /images/wedding-site--travel-stay-background-800w.webp 800w, /images/wedding-site--travel-stay-background-1200w.webp 1200w, /images/wedding-site--travel-stay-background.webp 1920w"
+          sizes="100vw"
           alt=""
           className="w-full h-auto block"
         />

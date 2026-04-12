@@ -2,7 +2,7 @@
 // 5-photo horizontal strip with engagement photo.
 // Overflows symmetrically via justify-center — section clips the overflow.
 
-const PHOTO = '/images/engagement-umbrella.jpg';
+const PHOTO = '/images/engagement-umbrella.webp';
 
 const slots: { h: number; pos: string }[] = [
   { h: 501, pos: '23% 27%' },

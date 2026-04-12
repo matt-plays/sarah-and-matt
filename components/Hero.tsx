@@ -56,7 +56,9 @@ export default function Hero() {
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/wedding-site--hero-background.png"
+          src="/images/wedding-site--hero-background.webp"
+          srcSet="/images/wedding-site--hero-background-480w.webp 480w, /images/wedding-site--hero-background-800w.webp 800w, /images/wedding-site--hero-background-1200w.webp 1200w, /images/wedding-site--hero-background.webp 1920w"
+          sizes="100vw"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
           style={{
@@ -120,7 +122,7 @@ export default function Hero() {
 
       {/* ── Bottom landscape panorama ── */}
       <div
-        className="absolute bottom-0 left-0 w-full pointer-events-none"
+        className="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none"
         aria-hidden="true"
         style={{
           zIndex: 0,
@@ -131,9 +133,11 @@ export default function Hero() {
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/wedding-site--hero-background.png"
+          src="/images/wedding-site--hero-background.webp"
+          srcSet="/images/wedding-site--hero-background-480w.webp 480w, /images/wedding-site--hero-background-800w.webp 800w, /images/wedding-site--hero-background-1200w.webp 1200w, /images/wedding-site--hero-background.webp 1920w"
+          sizes="100vw"
           alt=""
-          className="w-full h-auto block"
+          className="w-[200%] sm:w-full h-auto block -translate-x-1/4 sm:translate-x-0"
         />
       </div>
     </section>

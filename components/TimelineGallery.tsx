@@ -6,12 +6,12 @@ import { useEffect, useRef } from 'react'
 // ─── Gallery images — varying aspect ratios for visual rhythm ────────────────
 
 const IMAGES = [
-  { src: '/images/timeline/wedding-site--timeline-gallery-01.png', alt: 'Sarah and Matt', aspect: '3/4' },
-  { src: '/images/timeline/wedding-site--timeline-gallery-02.png', alt: 'Sarah and Matt', aspect: '1/1' },
-  { src: '/images/timeline/wedding-site--timeline-gallery-03.png', alt: 'Sarah and Matt', aspect: '2/3' },
-  { src: '/images/timeline/wedding-site--timeline-gallery-04.png', alt: 'Sarah and Matt', aspect: '1/1' },
-  { src: '/images/timeline/wedding-site--timeline-gallery-05.png', alt: 'Sarah and Matt', aspect: '3/4' },
-  { src: '/images/timeline/wedding-site--timeline-gallery-06.png', alt: 'Sarah and Matt', aspect: '2/3' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-01.webp', alt: 'Sarah and Matt', aspect: '3/4' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-02.webp', alt: 'Sarah and Matt', aspect: '1/1' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-03.webp', alt: 'Sarah and Matt', aspect: '2/3' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-04.webp', alt: 'Sarah and Matt', aspect: '1/1' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-05.webp', alt: 'Sarah and Matt', aspect: '3/4' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-06.webp', alt: 'Sarah and Matt', aspect: '2/3' },
 ]
 
 const GAP = 16

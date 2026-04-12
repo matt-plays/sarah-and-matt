@@ -31,18 +31,18 @@ export default function RegistrySection({ registry }: { registry: RegistryConten
         transition: 'background-color 0.5s ease',
       }}
     >
-      <div className="site-container flex flex-col lg:flex-row lg:items-start lg:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
+      <div className="site-container grid grid-cols-1 xl:grid-cols-12" style={{ gap: 'var(--mpds-space-lg)' }}>
 
         {/* ── Left column ── */}
         <div
-          className="flex flex-col items-start lg:justify-between lg:self-stretch lg:shrink-0"
-          style={{ maxWidth: 504, paddingTop: 'var(--mpds-space-80)', paddingBottom: 'var(--mpds-space-80)' }}
+          className="xl:col-span-6 flex flex-col items-start justify-between self-stretch max-w-[640px]"
+          style={{ paddingTop: 'var(--mpds-space-80)', paddingBottom: 'var(--mpds-space-80)', gap: 'var(--mpds-space-lg)' }}
         >
           {/* Top group: heading + body + CTA */}
           <div className="flex flex-col items-start" style={{ gap: 'var(--mpds-space-80)' }}>
             <h2
               className="font-romie font-light text-[var(--theme-headline)] leading-none w-full"
-              style={{ fontSize: 'var(--mpds-font-size-11xl)' }}
+              style={{ fontSize: 'var(--mpds-font-size-10xl)' }}
             >
               {content.heading}
             </h2>
@@ -66,14 +66,14 @@ export default function RegistrySection({ registry }: { registry: RegistryConten
             {content.items.map((item, i) => {
               const Icon = REGISTRY_ICONS[i] || Home
               return (
-                <div key={i} className="flex flex-col" style={{ gap: 10 }}>
-                  <div className="flex items-start" style={{ gap: 10 }}>
-                    <span className="text-[var(--theme-headline)] shrink-0" style={{ width: 27, height: 27 }}>
+                <div key={i} className="flex flex-col" style={{ gap: 'var(--mpds-space-12)' }}>
+                  <div className="flex items-start" style={{ gap: 'var(--mpds-space-8)' }}>
+                    <span className="text-[var(--theme-headline)] shrink-0" style={{ width: 24, height: 24 }}>
                       <Icon />
                     </span>
                     <p
                       className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
-                      style={{ fontSize: 'var(--mpds-font-size-2xl)', letterSpacing: '-0.02em' }}
+                      style={{ fontSize: 'var(--mpds-font-size-xl)', letterSpacing: '-0.02em' }}
                     >
                       {item.name}
                     </p>
@@ -92,12 +92,12 @@ export default function RegistrySection({ registry }: { registry: RegistryConten
 
         {/* ── Right column — photo ── */}
         <div
-          className="rounded-2xl overflow-hidden w-full lg:shrink-0"
-          style={{ maxWidth: 784, aspectRatio: '3 / 4' }}
+          className="xl:col-start-7 xl:col-end-13 rounded-2xl overflow-hidden w-full"
+          style={{ aspectRatio: '3 / 4' }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/wedding-site--registry-01.png"
+            src="/images/wedding-site--registry-01.webp"
             alt="Sarah and Matt"
             className="w-full h-full object-cover object-center"
             loading="lazy"

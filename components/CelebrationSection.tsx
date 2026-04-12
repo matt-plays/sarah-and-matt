@@ -64,7 +64,7 @@ function AccordionItem({
             href={seg.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline text-[var(--theme-action)] hover:opacity-70 transition-opacity"
+            className="text-[var(--theme-action)] hover:opacity-70 transition-opacity"
             onClick={(e) => e.stopPropagation()}
           >
             {seg.text}
@@ -93,7 +93,7 @@ function AccordionItem({
         <span
           className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
           style={{
-            fontSize: 'var(--mpds-font-size-xl)',
+            fontSize: 'var(--mpds-font-size-lg)',
             letterSpacing: '-0.02em',
             transition: 'color 0.5s ease',
           }}
@@ -159,10 +159,10 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
       <div className="site-container flex flex-col" style={{ gap: 'var(--mpds-space-xl)' }}>
 
         {/* ── Header: title + description ── */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
+        <div className="flex flex-col xl:flex-row xl:items-end xl:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
           <h2
             className="font-romie font-light text-[var(--theme-headline)] leading-none shrink-0"
-            style={{ fontSize: 'var(--mpds-font-size-11xl)', transition: 'color 0.5s ease' }}
+            style={{ fontSize: 'var(--mpds-font-size-10xl)', transition: 'color 0.5s ease' }}
           >
             {content.heading}
           </h2>
@@ -175,18 +175,18 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
         </div>
 
         {/* ── Content: details left, photos right ── */}
-        <div className="relative flex flex-col lg:flex-row lg:items-start lg:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
+        <div className="relative grid grid-cols-1 xl:grid-cols-12" style={{ gap: 'var(--mpds-space-lg)' }}>
 
           {/* Left column — event details + accordion + CTA */}
           <div
-            className="flex flex-col justify-between lg:self-stretch lg:shrink-0"
-            style={{ maxWidth: 615 }}
+            className="xl:col-span-6 flex flex-col justify-between max-w-[640px]"
+            style={{ gap: 'var(--mpds-space-lg)' }}
           >
             {/* Event details block */}
             <div className="flex flex-col" style={{ gap: 'var(--mpds-space-md)' }}>
               <h3
                 className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
-                style={{ fontSize: 'var(--mpds-font-size-4xl)', letterSpacing: '-0.02em', transition: 'color 0.5s ease' }}
+                style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.02em', transition: 'color 0.5s ease' }}
               >
                 Friday, August 28, 2026
               </h3>
@@ -215,35 +215,20 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                 ))}
               </div>
 
-              {/* Address box */}
+              {/* Address box — column on mobile, row on sm+ */}
               <div
                 className="w-full border border-[var(--theme-headline)]"
                 style={{ padding: 'var(--mpds-space-16) var(--mpds-space-28)', transition: 'border-color 0.5s ease' }}
               >
-                {/* Mobile: stacked with tonal rules */}
-                <div className="flex flex-col sm:hidden">
-                  {['Excelsior', '125 E King Street', 'Lancaster, PA'].map((item, i) => (
-                    <div key={item}>
-                      {i > 0 && <div className="h-px w-full bg-[var(--theme-tonal)]" style={{ transition: 'background-color 0.5s ease' }} />}
-                      <span
-                        className="font-spezia text-[var(--theme-headline)] uppercase tracking-[0.12em] leading-[1.125] block"
-                        style={{ fontSize: 'var(--mpds-font-size-sm)', paddingTop: 'var(--mpds-space-8)', paddingBottom: 'var(--mpds-space-8)', transition: 'color 0.5s ease' }}
-                      >
-                        {item}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                {/* Tablet/Desktop: inline with slash separators */}
-                <div className="hidden sm:flex flex-wrap items-center justify-between" style={{ gap: '12px 18px' }}>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between" style={{ gap: 'var(--mpds-space-8)' }}>
                   <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
                     Excelsior
                   </span>
-                  <span className="font-instrument text-[var(--theme-tonal)]">/</span>
+                  <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
                   <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
                     125 E King Street
                   </span>
-                  <span className="font-instrument text-[var(--theme-tonal)]">/</span>
+                  <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
                   <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
                     Lancaster, PA
                   </span>
@@ -258,7 +243,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                 <h3
                   className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
                   style={{
-                    fontSize: 'var(--mpds-font-size-4xl)',
+                    fontSize: 'var(--mpds-font-size-3xl)',
                     letterSpacing: '-0.02em',
                     paddingBottom: 'var(--mpds-space-48)',
                     transition: 'color 0.5s ease',
@@ -285,7 +270,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                   href={content.rsvpUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[var(--theme-action)] text-[var(--theme-btn-text)] font-instrument font-semibold rounded px-8 py-4 leading-[1.25] transition-opacity hover:opacity-90"
+                  className="bg-[var(--theme-action)] text-[var(--theme-btn-text)] font-instrument font-semibold rounded px-8 py-4 leading-[1.25] transition-opacity hover:opacity-90 text-center"
                   style={{ fontSize: 'var(--mpds-font-size-lg)', transition: 'background-color 0.5s ease, color 0.5s ease' }}
                 >
                   RSVP today
@@ -294,7 +279,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                   href={content.venueUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center font-instrument font-semibold text-[var(--theme-action)] leading-[1.25] transition-opacity hover:opacity-70"
+                  className="flex items-center justify-center sm:justify-start font-instrument font-semibold text-[var(--theme-action)] leading-[1.25] transition-opacity hover:opacity-70"
                   style={{ fontSize: 'var(--mpds-font-size-lg)', transition: 'color 0.5s ease' }}
                 >
                   Visit the Excelsior website
@@ -304,9 +289,9 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
             </div>
           </div>
 
-          {/* Right column — photos */}
-          <div className="relative w-full lg:shrink-0 lg:w-auto" style={{ maxWidth: 784 }}>
-            <div className="rounded-2xl overflow-hidden w-full bg-[var(--theme-tonal)]" style={{ aspectRatio: '3 / 4' }}>
+          {/* Right column — photos; overlay is not clipped so it can extend outside the column */}
+          <div className="xl:col-start-7 xl:col-end-13 relative w-full">
+            <div className="rounded-2xl overflow-hidden w-full bg-[var(--theme-tonal)] max-w-[784px]" style={{ aspectRatio: '3 / 4' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={content.mainImage}
@@ -315,10 +300,10 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                 loading="eager"
               />
             </div>
-            {/* Overlapping smaller photo — hidden on mobile */}
+            {/* Overlay photo — always visible; right-aligned to photo on mobile, peeks outside column on desktop */}
             <div
-              className="absolute rounded-xl overflow-hidden hidden md:block"
-              style={{ width: 'min(400px, 50%)', aspectRatio: '1', bottom: -80, right: -48 }}
+              className="absolute rounded-xl overflow-hidden right-0 bottom-[-40px] xl:right-[-48px] xl:bottom-[-80px]"
+              style={{ width: 'min(400px, 50%)', aspectRatio: '1' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

@@ -48,7 +48,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
   const onReadyRef = useRef(onReady)
   const entranceStartedRef = useRef(false)
   const flipReadyRef = useRef(false)
-  const entranceFlipActiveRef = useRef(false) // true = use fast lerp during entrance flip
+  const entranceFlipActiveRef = useRef(false)
   onReadyRef.current = onReady
 
   // When Hero signals "reveal", start scale-down and flip simultaneously
@@ -56,7 +56,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     if (!triggerEntrance) return
     entranceStartedRef.current = true
     entranceFlipActiveRef.current = true
-    flipReadyRef.current = true // flip starts immediately alongside fade-in
+    flipReadyRef.current = true
   }, [triggerEntrance])
 
   useEffect(() => {
@@ -82,9 +82,10 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     camera.position.z = 6
 
     // ── Lighting ─────────────────────────────────────────────────────────────────
-    scene.add(new THREE.AmbientLight(0xffffff, 0.4))
+    const ambient = new THREE.AmbientLight(0xffffff, 0.4)
+    scene.add(ambient)
 
-    const key = new THREE.DirectionalLight(0xffffff, 2.8)
+    const key = new THREE.DirectionalLight(0xffffff, 3.5)
     key.position.set(2.5, 4, 5)
     scene.add(key)
 
@@ -97,7 +98,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     scene.add(rim)
 
     // ── Materials ─────────────────────────────────────────────────────────────────
-    const edgeMat  = new THREE.MeshStandardMaterial({ color: 0xf0ebe3, roughness: 0.95, metalness: 0 })
+    const edgeMat  = new THREE.MeshStandardMaterial({ color: 0xd0a79d, roughness: 0.95, metalness: 0 })
     const frontMat = new THREE.MeshStandardMaterial({ color: 0xf7ccc3, roughness: 0.78, metalness: 0 })
     const backMat  = new THREE.MeshStandardMaterial({ color: 0xf7ccc3, roughness: 0.78, metalness: 0 })
 
@@ -134,35 +135,80 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     })
 
     // ── Load PBR maps ─────────────────────────────────────────────────────────────
+    // Use half-res mobile variants on narrow viewports to save 6–8MB of texture data
     const tl = new THREE.TextureLoader()
+    const pbrSuffix = window.innerWidth < 768 ? '-mobile.webp' : '.webp'
 
-    tl.load('/images/hero-invite-front-normal.png', (tex) => {
-      frontMat.normalMap = tex; frontMat.normalScale = new THREE.Vector2(3.0, 3.0); frontMat.needsUpdate = true; onAssetLoaded()
+    tl.load(`/images/hero-invite-front-normal${pbrSuffix}`, (tex) => {
+      frontMat.normalMap = tex; frontMat.normalScale = new THREE.Vector2(4.0, 4.0); frontMat.needsUpdate = true; onAssetLoaded()
     })
-    tl.load('/images/hero-invite-front-ambient.png', (tex) => {
+    tl.load(`/images/hero-invite-front-ambient${pbrSuffix}`, (tex) => {
       frontMat.aoMap = tex; frontMat.aoMapIntensity = 0.75; frontMat.needsUpdate = true; onAssetLoaded()
     })
 
-    tl.load('/images/hero-invite-back-normal.png', (tex) => {
-      backMat.normalMap = tex; backMat.normalScale = new THREE.Vector2(-3.0, 3.0); backMat.needsUpdate = true; onAssetLoaded()
+    tl.load(`/images/hero-invite-back-normal${pbrSuffix}`, (tex) => {
+      backMat.normalMap = tex; backMat.normalScale = new THREE.Vector2(-4.0, 4.0); backMat.needsUpdate = true; onAssetLoaded()
     })
-    tl.load('/images/hero-invite-back-ambient.png', (tex) => {
+    tl.load(`/images/hero-invite-back-ambient${pbrSuffix}`, (tex) => {
       backMat.aoMap = tex; backMat.aoMapIntensity = 0.75; backMat.needsUpdate = true; onAssetLoaded()
     })
 
     // ── Interaction ───────────────────────────────────────────────────────────────
     // Start showing back face; flip to front is triggered by triggerEntrance ref
     const ENTRANCE_ANGLE = (40 * Math.PI) / 180 // 40° tilt — front face always visible
-    const st = { mx: 0, my: 0, lx: 0, ly: 0, flipTarget: ENTRANCE_ANGLE, flipCurrent: ENTRANCE_ANGLE, flipping: false, tiltMul: 1, scale: 1.125 }
+    const st = {
+      mx: 0, my: 0, lx: 0, ly: 0,
+      flipTarget: ENTRANCE_ANGLE, flipCurrent: ENTRANCE_ANGLE,
+      flipping: false, tiltMul: 1, scale: 1.125,
+      isDragging: false, dragStartX: 0, dragStartFlip: 0, hasDragged: false,
+    }
 
     const onMove = (e: MouseEvent) => {
+      if (st.isDragging) {
+        const deltaX = e.clientX - st.dragStartX
+        st.hasDragged = Math.abs(deltaX) > 4
+        const raw = st.dragStartFlip + deltaX * 0.008
+        st.flipCurrent = Math.max(st.dragStartFlip - Math.PI, Math.min(st.dragStartFlip + Math.PI, raw))
+        st.flipTarget = st.flipCurrent
+        return
+      }
       const r = mount.getBoundingClientRect()
       st.mx = ((e.clientX - r.left) / r.width  - 0.5) * 2
       st.my = ((e.clientY - r.top)  / r.height - 0.5) * 2
     }
-    const onClick = () => { st.flipTarget = st.flipTarget === 0 ? Math.PI : 0; st.flipping = true }
+
+    const onPointerDown = (e: PointerEvent) => {
+      st.isDragging = true
+      st.dragStartX = e.clientX
+      st.dragStartFlip = st.flipCurrent
+      st.hasDragged = false
+      mount.setPointerCapture(e.pointerId)
+      mount.style.cursor = 'grabbing'
+    }
+
+    const onPointerUp = (e: PointerEvent) => {
+      if (!st.isDragging) return
+      st.isDragging = false
+      mount.style.cursor = 'ew-resize'
+
+      if (!st.hasDragged) {
+        // Click — right half flips +π, left half flips -π, clamped to [-π, π]
+        const r = mount.getBoundingClientRect()
+        const isLeftHalf = (e.clientX - r.left) < r.width / 2
+        const currentSnap = Math.round(st.flipCurrent / Math.PI) * Math.PI
+        const rawTarget = isLeftHalf ? currentSnap - Math.PI : currentSnap + Math.PI
+        st.flipTarget = Math.max(-Math.PI, Math.min(Math.PI, rawTarget))
+      } else {
+        // Drag release — snap to nearest half-turn, clamped to [-π, π]
+        const snapped = Math.round(st.flipCurrent / Math.PI) * Math.PI
+        st.flipTarget = Math.max(-Math.PI, Math.min(Math.PI, snapped))
+      }
+      st.flipping = true
+    }
+
     mount.addEventListener('mousemove', onMove)
-    mount.addEventListener('click', onClick)
+    mount.addEventListener('pointerdown', onPointerDown)
+    mount.addEventListener('pointerup', onPointerUp)
 
     // ── Animation ─────────────────────────────────────────────────────────────────
     const timer = new THREE.Timer()
@@ -186,23 +232,24 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
         st.flipping = true
       }
 
-      // During flip: drain lx/ly toward 0 so pent-up tilt can't snap in on completion
-      st.lx += ((st.flipping ? 0 : st.mx) - st.lx) * 0.055
-      st.ly += ((st.flipping ? 0 : st.my) - st.ly) * 0.055
-      // Entrance flip uses faster lerp (~0.6s) to match Hero fade-in; interactive flips use normal speed
+      // During flip/drag: drain lx/ly toward 0 so pent-up tilt can't snap in on completion
+      const suppressTilt = st.flipping || st.isDragging
+      st.lx += ((suppressTilt ? 0 : st.mx) - st.lx) * 0.055
+      st.ly += ((suppressTilt ? 0 : st.my) - st.ly) * 0.055
+      // During drag, flipTarget == flipCurrent so lerp is a no-op
       const flipLerp = entranceFlipActiveRef.current ? 0.09 : 0.10
       st.flipCurrent += (st.flipTarget - st.flipCurrent) * flipLerp
-      if (Math.abs(st.flipCurrent - st.flipTarget) < 0.0005) {
+      if (!st.isDragging && Math.abs(st.flipCurrent - st.flipTarget) < 0.0005) {
         st.flipCurrent = st.flipTarget
         st.flipping = false
-        entranceFlipActiveRef.current = false // revert to normal speed for interactive flips
+        entranceFlipActiveRef.current = false
       }
-      // Smooth tilt multiplier — fades out when flip starts, fades back in when done
-      st.tiltMul += ((st.flipping ? 0 : 1) - st.tiltMul) * 0.08
+      // Smooth tilt multiplier — fades out when flip or drag active
+      st.tiltMul += ((suppressTilt ? 0 : 1) - st.tiltMul) * 0.08
       group.position.y = Math.sin(t * 0.38) * 0.025
       group.rotation.y = st.flipCurrent + st.lx * 0.165 * st.tiltMul
       group.rotation.x = -st.ly * 0.11 * st.tiltMul
-      if (!st.flipping && Math.abs(st.mx) < 0.02 && Math.abs(st.my) < 0.02) {
+      if (!suppressTilt && Math.abs(st.mx) < 0.02 && Math.abs(st.my) < 0.02) {
         group.rotation.y += Math.sin(t * 0.20) * 0.014
         group.rotation.x += Math.sin(t * 0.16 + 1.2) * 0.008
       }
@@ -223,7 +270,8 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
       cancelAnimationFrame(raf)
       ro.disconnect()
       mount.removeEventListener('mousemove', onMove)
-      mount.removeEventListener('click', onClick)
+      mount.removeEventListener('pointerdown', onPointerDown)
+      mount.removeEventListener('pointerup', onPointerUp)
       renderer.dispose()
       boxGeo.dispose(); frontGeo.dispose()
       frontMat.dispose(); backMat.dispose(); edgeMat.dispose()
@@ -235,7 +283,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     <div
       ref={mountRef}
       style={{
-        position: 'relative', width: '100%', aspectRatio: '720 / 1008', cursor: 'pointer',
+        position: 'relative', width: '100%', aspectRatio: '720 / 1008', cursor: 'ew-resize',
         mixBlendMode: 'multiply',
         filter: [
           'drop-shadow(0px 1000px 193px rgba(43,13,0,0.00))',
