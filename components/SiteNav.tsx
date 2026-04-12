@@ -13,12 +13,13 @@ const NAV_LINKS = [
 ]
 
 const IDLE_TIMEOUT = 15000
-const SUPPRESSED_IDS = ['timeline', 'gallery']
+const SUPPRESSED_IDS = ['timeline', 'gallery', 'marquee']
 
 export default function SiteNav() {
   const [visible, setVisible] = useState(true)
   const [inHero, setInHero] = useState(true)
   const [heroReady, setHeroReady] = useState(false)
+  const [suppressed, setSuppressed] = useState(false)
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const lastScrollY = useRef(0)
   const scrollUpDistance = useRef(0)
@@ -39,10 +40,23 @@ export default function SiteNav() {
     return () => window.removeEventListener('hero-ready', handler)
   }, [])
 
+  // Suppress fixed nav when timeline/gallery/marquee sections are visible
+  useEffect(() => {
+    const els = SUPPRESSED_IDS.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[]
+    const visible = new Set<Element>()
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) visible.add(entry.target)
+        else visible.delete(entry.target)
+      })
+      setSuppressed(visible.size > 0)
+    }, { threshold: 0.05 })
+    els.forEach(el => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
+
   useEffect(() => {
     const heroEl = document.getElementById('hero')
-    const footerEl = document.querySelector('footer') as HTMLElement
-    const suppressedEls = SUPPRESSED_IDS.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
     const sectionEls = NAV_LINKS.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
 
     const onScroll = () => {
@@ -50,14 +64,8 @@ export default function SiteNav() {
       const delta = currentY - lastScrollY.current
       const vh = window.innerHeight
       const heroRect = heroEl?.getBoundingClientRect()
-      const footerRect = footerEl?.getBoundingClientRect()
 
       const heroVisible = heroRect ? heroRect.bottom > vh * 0.25 : false
-      const inSuppressed = suppressedEls.some((el) => {
-        const r = el.getBoundingClientRect()
-        return r.top < vh && r.bottom > 0
-      })
-      const atFooter = footerRect ? footerRect.top < vh : false
 
       if (heroVisible) {
         setInHero(true)
@@ -70,18 +78,10 @@ export default function SiteNav() {
 
       setInHero(false)
 
-      if (inSuppressed || atFooter) {
-        setVisible(false)
-        scrollUpDistance.current = 0
-        lastScrollY.current = currentY
-        startIdle(false)
-        return
-      }
-
       if (delta < 0) {
         scrollUpDistance.current += Math.abs(delta)
         if (scrollUpDistance.current > 30) setVisible(true)
-      } else if (delta > 5) {
+      } else {
         scrollUpDistance.current = 0
         setVisible(false)
       }
@@ -191,58 +191,65 @@ export default function SiteNav() {
   }
 
   // ── Fixed state — dark pill at viewport bottom ────────────────────────────
+  const pillVisible = visible && !suppressed
   return (
     <nav
       data-theme="footer"
-      className="fixed inset-x-0 mx-auto z-50 flex items-center bg-[var(--theme-bg)] max-w-[calc(100vw-32px)]"
+      className="fixed left-1/2 z-50 flex flex-col md:flex-row md:items-center bg-[var(--theme-bg)]"
       style={{
         bottom: 'var(--mpds-space-48)',
-        width: 'fit-content',
-        gap: 'var(--mpds-space-16)',
-        paddingLeft: 'var(--mpds-space-24)',
-        paddingRight: 'var(--mpds-space-8)',
-        paddingTop: 'var(--mpds-space-8)',
-        paddingBottom: 'var(--mpds-space-8)',
+        gap: 'var(--mpds-space-8)',
+        padding: 'var(--mpds-space-8)',
         borderRadius: 12,
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(20px)',
-        pointerEvents: visible ? 'auto' : 'none',
+        opacity: pillVisible ? 1 : 0,
+        transform: pillVisible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(20px)',
+        pointerEvents: pillVisible ? 'auto' : 'none',
         transition: 'opacity 0.5s ease, transform 0.5s ease',
       }}
       aria-label="Main navigation"
     >
-      {NAV_LINKS.map(({ label, href, id }) => (
-        <a
-          key={href}
-          href={href}
-          className={`font-instrument transition-colors whitespace-nowrap hidden md:inline ${
-            activeSection === id
-              ? 'text-[var(--theme-btn-text)]'
-              : 'text-[var(--theme-text)] hover:text-[var(--theme-btn-text)]'
-          }`}
-          style={{ fontSize: 'var(--mpds-font-size-lg)' }}
-          onClick={(e) => {
-            if (href.startsWith('http')) return
-            e.preventDefault()
-            document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
-          }}
-          {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >
-          {label}
-        </a>
-      ))}
+      {/* Links — always a row */}
+      <div className="flex flex-row items-center" style={{ gap: 'var(--mpds-space-4)' }}>
+        {NAV_LINKS.map(({ label, href, id }) => (
+          <a
+            key={href}
+            href={href}
+            className={`font-instrument transition-colors whitespace-nowrap rounded-lg ${
+              activeSection === id
+                ? 'text-[var(--theme-btn-text)]'
+                : 'text-[var(--theme-text)] hover:text-[var(--theme-btn-text)]'
+            }`}
+            style={{
+              fontSize: 'var(--mpds-font-size-lg)',
+              paddingTop: 'var(--mpds-space-12)',
+              paddingBottom: 'var(--mpds-space-12)',
+              paddingLeft: 'var(--mpds-space-16)',
+              paddingRight: 'var(--mpds-space-16)',
+            }}
+            onClick={(e) => {
+              if (href.startsWith('http')) return
+              e.preventDefault()
+              document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+            }}
+            {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            {label}
+          </a>
+        ))}
+      </div>
+      {/* RSVP */}
       <a
         href="https://zola.sarahandmatt.wedding/rsvp"
         target="_blank"
         rel="noopener noreferrer"
-        className="font-instrument font-semibold bg-[var(--theme-action)] text-[var(--theme-btn-text)] whitespace-nowrap transition-colors hover:bg-[var(--theme-action-hovered)]"
+        className="font-instrument font-semibold bg-[var(--theme-action)] text-[var(--theme-btn-text)] whitespace-nowrap text-center transition-colors hover:bg-[var(--theme-action-hovered)]"
         style={{
           fontSize: 'var(--mpds-font-size-lg)',
           paddingTop: 'var(--mpds-space-14)',
           paddingBottom: 'var(--mpds-space-16)',
           paddingLeft: 'var(--mpds-space-32)',
           paddingRight: 'var(--mpds-space-32)',
-          borderRadius: 4,
+          borderRadius: 6,
           lineHeight: '1.25',
         }}
       >

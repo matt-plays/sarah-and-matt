@@ -8,10 +8,10 @@ import Button from './Button'
 import { RSVPContent } from '@/types/content'
 
 const PHOTO_STRIP = [
-  '/images/wedding-site--rsvp-01.png',
-  '/images/wedding-site--rsvp-02.png',
-  '/images/wedding-site--rsvp-03.png',
-  '/images/wedding-site--rsvp-04.png',
+  '/images/wedding-site--rsvp-01.webp',
+  '/images/wedding-site--rsvp-02.webp',
+  '/images/wedding-site--rsvp-03.webp',
+  '/images/wedding-site--rsvp-04.webp',
 ]
 
 export default function RSVPSection({ rsvp }: { rsvp: RSVPContent }) {
@@ -39,10 +39,10 @@ export default function RSVPSection({ rsvp }: { rsvp: RSVPContent }) {
         style={{ gap: 'var(--mpds-space-xl)' }}
       >
         {/* ── Heading + CTA row ── */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
+        <div className="flex flex-col xl:flex-row xl:items-end xl:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
           <h2
             className="font-romie font-light text-[var(--theme-headline)] leading-none flex-1 min-w-0"
-            style={{ fontSize: 'var(--mpds-font-size-11xl)', transition: 'color 0.5s ease' }}
+            style={{ fontSize: 'var(--mpds-font-size-10xl)', transition: 'color 0.5s ease' }}
           >
             Let us know if{'\n'}you can make it
           </h2>
@@ -73,7 +73,7 @@ export default function RSVPSection({ rsvp }: { rsvp: RSVPContent }) {
             <div
               key={i}
               className="shrink-0 rounded-2xl overflow-hidden bg-[var(--theme-bg)]"
-              style={{ width: 'min(512px, 75vw)', transition: 'background-color 0.5s ease' }}
+              style={{ width: 'calc(min(var(--site-container-width), 100vw) / 3)', flexShrink: 0, transition: 'background-color 0.5s ease' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

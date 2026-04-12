@@ -5,7 +5,7 @@
 import { useEffect, useRef } from 'react';
 import defaultContent from '@/content/content.json';
 
-const imgFill = '/images/lancaster-bg.jpg';
+const imgFill = '/images/lancaster-bg.webp';
 
 interface MarqueeTextProps {
   text?: string;
@@ -52,6 +52,7 @@ export default function MarqueeText({ text = defaultContent.marquee.text }: Marq
 
   return (
     <section
+      id="marquee"
       data-theme="default"
       className="w-full overflow-hidden pt-6 pb-sp-2xl"
       aria-hidden="true"

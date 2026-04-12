@@ -1,13 +1,13 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useCallback } from 'react'
 import Image from 'next/image'
 import { ArrowLeft, ArrowRight } from '@mattplays/mpds/icons'
 import type { StoryCard } from '@/types/content'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type PhotoVariant = 'BTV' | 'COVID' | 'Poconos' | 'Engaged' | 'Excelsior'
+type PhotoVariant = 'BTV' | 'COVID' | 'Poconos' | 'Engaged' | 'Massachusetts' | 'Excelsior'
 
 interface TimelineEntry {
   id: string
@@ -18,26 +18,34 @@ interface TimelineEntry {
 }
 
 // Photo variants assigned by position — tied to specific image files
-const PHOTO_VARIANTS: (PhotoVariant | null)[] = ['BTV', 'COVID', 'Poconos', 'Engaged', null, null, 'Excelsior']
+const PHOTO_VARIANTS: (PhotoVariant | null)[] = ['BTV', 'COVID', 'Poconos', 'Engaged', 'Massachusetts', null, 'Excelsior']
 
 const PHOTO_PAIRS: Record<PhotoVariant, [string, string]> = {
-  BTV:       ['/images/timeline/wedding-site--timeline-vingnette-01-left.png',  '/images/timeline/wedding-site--timeline-vingnette-01-right.png'],
-  COVID:     ['/images/timeline/wedding-site--timeline-vingnette-02-left.png',  '/images/timeline/wedding-site--timeline-vingnette-02-right.png'],
-  Poconos:   ['/images/timeline/wedding-site--timeline-vingnette-03-left.png',  '/images/timeline/wedding-site--timeline-vingnette-03-right.png'],
-  Engaged:   ['/images/timeline/wedding-site--timeline-vingnette-04-left.png',  '/images/timeline/wedding-site--timeline-vingnette-04-right.png'],
-  Excelsior: ['/images/timeline/wedding-site--timeline-vingnette-05-left.png',  '/images/timeline/wedding-site--timeline-vingnette-05-right.png'],
+  BTV:          ['/images/timeline/wedding-site--timeline-vingnette-01-left.png',  '/images/timeline/wedding-site--timeline-vingnette-01-right.png'],
+  COVID:        ['/images/timeline/wedding-site--timeline-vingnette-02-left.png',  '/images/timeline/wedding-site--timeline-vingnette-02-right.png'],
+  Poconos:      ['/images/timeline/wedding-site--timeline-vingnette-03-left.png',  '/images/timeline/wedding-site--timeline-vingnette-03-right.png'],
+  Engaged:      ['/images/timeline/wedding-site--timeline-vingnette-04-left.png',  '/images/timeline/wedding-site--timeline-vingnette-04-right.png'],
+  Massachusetts:['/images/timeline/wedding-site--timeline-vingnette-06-left.webp', '/images/timeline/wedding-site--timeline-vingnette-06-right.webp'],
+  Excelsior:    ['/images/timeline/wedding-site--timeline-vingnette-05-left.png',  '/images/timeline/wedding-site--timeline-vingnette-05-right.png'],
 }
 
 // ─── Timeline Ruler ───────────────────────────────────────────────────────────
 
 const ITEM_W = 536
+const RULER_MAJOR = 80
+const RULER_MINOR = 32
+const RULER_MED   = 48
+const RULER_STEP  = 8 // 8px grid — ITEM_W must be a multiple of RULER_STEP
+
+// CSS width formula matching the scroll container's left padding
+const CONTAINER_EDGE_PAD = 'max(var(--site-section-padding), calc((100vw - var(--site-container-width)) / 2 + var(--site-section-padding)))'
 
 function TimelineRuler() {
   const [hoveredTick, setHoveredTick] = useState<number | null>(null)
-  const MAJOR = 80
-  const MED   = 48
-  const MINOR = 32
-  const STEP  = 8                          // 8px grid — ITEM_W must be a multiple of 8
+  const MAJOR = RULER_MAJOR
+  const MED   = RULER_MED
+  const MINOR = RULER_MINOR
+  const STEP  = RULER_STEP
   const count = Math.floor(ITEM_W / STEP) // 536 / 8 = 67 ticks, no remainder
 
   const baseHeight = (i: number) => {
@@ -196,7 +204,7 @@ function Item({ entry, isHovered, isOtherHovered, onMouseEnter, onMouseLeave }: 
         >
           <h3
             className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-nowrap w-full"
-            style={{ fontSize: 'var(--mpds-font-size-2xl)', letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'var(--mpds-font-size-xl)', letterSpacing: '-0.02em' }}
           >
             {entry.heading}
           </h3>
@@ -228,6 +236,32 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
   const [canScrollRight, setCanScrollRight] = useState(true)
   const scrollRef = useRef<HTMLDivElement>(null)
 
+  // ── Drag-to-scroll (desktop) ──────────────────────────────────────────────
+  const isDragging = useRef(false)
+  const dragStartX = useRef(0)
+  const dragScrollLeft = useRef(0)
+  const hasDragged = useRef(false)
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    isDragging.current = true
+    hasDragged.current = false
+    dragStartX.current = e.pageX
+    dragScrollLeft.current = scrollRef.current?.scrollLeft ?? 0
+    if (scrollRef.current) scrollRef.current.style.cursor = 'grabbing'
+  }, [])
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging.current || !scrollRef.current) return
+    const dx = e.pageX - dragStartX.current
+    if (Math.abs(dx) > 3) hasDragged.current = true
+    scrollRef.current.scrollLeft = dragScrollLeft.current - dx
+  }, [])
+
+  const onDragEnd = useCallback(() => {
+    isDragging.current = false
+    if (scrollRef.current) scrollRef.current.style.cursor = 'grab'
+  }, [])
+
   const handleScroll = () => {
     const el = scrollRef.current
     if (!el) return
@@ -254,7 +288,7 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
         <div className="flex items-center justify-between w-full">
           <h2
             className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
-            style={{ fontSize: 'clamp(32px, 2vw + 20px, 48px)', letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'var(--mpds-font-size-4xl)', letterSpacing: '-0.02em' }}
           >
             Our winding road
           </h2>
@@ -265,14 +299,20 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
         </div>
       </div>
 
-      {/* Scrollable — left edge aligns with container content, right edge bleeds to viewport */}
+      {/* Scrollable — left edge aligns with container, right edge bleeds; last item lands flush on scroll-end */}
       <div
         ref={scrollRef}
-        className="w-full overflow-x-auto scrollbar-none"
+        className="w-full overflow-x-auto scrollbar-none select-none"
         style={{
           paddingLeft: 'max(var(--site-section-padding), calc((100vw - var(--site-container-width)) / 2 + var(--site-section-padding)))',
+          cursor: 'grab',
         }}
         onScroll={handleScroll}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onDragEnd}
+        onMouseLeave={onDragEnd}
+        onDragStart={(e) => e.preventDefault()}
       >
         <div className="flex">
           {entries.map((entry) => (
@@ -281,10 +321,24 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
               entry={entry}
               isHovered={hoveredId === entry.id}
               isOtherHovered={hoveredId !== null && hoveredId !== entry.id}
-              onMouseEnter={() => setHoveredId(entry.id)}
-              onMouseLeave={() => setHoveredId(null)}
+              onMouseEnter={() => { if (!isDragging.current) setHoveredId(entry.id) }}
+              onMouseLeave={() => { if (!isDragging.current) setHoveredId(null) }}
             />
           ))}
+          {/* Trailing ruler — fills the right container gutter with ticks so the
+              last item lands flush at the container content edge on scroll-end */}
+          <div
+            className="shrink-0"
+            aria-hidden="true"
+            style={{
+              width: CONTAINER_EDGE_PAD,
+              height: RULER_MAJOR,
+              backgroundImage: `repeating-linear-gradient(90deg, var(--theme-tonal) 0px 1px, transparent 1px ${RULER_STEP}px)`,
+              backgroundSize: `${RULER_STEP}px ${RULER_MINOR}px`,
+              backgroundPosition: 'top left',
+              backgroundRepeat: 'repeat-x',
+            }}
+          />
         </div>
       </div>
     </section>
