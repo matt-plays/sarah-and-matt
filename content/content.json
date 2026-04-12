@@ -1,16 +1,4 @@
 {
-  "hero": {
-    "name1Full": "Sarah\nPetrokonis",
-    "name2Full": "Matt\nPlays",
-    "date": "Friday, August 28th",
-    "year": "2026",
-    "time1": "5 o'clock",
-    "time2": "in the afternoon",
-    "venue": "Excelsior",
-    "address": "125 E King Street",
-    "city": "Lancaster, PA",
-    "website": "sarahandmatt.wedding"
-  },
   "story": [
     {
       "id": "story-1",
@@ -59,7 +47,6 @@
       { "time": "4:30pm", "label": "Guests arrive" },
       { "time": "5:00pm", "label": "Ceremony begins" }
     ],
-    "eventDetails": "A cocktail hour and reception will follow the ceremony. More details to come — check back closer to the date.",
     "infoRows": [
       {
         "icon": "sun",
@@ -213,14 +200,11 @@
     }
   ],
   "rsvp": {
-    "heading": "Let us know if you can make it",
     "body": "We'd love to know if you can make it. Please RSVP by June 1, 2026 so we can plan accordingly.",
-    "deadline": "June 1, 2026",
     "url": "https://zola.sarahandmatt.wedding/rsvp"
   },
   "registry": {
     "heading": "Registry",
-    "subheading": "Where we're registered",
     "body": "Your presence is the greatest gift, but if you wish to celebrate with us, we've registered at the following:",
     "viewAllUrl": "https://zola.sarahandmatt.wedding/registry",
     "items": [
@@ -229,9 +213,5 @@
       { "name": "House", "url": "#", "description": "Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable." }
     ],
     "photo": "/images/engagement-wide.jpg"
-  },
-  "footer": {
-    "names": "Sarah & Matt",
-    "date": "08.28.2026"
   }
 }

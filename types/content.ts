@@ -1,16 +1,3 @@
-export interface HeroContent {
-  name1Full: string;
-  name2Full: string;
-  date: string;
-  year: string;
-  time1: string;
-  time2: string;
-  venue: string;
-  address: string;
-  city: string;
-  website: string;
-}
-
 export interface StoryCard {
   id: string;
   year: string;
@@ -39,7 +26,6 @@ export interface CelebrationContent {
   heading: string;
   description: string;
   events: CelebrationEvent[];
-  eventDetails: string;
   infoRows: InfoRowData[];
   rsvpUrl: string;
   venueUrl: string;
@@ -60,9 +46,7 @@ export interface TravelCard {
 }
 
 export interface RSVPContent {
-  heading: string;
   body: string;
-  deadline: string;
   url: string;
 }
 
@@ -74,20 +58,13 @@ export interface RegistryItem {
 
 export interface RegistryContent {
   heading: string;
-  subheading: string;
   body: string;
   viewAllUrl: string;
   items: RegistryItem[];
   photo: string;
 }
 
-export interface FooterContent {
-  names: string;
-  date: string;
-}
-
 export interface SiteContent {
-  hero: HeroContent;
   story: StoryCard[];
   marquee: { text: string };
   celebration: CelebrationContent;
@@ -97,7 +74,6 @@ export interface SiteContent {
   activities: TravelCard[];
   rsvp: RSVPContent;
   registry: RegistryContent;
-  footer: FooterContent;
 }
 
 export interface HistorySnapshot {
