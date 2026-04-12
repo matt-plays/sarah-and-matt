@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 import { ArrowLeft, ArrowRight } from '@mattplays/mpds/icons'
 import type { StoryCard } from '@/types/content'
@@ -30,9 +30,25 @@ const PHOTO_PAIRS: Record<PhotoVariant, [string, string]> = {
   Excelsior:    ['/images/timeline/wedding-site--timeline-vingnette-06-left.png',  '/images/timeline/wedding-site--timeline-vingnette-06-right.png'],
 }
 
+// ─── Responsive item width ────────────────────────────────────────────────────
+
+// 536px desktop (67 ticks × 8px), 320px mobile (40 ticks × 8px).
+// At 375px viewport: paddingLeft≈30px → 320px item leaves ~25px hint of next item.
+// Both values are exact multiples of RULER_STEP=8 so no tick remainder.
+function useItemWidth() {
+  const [itemW, setItemW] = useState(() =>
+    typeof window !== 'undefined' && window.innerWidth < 640 ? 320 : 536
+  )
+  useEffect(() => {
+    const update = () => setItemW(window.innerWidth < 640 ? 320 : 536)
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
+  return itemW
+}
+
 // ─── Timeline Ruler ───────────────────────────────────────────────────────────
 
-const ITEM_W = 536
 const RULER_MAJOR = 80
 const RULER_MINOR = 32
 const RULER_MED   = 48
@@ -41,29 +57,28 @@ const RULER_STEP  = 8 // 8px grid — ITEM_W must be a multiple of RULER_STEP
 // CSS width formula matching the scroll container's left padding
 const CONTAINER_EDGE_PAD = 'max(var(--site-section-padding), calc((100vw - var(--site-container-width)) / 2 + var(--site-section-padding)))'
 
-function TimelineRuler() {
+function TimelineRuler({ itemW }: { itemW: number }) {
   const [hoveredTick, setHoveredTick] = useState<number | null>(null)
   const MAJOR = RULER_MAJOR
   const MED   = RULER_MED
   const MINOR = RULER_MINOR
   const STEP  = RULER_STEP
-  const count = Math.floor(ITEM_W / STEP) // 536 / 8 = 67 ticks, no remainder
+  const count = Math.floor(itemW / STEP) // 536/8=67 ticks desktop, 432/8=54 ticks mobile
 
   // Ticks are offset by half a step (4px) so the event marker at i=0
   // lands at 4px — the center of the 8px dot directly below it.
   const TICK_OFFSET = STEP / 2
 
   const baseHeight = (i: number) => {
-    if (i === 0)         return MAJOR  // event marker — aligns with dot center
-    if (i === 1)         return MED    // right flanker
-    if (i === count - 1) return MED    // end cap
+    if (i === 0) return MAJOR  // event marker — aligns with dot center
+    if (i === 1) return MED    // right flanker
     return MINOR
   }
 
   return (
     // Hover targets span the full MAJOR height so small ticks are easy to hit.
     // Height is animated via inline style — scale-y was unreliable on short ticks.
-    <div className="relative shrink-0" style={{ width: ITEM_W, height: MAJOR }} aria-hidden="true">
+    <div className="relative shrink-0" style={{ width: itemW, height: MAJOR }} aria-hidden="true">
       {Array.from({ length: count }, (_, i) => {
         const base = baseHeight(i)
         const dist = hoveredTick === null ? Infinity : Math.abs(i - hoveredTick)
@@ -167,6 +182,7 @@ function ArrowButton({
 
 interface ItemProps {
   entry: TimelineEntry
+  itemW: number
   isHovered: boolean
   isOtherHovered: boolean
   onMouseEnter: () => void
@@ -174,17 +190,17 @@ interface ItemProps {
   onClick: () => void
 }
 
-function Item({ entry, isHovered, isOtherHovered, onMouseEnter, onMouseLeave, onClick }: ItemProps) {
+function Item({ entry, itemW, isHovered, isOtherHovered, onMouseEnter, onMouseLeave, onClick }: ItemProps) {
   return (
     <div
       className="flex flex-col gap-2 shrink-0"
-      style={{ width: ITEM_W }}
+      style={{ width: itemW }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
     >
       {/* Ruler — always full opacity; ticks never dim */}
-      <TimelineRuler />
+      <TimelineRuler itemW={itemW} />
 
       {/* Card — only this fades when another item is hovered */}
       <div
@@ -251,6 +267,7 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
     photoVariant: PHOTO_VARIANTS[i] ?? null,
   }))
 
+  const itemW = useItemWidth()
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
@@ -290,16 +307,16 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
   }
 
   const scroll = (dir: 'left' | 'right') => {
-    scrollRef.current?.scrollBy({ left: dir === 'right' ? ITEM_W : -ITEM_W, behavior: 'smooth' })
+    scrollRef.current?.scrollBy({ left: dir === 'right' ? itemW : -itemW, behavior: 'smooth' })
   }
 
   const handleItemClick = useCallback((index: number) => {
     if (hasDragged.current) return
     const el = scrollRef.current
     if (!el) return
-    const target = Math.min(index * ITEM_W, el.scrollWidth - el.clientWidth)
+    const target = Math.min(index * itemW, el.scrollWidth - el.clientWidth)
     el.scrollTo({ left: target, behavior: 'smooth' })
-  }, [])
+  }, [itemW])
 
   return (
     <section
@@ -320,7 +337,7 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
           >
             Our winding road
           </h2>
-          <div className="hidden md:flex gap-2 shrink-0">
+          <div className="flex gap-2 shrink-0">
             <ArrowButton direction="left" onClick={() => scroll('left')} disabled={!canScrollLeft} />
             <ArrowButton direction="right" onClick={() => scroll('right')} disabled={!canScrollRight} />
           </div>
@@ -347,6 +364,7 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
             <Item
               key={entry.id}
               entry={entry}
+              itemW={itemW}
               isHovered={hoveredId === entry.id}
               isOtherHovered={hoveredId !== null && hoveredId !== entry.id}
               onMouseEnter={() => { if (!isDragging.current) setHoveredId(entry.id) }}

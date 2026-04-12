@@ -137,17 +137,20 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     // ── Load PBR maps ─────────────────────────────────────────────────────────────
     // Use half-res mobile variants on narrow viewports to save 6–8MB of texture data
     const tl = new THREE.TextureLoader()
-    const pbrSuffix = window.innerWidth < 768 ? '-mobile.webp' : '.webp'
+    const isMobile = window.innerWidth < 768
+    const pbrSuffix = isMobile ? '-mobile.webp' : '.webp'
+    // Normal map reads poorly at small card sizes — reduce scale on mobile
+    const normalScale = isMobile ? 0.5 : 4.0
 
     tl.load(`/images/hero-invite-front-normal${pbrSuffix}`, (tex) => {
-      frontMat.normalMap = tex; frontMat.normalScale = new THREE.Vector2(4.0, 4.0); frontMat.needsUpdate = true; onAssetLoaded()
+      frontMat.normalMap = tex; frontMat.normalScale = new THREE.Vector2(normalScale, normalScale); frontMat.needsUpdate = true; onAssetLoaded()
     })
     tl.load(`/images/hero-invite-front-ambient${pbrSuffix}`, (tex) => {
       frontMat.aoMap = tex; frontMat.aoMapIntensity = 0.75; frontMat.needsUpdate = true; onAssetLoaded()
     })
 
     tl.load(`/images/hero-invite-back-normal${pbrSuffix}`, (tex) => {
-      backMat.normalMap = tex; backMat.normalScale = new THREE.Vector2(-4.0, 4.0); backMat.needsUpdate = true; onAssetLoaded()
+      backMat.normalMap = tex; backMat.normalScale = new THREE.Vector2(-normalScale, normalScale); backMat.needsUpdate = true; onAssetLoaded()
     })
     tl.load(`/images/hero-invite-back-ambient${pbrSuffix}`, (tex) => {
       backMat.aoMap = tex; backMat.aoMapIntensity = 0.75; backMat.needsUpdate = true; onAssetLoaded()
