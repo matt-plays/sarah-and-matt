@@ -220,14 +220,16 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                 className="w-full border border-[var(--theme-headline)]"
                 style={{ padding: 'var(--mpds-space-16) var(--mpds-space-28)', transition: 'border-color 0.5s ease' }}
               >
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between" style={{ gap: 'var(--mpds-space-8)' }}>
+                <div className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between" style={{ gap: 'var(--mpds-space-8)' }}>
                   <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
                     Excelsior
                   </span>
+                  <hr className="w-full border-t border-[var(--theme-tonal)] sm:hidden" style={{ transition: 'border-color 0.5s ease' }} />
                   <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
                   <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
                     125 E King Street
                   </span>
+                  <hr className="w-full border-t border-[var(--theme-tonal)] sm:hidden" style={{ transition: 'border-color 0.5s ease' }} />
                   <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
                   <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
                     Lancaster, PA

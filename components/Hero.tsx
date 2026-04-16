@@ -49,7 +49,10 @@ export default function Hero() {
       className="relative w-full overflow-clip"
       style={{
         backgroundColor: '#F7CCC3',
-        paddingTop: 'var(--mpds-space-48)',
+        // Mobile: 74px (clears 117px nav + 52px gap via canvas's 95px internal top margin)
+        // Desktop: 48px (card is vertically centered in full-height hero, nav overlap is fine)
+        paddingTop: 'clamp(48px, calc(87px - 2.708vw), 74px)',
+        paddingBottom: 'var(--mpds-space-64)',
       }}
     >
       {/* ── Background landscape with pink overlay ── */}
@@ -100,9 +103,13 @@ export default function Hero() {
       </div>
 
       {/* ── Centered Three.js invite card ── */}
-      <div className="site-container relative flex justify-center" style={{ zIndex: 1 }}>
+      {/* No site-container — canvas is full-bleed with a small extension on narrow screens.
+          max-sm: (<640px) extends canvas 32px past viewport on each side (clipped by overflow-clip)
+          so the Three.js camera's 12.5% internal margin resolves to ~36px visual padding,
+          matching Figma's 32px card margin. lg+ caps at 960px centered. */}
+      <div className="relative flex justify-center" style={{ zIndex: 1 }}>
         <div
-          className="w-full lg:max-w-[960px]"
+          className="w-full lg:max-w-[960px] max-sm:w-[calc(100%_+_4rem)]"
           style={{ opacity: cardEntrance ? 1 : 0, transition: 'opacity 0.8s ease' }}
         >
           <InviteCanvas
@@ -137,7 +144,7 @@ export default function Hero() {
           srcSet="/images/wedding-site--hero-background-480w.webp 480w, /images/wedding-site--hero-background-800w.webp 800w, /images/wedding-site--hero-background-1200w.webp 1200w, /images/wedding-site--hero-background.webp 1920w"
           sizes="100vw"
           alt=""
-          className="w-[200%] sm:w-full h-auto block -translate-x-1/4 sm:translate-x-0"
+          className="w-[200%] sm:w-full max-w-none h-auto block -translate-x-1/4 sm:translate-x-0"
         />
       </div>
     </section>
