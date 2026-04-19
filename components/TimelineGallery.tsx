@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-/* eslint-disable @next/next/no-img-element */
+import Image from 'next/image'
 
 // ─── Gallery images — varying aspect ratios for visual rhythm ────────────────
 
@@ -69,14 +69,16 @@ export default function TimelineGallery() {
         {IMAGES.map((img, i) => (
           <div
             key={i}
-            className="shrink-0 rounded-2xl overflow-hidden"
+            className="relative shrink-0 rounded-2xl overflow-hidden"
             style={{ width: MAX_W_CSS, aspectRatio: img.aspect }}
           >
-            <img
+            <Image
               src={img.src}
               alt={img.alt}
-              className="w-full h-full object-cover"
-              loading="eager"
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 70vw, 500px"
+              loading="lazy"
             />
           </div>
         ))}

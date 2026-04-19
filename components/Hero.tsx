@@ -3,7 +3,9 @@
 // Figma node: 342:6133 (desktop), 583:4403 (tablet), 584:3503 (mobile)
 
 import { useEffect, useState } from 'react'
-import InviteCanvas from './InviteCanvas'
+import dynamic from 'next/dynamic'
+
+const InviteCanvas = dynamic(() => import('./InviteCanvas'), { ssr: false })
 
 export default function Hero() {
   const [ready, setReady] = useState(false)
