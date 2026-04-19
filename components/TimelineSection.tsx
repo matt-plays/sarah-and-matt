@@ -36,11 +36,11 @@ const PHOTO_PAIRS: Record<PhotoVariant, [string, string]> = {
 // At 375px viewport: paddingLeft≈30px → 320px item leaves ~25px hint of next item.
 // Both values are exact multiples of RULER_STEP=8 so no tick remainder.
 function useItemWidth() {
-  const [itemW, setItemW] = useState(() =>
-    typeof window !== 'undefined' && window.innerWidth < 640 ? 320 : 536
-  )
+  const [itemW, setItemW] = useState(536) // server-safe default — matches SSR
   useEffect(() => {
+    // Runs only on the client after hydration — no SSR mismatch
     const update = () => setItemW(window.innerWidth < 640 ? 320 : 536)
+    update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
   }, [])

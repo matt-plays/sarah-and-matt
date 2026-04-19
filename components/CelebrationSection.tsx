@@ -78,7 +78,6 @@ function AccordionItem({
   return (
     <div
       className={isLast ? '' : 'border-b border-[var(--theme-tonal)]'}
-      style={{ transition: 'border-color 0.5s ease' }}
     >
       <button
         type="button"
@@ -95,7 +94,6 @@ function AccordionItem({
           style={{
             fontSize: 'var(--mpds-font-size-lg)',
             letterSpacing: '-0.02em',
-            transition: 'color 0.5s ease',
           }}
         >
           {row.label}
@@ -133,7 +131,6 @@ function AccordionItem({
           style={{
             paddingTop: 'var(--mpds-space-12)',
             paddingBottom: 'var(--mpds-space-32)',
-            transition: 'color 0.5s ease',
           }}
         >
           {bodyContent}
@@ -154,7 +151,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
       ref={sectionRef}
       id="celebration"
       className="w-full flex justify-center bg-[var(--theme-bg)]"
-      style={{ paddingTop: 'var(--sp-2xl)', paddingBottom: 'var(--sp-2xl)', marginBottom: 'var(--sp-2xl)', transition: 'background-color 0.5s ease' }}
+      style={{ paddingTop: 'var(--sp-2xl)', paddingBottom: 'var(--sp-2xl)', marginBottom: 'var(--sp-2xl)' }}
     >
       <div className="site-container flex flex-col" style={{ gap: 'var(--mpds-space-xl)' }}>
 
@@ -162,13 +159,13 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
         <div className="flex flex-col xl:flex-row xl:items-end xl:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
           <h2
             className="font-romie font-light text-[var(--theme-headline)] leading-none shrink-0"
-            style={{ fontSize: 'var(--mpds-font-size-10xl)', transition: 'color 0.5s ease' }}
+            style={{ fontSize: 'var(--mpds-font-size-10xl)' }}
           >
             {content.heading}
           </h2>
           <p
             className="font-instrument text-[var(--theme-text)] leading-[1.625] md:shrink-0"
-            style={{ fontSize: 'var(--mpds-font-size-lg)', maxWidth: 512, transition: 'color 0.5s ease' }}
+            style={{ fontSize: 'var(--mpds-font-size-lg)', maxWidth: 512 }}
           >
             {content.description}
           </p>
@@ -186,7 +183,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
             <div className="flex flex-col" style={{ gap: 'var(--mpds-space-md)' }}>
               <h3
                 className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
-                style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.02em', transition: 'color 0.5s ease' }}
+                style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.02em' }}
               >
                 Friday, August 28, 2026
               </h3>
@@ -201,13 +198,13 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                   >
                     <span
                       className="font-romie font-light text-[var(--theme-headline)] leading-none whitespace-nowrap"
-                      style={{ fontSize: 'var(--mpds-font-size-8xl)', transition: 'color 0.5s ease' }}
+                      style={{ fontSize: 'var(--mpds-font-size-8xl)' }}
                     >
                       {event.time}
                     </span>
                     <span
                       className="font-instrument text-[var(--theme-text)] leading-[1.625]"
-                      style={{ fontSize: 'var(--mpds-font-size-xl)', transition: 'color 0.5s ease' }}
+                      style={{ fontSize: 'var(--mpds-font-size-xl)' }}
                     >
                       {event.label}
                     </span>
@@ -218,20 +215,20 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
               {/* Address box — column on mobile, row on sm+ */}
               <div
                 className="w-full border border-[var(--theme-headline)]"
-                style={{ padding: 'var(--mpds-space-16) var(--mpds-space-28)', transition: 'border-color 0.5s ease' }}
+                style={{ padding: 'var(--mpds-space-16) var(--mpds-space-28)' }}
               >
                 <div className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between" style={{ gap: 'var(--mpds-space-8)' }}>
-                  <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
+                  <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase text-center sm:text-left shrink-0">
                     Excelsior
                   </span>
-                  <hr className="w-full border-t border-[var(--theme-tonal)] sm:hidden" style={{ transition: 'border-color 0.5s ease' }} />
+                  <div className="w-full sm:hidden" style={{ height: 1, backgroundColor: 'var(--theme-tonal)' }} />
                   <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
-                  <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
+                  <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase text-center sm:text-left shrink-0">
                     125 E King Street
                   </span>
-                  <hr className="w-full border-t border-[var(--theme-tonal)] sm:hidden" style={{ transition: 'border-color 0.5s ease' }} />
+                  <div className="w-full sm:hidden" style={{ height: 1, backgroundColor: 'var(--theme-tonal)' }} />
                   <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
-                  <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase shrink-0" style={{ transition: 'color 0.5s ease' }}>
+                  <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase text-center sm:text-left shrink-0">
                     Lancaster, PA
                   </span>
                 </div>
@@ -248,7 +245,6 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                     fontSize: 'var(--mpds-font-size-3xl)',
                     letterSpacing: '-0.02em',
                     paddingBottom: 'var(--mpds-space-48)',
-                    transition: 'color 0.5s ease',
                   }}
                 >
                   The finer details
@@ -273,7 +269,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[var(--theme-action)] text-[var(--theme-btn-text)] font-instrument font-semibold rounded px-8 py-4 leading-[1.25] transition-opacity hover:opacity-90 text-center"
-                  style={{ fontSize: 'var(--mpds-font-size-lg)', transition: 'background-color 0.5s ease, color 0.5s ease' }}
+                  style={{ fontSize: 'var(--mpds-font-size-lg)' }}
                 >
                   RSVP today
                 </a>
@@ -282,7 +278,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center sm:justify-start font-instrument font-semibold text-[var(--theme-action)] leading-[1.25] transition-opacity hover:opacity-70"
-                  style={{ fontSize: 'var(--mpds-font-size-lg)', transition: 'color 0.5s ease' }}
+                  style={{ fontSize: 'var(--mpds-font-size-lg)' }}
                 >
                   Visit the Excelsior website
                   <ChevronRight className="shrink-0" />
