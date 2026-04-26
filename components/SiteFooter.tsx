@@ -118,7 +118,7 @@ export default function SiteFooter() {
               className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0"
               style={{ fontSize: 'var(--mpds-font-size-sm)' }}
             >
-              in the afternoon
+              in the evening
             </span>
           </div>
         </div>

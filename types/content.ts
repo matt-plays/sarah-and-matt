@@ -36,6 +36,8 @@ export interface CelebrationContent {
 export interface TravelContent {
   heading: string;
   body: string;
+  whereToStayFineprint: string;
+  whereToStayFineprintSegments?: RichTextSegment[];
 }
 
 export interface TravelCard {

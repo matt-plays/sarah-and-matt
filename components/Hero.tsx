@@ -122,7 +122,7 @@ export default function Hero() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/hero-invite-front.svg"
-              alt="Sarah Petrokonis &amp; Matt Plays — Friday, August 28th 2026 — 5 o'clock in the afternoon — Excelsior, 125 E King Street, Lancaster, PA"
+              alt="Sarah Petrokonis &amp; Matt Plays — Friday, August 28th 2026 — 5 o'clock in the evening — Excelsior, 125 E King Street, Lancaster, PA"
               className="w-full h-auto"
             />
           </noscript>

@@ -40,6 +40,8 @@ export default async function Home() {
       <TravelSection
         heading={c.travel.heading}
         body={c.travel.body}
+        whereToStayFineprint={c.travel.whereToStayFineprint}
+        whereToStayFineprintSegments={c.travel.whereToStayFineprintSegments}
         whereToStay={c.whereToStay}
         whereToEat={c.whereToEat}
         activities={c.activities}
