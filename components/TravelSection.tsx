@@ -3,7 +3,7 @@
 // "Travel & Stay" — category nav switches a 3-col card grid. CMYK shader bg image.
 
 import React, { useState, useEffect, useRef } from 'react'
-import { TravelCard } from '@/types/content'
+import { TravelCard, RichTextSegment } from '@/types/content'
 import { useScrollSection } from '@/context/ThemeContext'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -61,16 +61,16 @@ function RecommendationCard({ card, index, animate }: { card: TravelCard; index:
       >
         {card.overline}
       </span>
-      <div className="flex flex-col" style={{ gap: 'var(--mpds-space-4)' }}>
+      <div className="flex flex-col" style={{ gap: 'var(--mpds-space-8)' }}>
         <p
           className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-pre-line"
-          style={{ fontSize: 'var(--mpds-font-size-lg)', letterSpacing: '-0.02em' }}
+          style={{ fontSize: 'var(--mpds-font-size-lg)', letterSpacing: '-0.02em', textWrap: 'balance' }}
         >
           {card.heading}
         </p>
         <p
           className="font-instrument text-[var(--theme-text)] leading-[1.5]"
-          style={{ fontSize: 'var(--mpds-font-size-md)' }}
+          style={{ fontSize: 'var(--mpds-font-size-md)', textWrap: 'balance' }}
         >
           {card.body}
         </p>
@@ -84,12 +84,14 @@ function RecommendationCard({ card, index, animate }: { card: TravelCard; index:
 interface TravelSectionProps {
   heading: string
   body: string
+  whereToStayFineprint: string
+  whereToStayFineprintSegments?: RichTextSegment[]
   whereToStay: TravelCard[]
   whereToEat: TravelCard[]
   activities: TravelCard[]
 }
 
-export default function TravelSection({ heading, body, whereToStay, whereToEat, activities }: TravelSectionProps) {
+export default function TravelSection({ heading, body, whereToStayFineprint, whereToStayFineprintSegments, whereToStay, whereToEat, activities }: TravelSectionProps) {
   // Registered as 'default' so ThemeContext keeps the body at default while Travel
   // is the topmost visible section — outcompeting RSVP's green until Travel exits.
   const sectionRef = useScrollSection<HTMLDivElement>('default')
@@ -175,15 +177,35 @@ export default function TravelSection({ heading, body, whereToStay, whereToEat, 
             </div>
           </div>
 
-          {/* Right — card grid (8 cols) */}
-          <div
-            key={cardKey}
-            className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-w-0 content-start"
-            style={{ columnGap: 'var(--mpds-space-32)', rowGap: 'var(--mpds-space-48)' }}
-          >
-            {cards.slice(0, 9).map((card, i) => (
-              <RecommendationCard key={`${active}-${i}`} card={card} index={i} animate={hasInteracted} />
-            ))}
+          {/* Right — card grid + fineprint (8 cols) */}
+          <div className="lg:col-span-8 flex flex-col min-w-0">
+            <div
+              key={cardKey}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 content-start"
+              style={{ columnGap: 'var(--mpds-space-32)', rowGap: 'var(--mpds-space-48)' }}
+            >
+              {cards.slice(0, 9).map((card, i) => (
+                <RecommendationCard key={`${active}-${i}`} card={card} index={i} animate={hasInteracted} />
+              ))}
+            </div>
+            {active === 'stay' && (
+              <p
+                className="font-instrument text-[var(--theme-text)] leading-[1.625]"
+                style={{ fontSize: 'var(--mpds-font-size-md)', paddingTop: 'var(--mpds-space-lg)', maxWidth: 640, textWrap: 'balance' }}
+              >
+                {whereToStayFineprintSegments
+                  ? whereToStayFineprintSegments.map((seg, i) =>
+                      seg.href ? (
+                        <a key={i} href={seg.href} target="_blank" rel="noopener noreferrer" className="text-[var(--theme-action)] hover:opacity-70 transition-opacity">
+                          {seg.text}
+                        </a>
+                      ) : (
+                        <span key={i}>{seg.text}</span>
+                      )
+                    )
+                  : whereToStayFineprint}
+              </p>
+            )}
           </div>
         </div>
       </section>

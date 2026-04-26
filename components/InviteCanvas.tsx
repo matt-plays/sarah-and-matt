@@ -195,23 +195,32 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
       mount.style.cursor = 'ew-resize'
 
       if (!st.hasDragged) {
-        // Click — right half flips +π, left half flips -π, clamped to [-π, π]
+        // Click — right half flips forward (+π), left half flips backward (-π).
+        // No range clamp: lets the card spin freely in either direction without getting stuck at ±π.
         const r = mount.getBoundingClientRect()
         const isLeftHalf = (e.clientX - r.left) < r.width / 2
         const currentSnap = Math.round(st.flipCurrent / Math.PI) * Math.PI
-        const rawTarget = isLeftHalf ? currentSnap - Math.PI : currentSnap + Math.PI
-        st.flipTarget = Math.max(-Math.PI, Math.min(Math.PI, rawTarget))
+        st.flipTarget = isLeftHalf ? currentSnap - Math.PI : currentSnap + Math.PI
       } else {
-        // Drag release — snap to nearest half-turn, clamped to [-π, π]
-        const snapped = Math.round(st.flipCurrent / Math.PI) * Math.PI
-        st.flipTarget = Math.max(-Math.PI, Math.min(Math.PI, snapped))
+        // Drag release — snap to nearest half-turn
+        st.flipTarget = Math.round(st.flipCurrent / Math.PI) * Math.PI
       }
+      st.flipping = true
+    }
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
+      if (!entranceStartedRef.current) return
+      e.preventDefault()
+      const currentSnap = Math.round(st.flipCurrent / Math.PI) * Math.PI
+      st.flipTarget = e.key === 'ArrowLeft' ? currentSnap - Math.PI : currentSnap + Math.PI
       st.flipping = true
     }
 
     mount.addEventListener('mousemove', onMove)
     mount.addEventListener('pointerdown', onPointerDown)
     mount.addEventListener('pointerup', onPointerUp)
+    window.addEventListener('keydown', onKeyDown)
 
     // ── Animation ─────────────────────────────────────────────────────────────────
     const timer = new THREE.Timer()
@@ -275,6 +284,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
       mount.removeEventListener('mousemove', onMove)
       mount.removeEventListener('pointerdown', onPointerDown)
       mount.removeEventListener('pointerup', onPointerUp)
+      window.removeEventListener('keydown', onKeyDown)
       renderer.dispose()
       boxGeo.dispose(); frontGeo.dispose()
       frontMat.dispose(); backMat.dispose(); edgeMat.dispose()

@@ -121,12 +121,15 @@ export async function getNotionContent(): Promise<SiteContent> {
         queryAll(DB.registry),
       ])
 
-    // Build flat key→value map from the Site Info database
+    // Build flat key→value maps from the Site Info database (plain text + rich text)
     const info: Record<string, string> = {}
+    const infoRich: Record<string, { text: string; href?: string }[]> = {}
     for (const page of siteInfoPages) {
       const key = getTitle(page, 'Key')
       const val = getText(page, 'Value')
       if (key) info[key] = val
+      const segs = getRichTextSegments(page, 'Value')
+      if (key && segs) infoRich[key] = segs
     }
 
     const get = (key: string, def: string) => info[key] ?? def
@@ -158,8 +161,10 @@ export async function getNotionContent(): Promise<SiteContent> {
         overlayImage: get('celebration.overlayImage', fallback.celebration.overlayImage),
       },
       travel: {
-        heading: get('travel.heading', fallback.travel.heading),
-        body:    get('travel.body',    fallback.travel.body),
+        heading:                       get('travel.heading',              fallback.travel.heading),
+        body:                          get('travel.body',                 fallback.travel.body),
+        whereToStayFineprint:          get('travel.whereToStayFineprint', fallback.travel.whereToStayFineprint),
+        whereToStayFineprintSegments:  infoRich['travel.whereToStayFineprint'],
       },
       whereToStay: sortedMap(stayPages, (p) => {
         const link = getUrl(p, 'Link') || getFirstHref(p, 'Body') || undefined

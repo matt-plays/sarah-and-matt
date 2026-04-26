@@ -80,7 +80,7 @@ export default function RegistrySection({ registry }: { registry: RegistryConten
                   </div>
                   <p
                     className="font-instrument text-[var(--theme-text)] leading-[1.625]"
-                    style={{ fontSize: 'var(--mpds-font-size-lg)', maxWidth: 504 }}
+                    style={{ fontSize: 'var(--mpds-font-size-lg)', maxWidth: 504, textWrap: 'balance' }}
                   >
                     {item.description}
                   </p>
