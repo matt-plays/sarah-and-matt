@@ -256,12 +256,12 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
         st.flipping = false
         entranceFlipActiveRef.current = false
       }
-      // Smooth tilt multiplier — fades out when flip or drag active
-      st.tiltMul += ((suppressTilt ? 0 : 1) - st.tiltMul) * 0.08
+      // Smooth tilt multiplier — fades out when flip/drag active, always 0 on mobile
+      st.tiltMul += ((isMobile || suppressTilt ? 0 : 1) - st.tiltMul) * 0.08
       group.position.y = Math.sin(t * 0.38) * 0.025
       group.rotation.y = st.flipCurrent + st.lx * 0.165 * st.tiltMul
       group.rotation.x = -st.ly * 0.11 * st.tiltMul
-      if (!suppressTilt && Math.abs(st.mx) < 0.02 && Math.abs(st.my) < 0.02) {
+      if (!isMobile && !suppressTilt && Math.abs(st.mx) < 0.02 && Math.abs(st.my) < 0.02) {
         group.rotation.y += Math.sin(t * 0.20) * 0.014
         group.rotation.x += Math.sin(t * 0.16 + 1.2) * 0.008
       }
