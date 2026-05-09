@@ -69,7 +69,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
 
     // ── Renderer ────────────────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3))
     renderer.setSize(mount.clientWidth, mount.clientHeight)
     renderer.toneMapping = THREE.NeutralToneMapping
     renderer.toneMappingExposure = 1.0
