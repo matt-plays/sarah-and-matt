@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "node scripts/build-mpds-tokens.mjs",
-    "optimize": "node scripts/optimize-images.mjs",
-    "sync": "node --env-file=.env.local scripts/sync-notion.mjs"
+    "optimize": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@chenglou/pretext": "^0.0.4",

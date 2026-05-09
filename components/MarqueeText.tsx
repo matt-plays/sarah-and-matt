@@ -13,6 +13,9 @@ interface MarqueeTextProps {
 
 export default function MarqueeText({ text = defaultContent.marquee.text }: MarqueeTextProps) {
   const stripRef = useRef<HTMLDivElement>(null);
+  const animRef = useRef<number>(0);
+
+  const SPEED = 0.6; // px per frame
 
   useEffect(() => {
     const strip = stripRef.current;
@@ -20,9 +23,19 @@ export default function MarqueeText({ text = defaultContent.marquee.text }: Marq
 
     // Wait a frame for layout so scrollWidth is accurate
     requestAnimationFrame(() => {
-      const duration = strip.scrollWidth / 2 / 36;
-      strip.style.setProperty('--marquee-duration', `${duration}s`);
+      const setWidth = strip.scrollWidth / 2;
+
+      let offset = 0;
+      const tick = () => {
+        offset += SPEED;
+        if (offset >= setWidth) offset -= setWidth;
+        strip.style.transform = `translateX(${-offset}px)`;
+        animRef.current = requestAnimationFrame(tick);
+      };
+      animRef.current = requestAnimationFrame(tick);
     });
+
+    return () => { if (animRef.current) cancelAnimationFrame(animRef.current); };
   }, []);
 
   const textStyle: React.CSSProperties = {
@@ -46,7 +59,8 @@ export default function MarqueeText({ text = defaultContent.marquee.text }: Marq
     >
       <div
         ref={stripRef}
-        className="marquee-strip flex whitespace-nowrap"
+        className="flex whitespace-nowrap"
+        style={{ willChange: 'transform' }}
       >
         {/* Render text twice for seamless loop */}
         <p

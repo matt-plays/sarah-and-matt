@@ -30,7 +30,6 @@ const ThemeContext = createContext<ThemeContextValue>({
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [activeTheme, setActiveTheme] = useState<Theme>('default')
   const sectionMapRef = useRef<Map<HTMLElement, Theme>>(new Map())
-  const offsetTopMapRef = useRef<Map<HTMLElement, number>>(new Map())
   const visibleRef = useRef<Set<HTMLElement>>(new Set())
   const observerRef = useRef<IntersectionObserver | null>(null)
 
@@ -56,12 +55,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           setActiveTheme('default')
         } else {
           let best: HTMLElement | null = null
-          let bestOffsetTop = -1
+          let bestTop = -1
           visibleRef.current.forEach((el) => {
-            const offsetTop = offsetTopMapRef.current.get(el) ?? 0
-            if (best === null || offsetTop > bestOffsetTop) {
+            const top = el.getBoundingClientRect().top
+            // The section closest to (or past) the top of the viewport is "most active"
+            // Use the one with the smallest top value that's still partially visible
+            if (best === null || top < bestTop) {
               best = el
-              bestOffsetTop = offsetTop
+              bestTop = top
             }
           })
           if (best) {
@@ -87,11 +88,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const registerSection = useCallback((el: HTMLElement, theme: Theme) => {
     sectionMapRef.current.set(el, theme)
-    offsetTopMapRef.current.set(el, el.offsetTop)
     observerRef.current?.observe(el)
     return () => {
       sectionMapRef.current.delete(el)
-      offsetTopMapRef.current.delete(el)
       observerRef.current?.unobserve(el)
     }
   }, [])

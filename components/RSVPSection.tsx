@@ -8,10 +8,10 @@ import Button from './Button'
 import { RSVPContent } from '@/types/content'
 
 const PHOTO_STRIP = [
-  '/images/wedding-site--rsvp-01.jpg',
-  '/images/wedding-site--rsvp-02.jpg',
-  '/images/wedding-site--rsvp-03.jpg',
-  '/images/wedding-site--rsvp-04.jpg',
+  '/images/wedding-site--rsvp-01.webp',
+  '/images/wedding-site--rsvp-02.webp',
+  '/images/wedding-site--rsvp-03.webp',
+  '/images/wedding-site--rsvp-04.webp',
 ]
 
 export default function RSVPSection({ rsvp }: { rsvp: RSVPContent }) {
@@ -81,8 +81,7 @@ export default function RSVPSection({ rsvp }: { rsvp: RSVPContent }) {
                 alt=""
                 className="w-full h-auto block"
                 style={{ mixBlendMode: 'screen' }}
-                loading="lazy"
-                decoding="async"
+                loading="eager"
               />
             </div>
           ))}

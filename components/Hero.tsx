@@ -4,7 +4,6 @@
 
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
-import { HalftoneCmyk } from '@paper-design/shaders-react'
 
 const InviteCanvas = dynamic(() => import('./InviteCanvas'), { ssr: false })
 
@@ -58,36 +57,22 @@ export default function Hero() {
         paddingBottom: 'var(--mpds-space-64)',
       }}
     >
-      {/* ── Background landscape with CMYK halftone shader ── */}
+      {/* ── Background landscape with pink overlay ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <HalftoneCmyk
-          image="/images/wedding-site--hero-background.png"
-          fit="cover"
-          type="dots"
-          size={0.01}
-          gridNoise={0.30}
-          softness={1.0}
-          contrast={0.83}
-          colorBack="#F7CCC3"
-          colorC="#83BEC2"
-          colorM="#C2839D"
-          colorY="#E2A01C"
-          colorK="#49595B"
-          gainC={-0.33}
-          gainM={0.97}
-          gainY={0.28}
-          gainK={0.05}
-          grainSize={0}
-          grainMixer={0}
-          grainOverlay={0}
-          speed={0}
-          className="absolute inset-0 w-full h-full"
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/wedding-site--hero-background.webp"
+          srcSet="/images/wedding-site--hero-background-480w.webp 480w, /images/wedding-site--hero-background-800w.webp 800w, /images/wedding-site--hero-background-1200w.webp 1200w, /images/wedding-site--hero-background.webp 1920w"
+          sizes="100vw"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
             opacity: revealed ? 1 : 0,
             transform: revealed ? 'scale(1)' : 'scale(1.125)',
             transition: 'opacity 1s ease 0.3s, transform 1s ease 0.3s',
           }}
         />
+        <div className="absolute inset-0" style={{ backgroundColor: '#F7CCC3' }} />
       </div>
 
       {/* ── Progress bar (loading state) ── */}
@@ -162,7 +147,6 @@ export default function Hero() {
           sizes="100vw"
           alt=""
           className="w-[200%] sm:w-full max-w-none h-auto block -translate-x-1/4 sm:translate-x-0"
-          decoding="async"
         />
       </div>
     </section>
