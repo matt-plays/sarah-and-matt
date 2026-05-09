@@ -1,14 +1,16 @@
+import dynamic from 'next/dynamic'
 import SiteNav from '@/components/SiteNav';
 import Hero from '@/components/Hero';
 import TimelineSection from '@/components/TimelineSection';
 import TimelineGallery from '@/components/TimelineGallery';
 import MarqueeText from '@/components/MarqueeText';
-import CelebrationSection from '@/components/CelebrationSection';
-import TravelSection from '@/components/TravelSection';
-import RSVPSection from '@/components/RSVPSection';
-import RegistrySection from '@/components/RegistrySection';
-import SiteFooter from '@/components/SiteFooter';
 import { getNotionContent } from '@/lib/notion';
+
+const CelebrationSection = dynamic(() => import('@/components/CelebrationSection'))
+const TravelSection = dynamic(() => import('@/components/TravelSection'))
+const RSVPSection = dynamic(() => import('@/components/RSVPSection'))
+const RegistrySection = dynamic(() => import('@/components/RegistrySection'))
+const SiteFooter = dynamic(() => import('@/components/SiteFooter'))
 
 // Revalidate page content from Notion every hour
 export const revalidate = 3600;

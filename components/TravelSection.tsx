@@ -5,6 +5,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TravelCard, RichTextSegment } from '@/types/content'
 import { useScrollSection } from '@/context/ThemeContext'
+import { HalftoneCmyk } from '@paper-design/shaders-react'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -172,7 +173,8 @@ export default function TravelSection({ heading, body, whereToStayFineprint, whe
                 src={CATEGORY_IMAGES[active]}
                 alt=""
                 className="w-full h-full object-cover transition-opacity duration-500"
-                loading="eager"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -210,17 +212,30 @@ export default function TravelSection({ heading, body, whereToStayFineprint, whe
         </div>
       </section>
 
-      {/* ── CMYK background image — overlaps content by space-2xl via negative margin ── */}
-      <div
-        className="w-full lg:[margin-top:calc(-2*var(--sp-2xl))]"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/wedding-site--travel-stay-background.webp"
-          srcSet="/images/wedding-site--travel-stay-background-480w.webp 480w, /images/wedding-site--travel-stay-background-800w.webp 800w, /images/wedding-site--travel-stay-background-1200w.webp 1200w, /images/wedding-site--travel-stay-background.webp 1920w"
-          sizes="100vw"
-          alt=""
-          className="w-full h-auto block"
+      {/* ── CMYK background shader — overlaps content by space-2xl via negative margin ── */}
+      <div className="w-full lg:[margin-top:calc(-2*var(--sp-2xl))]">
+        <HalftoneCmyk
+          image="/images/wedding-site--travel-stay-background.png"
+          fit="cover"
+          type="dots"
+          size={0.01}
+          gridNoise={0.48}
+          softness={1.0}
+          contrast={1.0}
+          colorBack="#ffffff"
+          colorC="#83BEC2"
+          colorM="#C2839D"
+          colorY="#E2A01C"
+          colorK="#49595B"
+          gainC={0.45}
+          gainM={0.66}
+          gainY={0.98}
+          gainK={0.10}
+          grainSize={0.46}
+          grainMixer={0}
+          grainOverlay={0}
+          speed={0}
+          style={{ width: '100%', aspectRatio: '3 / 1', display: 'block' }}
         />
       </div>
     </div>

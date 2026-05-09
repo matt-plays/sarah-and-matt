@@ -295,7 +295,8 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                 src={content.mainImage}
                 alt="Excelsior, Lancaster PA"
                 className="w-full h-full object-cover"
-                loading="eager"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             {/* Overlay photo — always visible; right-aligned to photo on mobile, peeks outside column on desktop */}
@@ -308,7 +309,8 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                 src={content.overlayImage}
                 alt="Sarah and Matt"
                 className="w-full h-full object-cover"
-                loading="eager"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>

@@ -97,7 +97,7 @@ export default function RegistrySection({ registry }: { registry: RegistryConten
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/wedding-site--registry-01.webp"
+            src="/images/wedding-site--registry-01.jpg"
             alt="Sarah and Matt"
             className="w-full h-full object-cover object-center"
             loading="lazy"

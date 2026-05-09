@@ -345,6 +345,35 @@ body {
   .scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
   .scrollbar-none::-webkit-scrollbar { display: none; }
 
+  /* Gallery horizontal scroll — driven by CSS scroll timeline (no JS on scroll) */
+  .gallery-section {
+    clip-path: inset(0);         /* clip overflow without creating a scroll container */
+    view-timeline-name: --gallery;
+    view-timeline-axis: block;
+  }
+
+  .gallery-strip {
+    will-change: transform;
+    animation: gallery-slide linear both;
+    animation-timeline: --gallery;
+    animation-range: cover 0% cover 100%;
+  }
+
+  @keyframes gallery-slide {
+    from { transform: translateX(0px); }
+    to   { transform: translateX(calc(-1 * var(--strip-overflow, 0px))); }
+  }
+
+  .marquee-strip {
+    will-change: transform;
+    animation: marquee-scroll var(--marquee-duration, 60s) linear infinite;
+  }
+
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
   /* Timeline dot sonar beacon */
   @keyframes sonar {
     0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.10; }
