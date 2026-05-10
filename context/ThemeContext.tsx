@@ -35,49 +35,65 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const observerRef = useRef<IntersectionObserver | null>(null)
 
   useEffect(() => {
-    // Track which themed sections are visible. When multiple overlap,
-    // the one furthest down the page (highest offsetTop) wins.
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const el = entry.target as HTMLElement
-          const theme = sectionMapRef.current.get(el)
-          if (!theme) continue
+    // Desktop (≥1025px) uses a higher threshold so sections peeking from below
+    // don't steal the theme. Mobile/tablet uses a lower threshold so tall
+    // sections (e.g. expanded accordions) don't drop below the ratio.
+    // rootMargin clips the bottom 25% of the viewport so sections entering
+    // from below don't register until they're meaningfully in view — this
+    // prevents RSVP (green) from winning while Travel is still dominant.
+    const mql = window.matchMedia('(min-width: 1025px)')
 
-          if (entry.isIntersecting) {
-            visibleRef.current.add(el)
-          } else {
-            visibleRef.current.delete(el)
-          }
-        }
-
-        // Pick the lowest visible section (highest offsetTop)
-        if (visibleRef.current.size === 0) {
-          setActiveTheme('default')
+    const onIntersect: IntersectionObserverCallback = (entries) => {
+      for (const entry of entries) {
+        const el = entry.target as HTMLElement
+        const theme = sectionMapRef.current.get(el)
+        if (!theme) continue
+        if (entry.isIntersecting) {
+          visibleRef.current.add(el)
         } else {
-          let best: HTMLElement | null = null
-          let bestOffsetTop = -1
-          visibleRef.current.forEach((el) => {
-            const offsetTop = offsetTopMapRef.current.get(el) ?? 0
-            if (best === null || offsetTop > bestOffsetTop) {
-              best = el
-              bestOffsetTop = offsetTop
-            }
-          })
-          if (best) {
-            setActiveTheme(sectionMapRef.current.get(best) || 'default')
-          }
+          visibleRef.current.delete(el)
         }
-      },
-      { threshold: 0.1 }
-    )
+      }
 
-    // Observe all already-registered sections
-    sectionMapRef.current.forEach((_, el) => {
-      observerRef.current?.observe(el)
-    })
+      // Pick the lowest visible section (highest offsetTop)
+      if (visibleRef.current.size === 0) {
+        setActiveTheme('default')
+      } else {
+        let best: HTMLElement | null = null
+        let bestOffsetTop = -1
+        visibleRef.current.forEach((el) => {
+          const offsetTop = offsetTopMapRef.current.get(el) ?? 0
+          if (best === null || offsetTop > bestOffsetTop) {
+            best = el
+            bestOffsetTop = offsetTop
+          }
+        })
+        if (best) {
+          setActiveTheme(sectionMapRef.current.get(best) || 'default')
+        }
+      }
+    }
 
-    return () => observerRef.current?.disconnect()
+    const buildObserver = () => {
+      observerRef.current?.disconnect()
+      visibleRef.current.clear()
+      const threshold = mql.matches ? 0.35 : 0.1
+      observerRef.current = new IntersectionObserver(onIntersect, {
+        threshold,
+        rootMargin: '0px 0px -25% 0px',
+      })
+      sectionMapRef.current.forEach((_, el) => {
+        observerRef.current?.observe(el)
+      })
+    }
+
+    buildObserver()
+    mql.addEventListener('change', buildObserver)
+
+    return () => {
+      mql.removeEventListener('change', buildObserver)
+      observerRef.current?.disconnect()
+    }
   }, [])
 
   // Sync active theme to <body>
