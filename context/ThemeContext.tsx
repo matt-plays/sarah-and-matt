@@ -69,7 +69,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           }
         }
       },
-      { threshold: 0.35 }
+      { threshold: 0.1 }
     )
 
     // Observe all already-registered sections

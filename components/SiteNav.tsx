@@ -110,7 +110,8 @@ export default function SiteNav() {
       if (delta < 0) {
         scrollUpDistance.current += Math.abs(delta)
         if (scrollUpDistance.current > 30) setVisible(true)
-      } else {
+      } else if (delta > 5) {
+        // Only hide on meaningful downward scroll — ignore inertia micro-jitters
         scrollUpDistance.current = 0
         setVisible(false)
       }

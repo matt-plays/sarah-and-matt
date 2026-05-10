@@ -162,9 +162,9 @@ export default function TravelSection({ heading, body, whereToStayFineprint, whe
               ))}
             </nav>
 
-            {/* Decorative photo — full-width on mobile (2× feel), constrained on lg */}
+            {/* Decorative photo — hidden below lg, constrained on lg+ */}
             <div
-              className="block rounded-2xl overflow-hidden w-full"
+              className="hidden lg:block rounded-2xl overflow-hidden w-full"
               style={{ aspectRatio: '1 / 1', maxWidth: 376 }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -182,7 +182,7 @@ export default function TravelSection({ heading, body, whereToStayFineprint, whe
           <div className="lg:col-span-8 flex flex-col min-w-0">
             <div
               key={cardKey}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 content-start"
+              className="grid grid-cols-2 lg:grid-cols-3 content-start"
               style={{ columnGap: 'var(--mpds-space-32)', rowGap: 'var(--mpds-space-48)' }}
             >
               {cards.slice(0, 9).map((card, i) => (
