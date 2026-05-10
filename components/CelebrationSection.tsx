@@ -143,7 +143,7 @@ function AccordionItem({
 // ─── Section ─────────────────────────────────────────────────────────────────
 
 export default function CelebrationSection({ content }: { content: CelebrationContent }) {
-  const sectionRef = useScrollSection<HTMLElement>('slate')
+  const sectionRef = useScrollSection<HTMLElement>('maroon')
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (

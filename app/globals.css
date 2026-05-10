@@ -209,14 +209,14 @@
 }
 
 [data-theme="maroon"] {
-  --theme-bg:             var(--mpds-color-magenta-m-1100);    /* Muted/Magenta/1100 */
-  --theme-tonal:          var(--mpds-color-magenta-m-1000);    /* Muted/Magenta/1000 */
-  --theme-headline:       var(--mpds-color-red-m-300);         /* Muted/Red/300      */
-  --theme-text:           color-mix(in srgb, var(--mpds-color-red-m-300) 72%, transparent);
-  --theme-action:         var(--mpds-color-red-s-300);         /* Saturated/Red/300  */
-  --theme-action-hovered: var(--mpds-color-red-s-200);         /* Saturated/Red/200  */
-  --theme-action-pressed: var(--mpds-color-red-s-100);         /* Saturated/Red/100  */
-  --theme-btn-text:       var(--mpds-color-magenta-m-1100);    /* Muted/Magenta/1100 */
+  --theme-bg:             #261B20;                             /* Red/1100            */
+  --theme-tonal:          #3D2A33;                             /* Red/1000            */
+  --theme-headline:       var(--mpds-color-red-m-300);         /* Muted/Red/300       */
+  --theme-text:           color-mix(in srgb, var(--red-m-50) 72%, transparent); /* F0B7AB @ 72% */
+  --theme-action:         var(--mpds-color-red-s-300);         /* Saturated/Red/300   */
+  --theme-action-hovered: var(--mpds-color-red-s-200);         /* Saturated/Red/200   */
+  --theme-action-pressed: var(--mpds-color-red-s-100);         /* Saturated/Red/100   */
+  --theme-btn-text:       #261B20;                             /* Red/1100            */
 }
 
 [data-theme="green"] {
