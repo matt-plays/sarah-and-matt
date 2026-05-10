@@ -93,7 +93,7 @@ function AccordionItem({
           className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
           style={{
             fontSize: 'var(--mpds-font-size-lg)',
-            letterSpacing: '-0.1em',
+            letterSpacing: '-0.01em',
           }}
         >
           {row.label}
@@ -183,7 +183,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
             <div className="flex flex-col" style={{ gap: 'var(--mpds-space-md)' }}>
               <h3
                 className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
-                style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.1em' }}
+                style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.01em' }}
               >
                 Friday, August 28, 2026
               </h3>
@@ -243,7 +243,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                   className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
                   style={{
                     fontSize: 'var(--mpds-font-size-3xl)',
-                    letterSpacing: '-0.1em',
+                    letterSpacing: '-0.01em',
                     paddingBottom: 'var(--mpds-space-48)',
                   }}
                 >

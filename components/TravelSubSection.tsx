@@ -57,7 +57,7 @@ export default function TravelSubSection({
         {/* Section heading */}
         <h2
           className="font-instrument font-medium text-cool-green-600 leading-tight shrink-0 font-instrument relative z-10"
-          style={{ fontSize: 'var(--fs-7xl)', letterSpacing: '-0.1em', width: 'min(480px, 38%)' }}
+          style={{ fontSize: 'var(--fs-7xl)', letterSpacing: '-0.01em', width: 'min(480px, 38%)' }}
         >
           {heading}
         </h2>
