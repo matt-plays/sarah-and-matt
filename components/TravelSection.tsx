@@ -64,7 +64,7 @@ function RecommendationCard({ card, index, animate }: { card: TravelCard; index:
       <div className="flex flex-col" style={{ gap: 'var(--mpds-space-8)' }}>
         <p
           className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-pre-line"
-          style={{ fontSize: 'var(--mpds-font-size-lg)', letterSpacing: '-0.02em', textWrap: 'balance' }}
+          style={{ fontSize: 'var(--mpds-font-size-lg)', letterSpacing: '-0.1em', textWrap: 'balance' }}
         >
           {card.heading}
         </p>
@@ -155,7 +155,7 @@ export default function TravelSection({ heading, body, whereToStayFineprint, whe
                       ? 'text-[var(--theme-headline)]'
                       : 'text-[var(--theme-tonal)]'
                   }`}
-                  style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.02em' }}
+                  style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.1em' }}
                 >
                   {label}
                 </button>

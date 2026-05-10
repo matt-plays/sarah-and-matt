@@ -17,7 +17,7 @@ export default function InfoCard({ overline, heading, body }: InfoCardProps) {
       <div className="flex flex-col gap-6">
         <h3
           className="font-instrument font-medium text-cool-green-600 leading-tight whitespace-pre-line font-instrument"
-          style={{ fontSize: 'var(--fs-4xl)', letterSpacing: '-0.02em' }}
+          style={{ fontSize: 'var(--fs-4xl)', letterSpacing: '-0.1em' }}
         >
           {heading}
         </h3>

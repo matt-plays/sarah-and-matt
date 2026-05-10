@@ -240,7 +240,7 @@ function Item({ entry, itemW, isHovered, isOtherHovered, onMouseEnter, onMouseLe
         >
           <h3
             className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125] whitespace-nowrap w-full"
-            style={{ fontSize: 'var(--mpds-font-size-xl)', letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'var(--mpds-font-size-xl)', letterSpacing: '-0.1em' }}
           >
             {entry.heading}
           </h3>
@@ -333,7 +333,7 @@ export default function TimelineSection({ story }: { story: StoryCard[] }) {
         <div className="flex items-center justify-between w-full">
           <h2
             className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
-            style={{ fontSize: 'var(--mpds-font-size-4xl)', letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'var(--mpds-font-size-4xl)', letterSpacing: '-0.1em' }}
           >
             Our winding road
           </h2>

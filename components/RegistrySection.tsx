@@ -73,7 +73,7 @@ export default function RegistrySection({ registry }: { registry: RegistryConten
                     </span>
                     <p
                       className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
-                      style={{ fontSize: 'var(--mpds-font-size-xl)', letterSpacing: '-0.02em' }}
+                      style={{ fontSize: 'var(--mpds-font-size-xl)', letterSpacing: '-0.1em' }}
                     >
                       {item.name}
                     </p>
