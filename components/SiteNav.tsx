@@ -9,7 +9,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 const NAV_LINKS = [
   { label: 'Our Celebration', href: '#celebration', id: 'celebration' },
   { label: 'Travel & Stay', href: '#travel', id: 'travel' },
-  { label: 'Registry', href: 'https://zola.sarahandmatt.wedding/registry', id: 'registry' },
+  { label: 'Registry', href: '#registry', id: 'registry' },
 ]
 
 const IDLE_TIMEOUT = 15000

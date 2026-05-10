@@ -44,6 +44,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const mql = window.matchMedia('(min-width: 1025px)')
 
     const onIntersect: IntersectionObserverCallback = (entries) => {
+      // Refresh all cached offsetTops on every batch — dynamic imports and
+      // layout shifts mean the values stored at registration time can be stale.
+      sectionMapRef.current.forEach((_, el) => {
+        offsetTopMapRef.current.set(el, el.getBoundingClientRect().top + window.scrollY)
+      })
+
       for (const entry of entries) {
         const el = entry.target as HTMLElement
         const theme = sectionMapRef.current.get(el)

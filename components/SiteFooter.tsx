@@ -60,7 +60,7 @@ export default function SiteFooter() {
         >
           <a href="#celebration" className="hover:text-[var(--theme-headline)] transition-colors">Our celebration</a>
           <a href="#travel" className="hover:text-[var(--theme-headline)] transition-colors">Travel &amp; Stay</a>
-          <a href="https://zola.sarahandmatt.wedding/registry" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--theme-headline)] transition-colors">Registry</a>
+          <a href="#registry" className="hover:text-[var(--theme-headline)] transition-colors">Registry</a>
           <a href="https://zola.sarahandmatt.wedding/rsvp" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--theme-headline)] transition-colors">RSVP</a>
         </nav>
 
