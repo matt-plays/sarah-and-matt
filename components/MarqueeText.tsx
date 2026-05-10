@@ -41,7 +41,7 @@ export default function MarqueeText({ text = defaultContent.marquee.text }: Marq
     <section
       id="marquee"
       data-theme="default"
-      className="w-full overflow-hidden pt-6 pb-sp-2xl"
+      className="w-full overflow-hidden pt-6"
       aria-hidden="true"
     >
       <div
