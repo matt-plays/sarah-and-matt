@@ -303,14 +303,14 @@ body {
   /* Animate the CSS variables themselves — with @property + inherits: true,
      all descendants automatically see the smooth interpolated values. */
   transition:
-    --theme-bg 0.5s ease,
-    --theme-tonal 0.5s ease,
-    --theme-headline 0.5s ease,
-    --theme-text 0.5s ease,
-    --theme-action 0.5s ease,
-    --theme-action-hovered 0.5s ease,
-    --theme-action-pressed 0.5s ease,
-    --theme-btn-text 0.5s ease;
+    --theme-bg 0.3s ease,
+    --theme-tonal 0.3s ease,
+    --theme-headline 0.3s ease,
+    --theme-text 0.3s ease,
+    --theme-action 0.3s ease,
+    --theme-action-hovered 0.3s ease,
+    --theme-action-pressed 0.3s ease,
+    --theme-btn-text 0.3s ease;
   font-family: "Instrument Sans", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;

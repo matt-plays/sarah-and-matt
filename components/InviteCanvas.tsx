@@ -62,6 +62,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
   const entranceStartedRef = useRef(false)
   const flipReadyRef = useRef(false)
   const entranceFlipActiveRef = useRef(false)
+  const pausedRef = useRef(false)
   onReadyRef.current = onReady
 
   useEffect(() => {
@@ -81,7 +82,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
 
     // ── Renderer ────────────────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.setSize(mount.clientWidth, mount.clientHeight)
     renderer.toneMapping = THREE.NeutralToneMapping
     renderer.toneMappingExposure = INIT.exposure
@@ -118,7 +119,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
       backMat,
     ])
 
-    const frontGeo = new THREE.PlaneGeometry(CARD_W, CARD_H, 128, 178)
+    const frontGeo = new THREE.PlaneGeometry(CARD_W, CARD_H, 32, 44)
     frontGeo.setAttribute('uv2', frontGeo.getAttribute('uv').clone())
     const frontPlane = new THREE.Mesh(frontGeo, frontMat)
     frontPlane.position.z = CARD_D / 2 + 0.0005
@@ -222,11 +223,24 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     window.addEventListener('keydown', onKeyDown)
 
     // ── Animation ─────────────────────────────────────────────────────────────────
+    // Pause rendering when the canvas is scrolled out of view
+    const io = new IntersectionObserver(
+      ([entry]) => { pausedRef.current = !entry.isIntersecting },
+      { threshold: 0 }
+    )
+    io.observe(mount)
+
     const timer = new THREE.Timer()
     let raf: number
+    let lastRender = 0
 
-    const tick = () => {
+    const tick = (timestamp: number) => {
       raf = requestAnimationFrame(tick)
+      if (pausedRef.current) return
+      // Throttle to 30 fps when idle; full 60 fps during active interaction / entrance
+      const isActive = st.isDragging || st.flipping || entranceFlipActiveRef.current || !entranceStartedRef.current
+      if (!isActive && timestamp - lastRender < 1000 / 30) return
+      lastRender = timestamp
       timer.update()
       const t = timer.getElapsed()
 
@@ -261,7 +275,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
       }
       renderer.render(scene, camera)
     }
-    tick()
+    raf = requestAnimationFrame(tick)
 
     // ── Resize ────────────────────────────────────────────────────────────────────
     const ro = new ResizeObserver(() => {
@@ -274,6 +288,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
 
     return () => {
       cancelAnimationFrame(raf)
+      io.disconnect()
       ro.disconnect()
       mount.removeEventListener('mousemove', onMove)
       mount.removeEventListener('pointerdown', onPointerDown)
@@ -292,13 +307,6 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
       style={{
         position: 'relative', width: '100%', aspectRatio: '720 / 1008', cursor: 'ew-resize',
         mixBlendMode: 'multiply',
-        filter: [
-          'drop-shadow(0px 1000px 193px rgba(43,13,0,0.00))',
-          'drop-shadow(0px 660px 177px rgba(43,13,0,0.015))',
-          'drop-shadow(0px 370px 149px rgba(43,13,0,0.06))',
-          'drop-shadow(0px 165px 110px rgba(43,13,0,0.105))',
-          'drop-shadow(0px 42px 61px rgba(43,13,0,0.12))',
-        ].join(' '),
       }}
     >
     </div>

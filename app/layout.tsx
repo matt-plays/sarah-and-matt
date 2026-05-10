@@ -27,6 +27,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preload invite card SVG colour maps — InviteCanvas needs both before
+            it can decode textures and signal onReady, so fetching early cuts the
+            visible loading-bar time. */}
+        <link rel="preload" href="/images/hero-invite-front.svg" as="image" type="image/svg+xml" />
+        <link rel="preload" href="/images/hero-invite-back.svg" as="image" type="image/svg+xml" />
+      </head>
       <body suppressHydrationWarning>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
