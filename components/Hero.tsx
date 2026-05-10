@@ -50,32 +50,15 @@ export default function Hero() {
       id="hero"
       className="relative w-full overflow-clip"
       style={{
-        backgroundColor: '#F7CCC3',
+        backgroundColor: 'var(--blush)',
         // Mobile: 74px (clears 117px nav + 52px gap via canvas's 95px internal top margin)
         // Desktop: 48px (card is vertically centered in full-height hero, nav overlap is fine)
         paddingTop: 'clamp(48px, calc(87px - 2.708vw), 74px)',
         paddingBottom: 'var(--mpds-space-64)',
       }}
     >
-      {/* ── Background landscape with pink overlay ── */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/wedding-site--hero-background.webp"
-          srcSet="/images/wedding-site--hero-background-480w.webp 480w, /images/wedding-site--hero-background-800w.webp 800w, /images/wedding-site--hero-background-1200w.webp 1200w, /images/wedding-site--hero-background.webp 1920w"
-          sizes="100vw"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            opacity: revealed ? 1 : 0,
-            transform: revealed ? 'scale(1)' : 'scale(1.125)',
-            transition: 'opacity 1s ease 0.3s, transform 1s ease 0.3s',
-          }}
-        />
-        <div className="absolute inset-0" style={{ backgroundColor: '#F7CCC3' }} />
-      </div>
 
-      {/* ── Progress bar (loading state) ── */}
+{/* ── Progress bar (loading state) ── */}
       <div
         className="fixed inset-0 flex items-center justify-center pointer-events-none"
         aria-hidden="true"
@@ -85,7 +68,7 @@ export default function Hero() {
           style={{
             width: 320,
             height: 4,
-            backgroundColor: 'var(--mpds-color-red-m-300)',
+            backgroundColor: 'var(--blush-2)',
             borderRadius: 2,
             overflow: 'hidden',
             transform: trackReady ? 'scaleX(1)' : 'scaleX(0)',
@@ -97,7 +80,7 @@ export default function Hero() {
             style={{
               height: '100%',
               width: `${progress}%`,
-              backgroundColor: 'var(--mpds-color-teal-m-1000)',
+              backgroundColor: 'var(--mpds-color-slate-900)',
               transition: progress === 100 ? 'width 0.3s ease-out' : 'width 0.08s linear',
             }}
           />

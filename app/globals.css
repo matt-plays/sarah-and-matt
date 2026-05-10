@@ -111,6 +111,14 @@
   --warm-green-700: #213200;
   --orange-s-700:   #320D00;
 
+  /* Project palette — card-matched */
+  --blush:    #EAC5C0;   /* Blush     */
+  --blush-1:  #DEBBB6;   /* Blush -   */
+  --blush-2:  #D1B0AB;   /* Blush --  */
+  --gold:     #9B7948;   /* Gold      */
+  --gold-1:   #8F6F42;   /* Gold -    */
+  --gold-2:   #8F7249;   /* Gold --   */
+
   /* Layout (legacy — kept for existing components) */
   --container-max: 1600px;
   --container-px:  var(--sp-sm);
@@ -163,17 +171,17 @@
 @property --theme-action {
   syntax: '<color>';
   inherits: true;
-  initial-value: #A76F00;
+  initial-value: #9B7948;
 }
 @property --theme-action-hovered {
   syntax: '<color>';
   inherits: true;
-  initial-value: #986600;
+  initial-value: #8F6F42;
 }
 @property --theme-action-pressed {
   syntax: '<color>';
   inherits: true;
-  initial-value: #8A5C00;
+  initial-value: #8F7249;
 }
 @property --theme-btn-text {
   syntax: '<color>';
@@ -194,9 +202,9 @@
   --theme-tonal:          var(--mpds-color-clay-400);          /* Neutral/Clay/400   */
   --theme-headline:       var(--mpds-color-slate-1200);        /* Neutral/Slate/1200 */
   --theme-text:           var(--mpds-color-slate-alpha-1000);  /* Alpha/Slate/1000   */
-  --theme-action:         var(--mpds-color-yellow-s-600);      /* Saturated/Yellow/600 */
-  --theme-action-hovered: var(--mpds-color-yellow-s-700);      /* Saturated/Yellow/700 */
-  --theme-action-pressed: var(--mpds-color-yellow-s-800);      /* Saturated/Yellow/800 */
+  --theme-action:         var(--gold);                         /* Gold               */
+  --theme-action-hovered: var(--gold-1);                       /* Gold -             */
+  --theme-action-pressed: var(--gold-2);                       /* Gold --            */
   --theme-btn-text:       var(--mpds-color-clay-100);          /* Neutral/Clay/100   */
 }
 
@@ -212,14 +220,14 @@
 }
 
 [data-theme="green"] {
-  --theme-bg:             var(--mpds-color-warm-green-s-1100); /* Saturated/Warm Green/1100 */
-  --theme-tonal:          var(--mpds-color-warm-green-s-1000); /* Saturated/Warm Green/1000 */
-  --theme-headline:       var(--mpds-color-teal-m-300);        /* Muted/Teal/300     */
+  --theme-bg:             var(--mpds-color-warm-green-m-1100); /* Muted/Warm Green/1100 */
+  --theme-tonal:          var(--mpds-color-warm-green-m-1000); /* Muted/Warm Green/1000 */
+  --theme-headline:       var(--mpds-color-teal-m-300);        /* Muted/Teal/300        */
   --theme-text:           color-mix(in srgb, var(--mpds-color-teal-m-300) 72%, transparent);
-  --theme-action:         var(--mpds-color-teal-m-500);        /* Muted/Teal/500     */
-  --theme-action-hovered: var(--mpds-color-teal-m-400);        /* Muted/Teal/400     */
-  --theme-action-pressed: var(--mpds-color-teal-m-300);        /* Muted/Teal/300     */
-  --theme-btn-text:       var(--mpds-color-warm-green-s-1100); /* Saturated/Warm Green/1100 */
+  --theme-action:         var(--mpds-color-teal-m-500);        /* Muted/Teal/500        */
+  --theme-action-hovered: var(--mpds-color-teal-m-400);        /* Muted/Teal/400        */
+  --theme-action-pressed: var(--mpds-color-teal-m-300);        /* Muted/Teal/300        */
+  --theme-btn-text:       var(--mpds-color-warm-green-m-1100); /* Muted/Warm Green/1100 */
 }
 
 [data-theme="taupe"] {
@@ -238,10 +246,32 @@
   --theme-tonal:          var(--mpds-color-clay-1100);         /* Neutral/Clay/1100  */
   --theme-headline:       var(--mpds-color-clay-500);          /* Neutral/Clay/500   */
   --theme-text:           var(--mpds-color-clay-600);          /* Neutral/Clay/600   */
-  --theme-action:         var(--mpds-color-yellow-s-600);      /* Saturated/Yellow/600 */
-  --theme-action-hovered: var(--mpds-color-yellow-s-700);      /* Saturated/Yellow/700 */
-  --theme-action-pressed: var(--mpds-color-yellow-s-800);      /* Saturated/Yellow/800 */
+  --theme-action:         var(--gold);                         /* Gold               */
+  --theme-action-hovered: var(--gold-1);                       /* Gold -             */
+  --theme-action-pressed: var(--gold-1);                       /* Gold -             */
   --theme-btn-text:       var(--mpds-color-clay-100);          /* Neutral/Clay/100   */
+}
+
+[data-theme="brand-og"] {
+  --theme-bg:             var(--blush);                        /* Blush              */
+  --theme-tonal:          var(--blush-1);                      /* Blush -            */
+  --theme-headline:       var(--mpds-color-slate-1200);        /* Neutral/Slate/1200 */
+  --theme-text:           var(--mpds-color-slate-alpha-1000);  /* Alpha/Slate/1000   */
+  --theme-action:         var(--gold);                         /* Gold               */
+  --theme-action-hovered: var(--gold-1);                       /* Gold -             */
+  --theme-action-pressed: var(--gold-2);                       /* Gold --            */
+  --theme-btn-text:       var(--blush);                        /* Blush              */
+}
+
+[data-theme="slate"] {
+  --theme-bg:             var(--mpds-color-clay-1100);         /* Neutral/Clay/1100  */
+  --theme-tonal:          var(--mpds-color-clay-1000);         /* Neutral/Clay/1000  */
+  --theme-headline:       var(--blush);                        /* Blush              */
+  --theme-text:           color-mix(in srgb, var(--blush) 72%, transparent);
+  --theme-action:         var(--mpds-color-magenta-m-400);     /* Muted/Magenta/400  */
+  --theme-action-hovered: var(--mpds-color-magenta-m-300);     /* Muted/Magenta/300  */
+  --theme-action-pressed: var(--mpds-color-magenta-m-200);     /* Muted/Magenta/200  */
+  --theme-btn-text:       var(--mpds-color-clay-1100);         /* Neutral/Clay/1100  */
 }
 
 /* ─── Base ──────────────────────────────────────────────────────── */
@@ -344,6 +374,35 @@ body {
   /* Scrollbar */
   .scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
   .scrollbar-none::-webkit-scrollbar { display: none; }
+
+  /* Gallery horizontal scroll — driven by CSS scroll timeline (no JS on scroll) */
+  .gallery-section {
+    clip-path: inset(0);         /* clip overflow without creating a scroll container */
+    view-timeline-name: --gallery;
+    view-timeline-axis: block;
+  }
+
+  .gallery-strip {
+    will-change: transform;
+    animation: gallery-slide linear both;
+    animation-timeline: --gallery;
+    animation-range: cover 0% cover 100%;
+  }
+
+  @keyframes gallery-slide {
+    from { transform: translateX(0px); }
+    to   { transform: translateX(calc(-1 * var(--strip-overflow, 0px))); }
+  }
+
+  .marquee-strip {
+    will-change: transform;
+    animation: marquee-scroll var(--marquee-duration, 60s) linear infinite;
+  }
+
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
 
   /* Timeline dot sonar beacon */
   @keyframes sonar {

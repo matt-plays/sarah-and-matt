@@ -26,7 +26,7 @@ function loadSVGColor(src: string, w: number, h: number): Promise<THREE.Texture>
       const cvs = document.createElement('canvas')
       cvs.width = w; cvs.height = h
       const ctx = cvs.getContext('2d')!
-      ctx.fillStyle = '#f7ccc3'
+      ctx.fillStyle = '#eac5c0'
       ctx.fillRect(0, 0, w, h)
       ctx.drawImage(img, dx, dy, dw, dh)
       const tex = new THREE.CanvasTexture(cvs)
@@ -36,6 +36,19 @@ function loadSVGColor(src: string, w: number, h: number): Promise<THREE.Texture>
     img.onerror = reject
     img.src = src
   })
+}
+
+// ── Lighting constants ─────────────────────────────────────────────────────────
+
+const INIT = {
+  exposure:      1.50,
+  ambientInt:    1.45,
+  keyInt:        1.1,  keyX:  2.5, keyY:  4.0, keyZ:  5.0,
+  rimInt:        0.52, rimX:  0,   rimY: -2.0, rimZ: -2.0,
+  roughnessFace: 0.53,
+  roughnessEdge: 0.86,
+  normalScale:   5.5,
+  aoIntensity:   0.75,
 }
 
 // ── Component ──────────────────────────────────────────────────────────────────
@@ -51,7 +64,6 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
   const entranceFlipActiveRef = useRef(false)
   onReadyRef.current = onReady
 
-  // When Hero signals "reveal", start scale-down and flip simultaneously
   useEffect(() => {
     if (!triggerEntrance) return
     entranceStartedRef.current = true
@@ -72,7 +84,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3))
     renderer.setSize(mount.clientWidth, mount.clientHeight)
     renderer.toneMapping = THREE.NeutralToneMapping
-    renderer.toneMappingExposure = 1.0
+    renderer.toneMappingExposure = INIT.exposure
     Object.assign(renderer.domElement.style, { position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', display: 'block' })
     mount.appendChild(renderer.domElement)
 
@@ -82,25 +94,21 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     camera.position.z = 6
 
     // ── Lighting ─────────────────────────────────────────────────────────────────
-    const ambient = new THREE.AmbientLight(0xffffff, 0.4)
+    const ambient = new THREE.AmbientLight(0xffffff, INIT.ambientInt)
     scene.add(ambient)
 
-    const key = new THREE.DirectionalLight(0xffffff, 3.5)
-    key.position.set(2.5, 4, 5)
+    const key = new THREE.DirectionalLight(0xffffff, INIT.keyInt)
+    key.position.set(INIT.keyX, INIT.keyY, INIT.keyZ)
     scene.add(key)
 
-    const fill = new THREE.DirectionalLight(0xffffff, 1.0)
-    fill.position.set(-3, -1, 3)
-    scene.add(fill)
-
-    const rim = new THREE.DirectionalLight(0xffffff, 0.39)
-    rim.position.set(0, -2, -2)
+    const rim = new THREE.DirectionalLight(0xffffff, INIT.rimInt)
+    rim.position.set(INIT.rimX, INIT.rimY, INIT.rimZ)
     scene.add(rim)
 
     // ── Materials ─────────────────────────────────────────────────────────────────
-    const edgeMat  = new THREE.MeshStandardMaterial({ color: 0xd0a79d, roughness: 0.95, metalness: 0 })
-    const frontMat = new THREE.MeshStandardMaterial({ color: 0xf7ccc3, roughness: 0.78, metalness: 0 })
-    const backMat  = new THREE.MeshStandardMaterial({ color: 0xf7ccc3, roughness: 0.78, metalness: 0 })
+    const edgeMat  = new THREE.MeshStandardMaterial({ color: 0xd1b0ab, roughness: INIT.roughnessEdge, metalness: 0 })
+    const frontMat = new THREE.MeshStandardMaterial({ color: 0xeac5c0, roughness: INIT.roughnessFace, metalness: 0 })
+    const backMat  = new THREE.MeshStandardMaterial({ color: 0xeac5c0, roughness: INIT.roughnessFace, metalness: 0 })
 
     // ── Geometry ──────────────────────────────────────────────────────────────────
     const boxGeo   = new THREE.BoxGeometry(CARD_W, CARD_H, CARD_D)
@@ -123,7 +131,6 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     const TEX_W = 1440
     const TEX_H = Math.round(TEX_W * (CARD_H / CARD_W))
 
-    // ── Asset loading tracker ─────────────────────────────────────────────────────
     let loadedCount = 0
     const onAssetLoaded = () => { if (++loadedCount === 6) onReadyRef.current?.() }
 
@@ -135,30 +142,26 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
     })
 
     // ── Load PBR maps ─────────────────────────────────────────────────────────────
-    // Use half-res mobile variants on narrow viewports to save 6–8MB of texture data
     const tl = new THREE.TextureLoader()
     const isMobile = window.innerWidth < 768
     const pbrSuffix = isMobile ? '-mobile.webp' : '.webp'
-    // Normal map reads poorly at small card sizes — reduce scale on mobile
-    const normalScale = isMobile ? 0.5 : 4.0
+    const normalScale = isMobile ? 0.5 : INIT.normalScale
 
     tl.load(`/images/hero-invite-front-normal${pbrSuffix}`, (tex) => {
       frontMat.normalMap = tex; frontMat.normalScale = new THREE.Vector2(normalScale, normalScale); frontMat.needsUpdate = true; onAssetLoaded()
     })
     tl.load(`/images/hero-invite-front-ambient${pbrSuffix}`, (tex) => {
-      frontMat.aoMap = tex; frontMat.aoMapIntensity = 0.75; frontMat.needsUpdate = true; onAssetLoaded()
+      frontMat.aoMap = tex; frontMat.aoMapIntensity = INIT.aoIntensity; frontMat.needsUpdate = true; onAssetLoaded()
     })
-
     tl.load(`/images/hero-invite-back-normal${pbrSuffix}`, (tex) => {
       backMat.normalMap = tex; backMat.normalScale = new THREE.Vector2(-normalScale, normalScale); backMat.needsUpdate = true; onAssetLoaded()
     })
     tl.load(`/images/hero-invite-back-ambient${pbrSuffix}`, (tex) => {
-      backMat.aoMap = tex; backMat.aoMapIntensity = 0.75; backMat.needsUpdate = true; onAssetLoaded()
+      backMat.aoMap = tex; backMat.aoMapIntensity = INIT.aoIntensity; backMat.needsUpdate = true; onAssetLoaded()
     })
 
     // ── Interaction ───────────────────────────────────────────────────────────────
-    // Start showing back face; flip to front is triggered by triggerEntrance ref
-    const ENTRANCE_ANGLE = (40 * Math.PI) / 180 // 40° tilt — front face always visible
+    const ENTRANCE_ANGLE = (40 * Math.PI) / 180
     const st = {
       mx: 0, my: 0, lx: 0, ly: 0,
       flipTarget: ENTRANCE_ANGLE, flipCurrent: ENTRANCE_ANGLE,
@@ -193,16 +196,12 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
       if (!st.isDragging) return
       st.isDragging = false
       mount.style.cursor = 'ew-resize'
-
       if (!st.hasDragged) {
-        // Click — right half flips forward (+π), left half flips backward (-π).
-        // No range clamp: lets the card spin freely in either direction without getting stuck at ±π.
         const r = mount.getBoundingClientRect()
         const isLeftHalf = (e.clientX - r.left) < r.width / 2
         const currentSnap = Math.round(st.flipCurrent / Math.PI) * Math.PI
         st.flipTarget = isLeftHalf ? currentSnap - Math.PI : currentSnap + Math.PI
       } else {
-        // Drag release — snap to nearest half-turn
         st.flipTarget = Math.round(st.flipCurrent / Math.PI) * Math.PI
       }
       st.flipping = true
@@ -231,24 +230,20 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
       timer.update()
       const t = timer.getElapsed()
 
-      // Entrance: scale from 1.125 → 1.0
       if (entranceStartedRef.current) {
         st.scale += (1.0 - st.scale) * 0.09
         group.scale.setScalar(st.scale)
       }
 
-      // Flip to front once entrance delay has elapsed
       if (flipReadyRef.current) {
         flipReadyRef.current = false
         st.flipTarget = 0
         st.flipping = true
       }
 
-      // During flip/drag: drain lx/ly toward 0 so pent-up tilt can't snap in on completion
       const suppressTilt = st.flipping || st.isDragging
       st.lx += ((suppressTilt ? 0 : st.mx) - st.lx) * 0.055
       st.ly += ((suppressTilt ? 0 : st.my) - st.ly) * 0.055
-      // During drag, flipTarget == flipCurrent so lerp is a no-op
       const flipLerp = entranceFlipActiveRef.current ? 0.09 : 0.10
       st.flipCurrent += (st.flipTarget - st.flipCurrent) * flipLerp
       if (!st.isDragging && Math.abs(st.flipCurrent - st.flipTarget) < 0.0005) {
@@ -256,7 +251,6 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
         st.flipping = false
         entranceFlipActiveRef.current = false
       }
-      // Smooth tilt multiplier — fades out when flip/drag active, always 0 on mobile
       st.tiltMul += ((isMobile || suppressTilt ? 0 : 1) - st.tiltMul) * 0.08
       group.position.y = Math.sin(t * 0.38) * 0.025
       group.rotation.y = st.flipCurrent + st.lx * 0.165 * st.tiltMul
@@ -306,6 +300,7 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
           'drop-shadow(0px 42px 61px rgba(43,13,0,0.12))',
         ].join(' '),
       }}
-    />
+    >
+    </div>
   )
 }

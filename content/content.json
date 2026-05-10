@@ -1,40 +1,40 @@
 {
   "story": [
     {
-      "id": "story-1",
+      "id": "32fef177-24e6-8151-8af0-deefd1993f4b",
+      "year": "2018",
+      "heading": "First dates in\nBurlington, VT",
+      "body": "Wintertime hot toddies brought us together for our first dates in Burlington. And while timing wasn't on our side just yet, a beautiful seed was  planted."
+    },
+    {
+      "id": "32fef177-24e6-81ad-b086-f37f09a09ffb",
       "year": "2020",
       "heading": "Kept in touch\nduring the pandemic",
-      "body": "When the world slowed down, we didn't. Late-night calls and care packages kept us close across the distance."
+      "body": "Sarah got her master’s degree in Syracuse, Matt bought new a house Massachusetts, and the world changed drastically. The texts and Skype calls we shared were bright spots."
     },
     {
-      "id": "story-2",
+      "id": "32fef177-24e6-810b-88ae-e39fc29d3d3c",
       "year": "2024",
       "heading": "Reconnected\nin the Poconos",
-      "body": "A weekend in the mountains turned into something neither of us expected — the start of everything."
+      "body": "We took a weekend trip the mountains to reconnect after Sarah returned home from Madrid. Our time turned into something neither of us expected—the start of everything."
     },
     {
-      "id": "story-3",
+      "id": "32fef177-24e6-8157-adbf-cdbcaceb5095",
       "year": "2025",
       "heading": "Got engaged in\nHudson, NY",
-      "body": "Overlooking the river, on a perfect autumn afternoon, Matt asked the question. Sarah said yes."
+      "body": "What Sarah thought was just an ‘off-site work trip’ to Hudson to meet Matt’s coworkers turned into the sweetest surprise: Matt proposed at the Maker Hotel, and Sarah said yes!"
     },
     {
-      "id": "story-4",
+      "id": "32fef177-24e6-8178-9b78-e44374d341ce",
       "year": "2025",
       "heading": "Sarah moved to\nMassachusetts",
-      "body": "New city, new chapter. Boxes and furniture and a lot of excited energy for what comes next."
+      "body": "After months of long‑weekend visits and countless 6-hour drives, we were ready to close the distance. Sarah moved in with Matt, making ‘his’ home theirs. "
     },
     {
-      "id": "story-5",
-      "year": "2025",
-      "heading": "More to come",
-      "body": "The story keeps writing itself. Stay tuned for what happens next."
-    },
-    {
-      "id": "story-6",
+      "id": "32fef177-24e6-81dd-8820-f96e6a16d6bf",
       "year": "2026",
-      "heading": "August 28th,\nLancaster PA",
-      "body": "Friends, family, and everyone we love gathered in one place to celebrate with us. We can't wait."
+      "heading": "Our big day in Lancaster",
+      "body": "Lancaster became a big part of our story, so it’s only fitting to have friends, family, and everyone we love gathered in one place to celebrate with us. We can't wait!"
     }
   ],
   "marquee": {
@@ -42,32 +42,60 @@
   },
   "celebration": {
     "heading": "Our Celebration",
-    "description": "Join us as we celebrate in the heart of Lancaster County. We can't wait to share this day with you!",
+    "description": "We’re getting married at Excelsior in Lancaster, PA. It’s the perfect blend of old and new, and we can’t wait to kick off our new life together with great food, dancing, and your company.",
     "events": [
-      { "time": "4:30pm", "label": "Guests arrive" },
-      { "time": "5:00pm", "label": "Ceremony begins" }
+      {
+        "time": "4:30pm",
+        "label": "Guests arrive"
+      },
+      {
+        "time": "5:00pm",
+        "label": "Ceremony begins"
+      }
     ],
     "infoRows": [
       {
-        "icon": "sun",
-        "label": "Weather & Attire",
-        "body": "August in Lancaster is warm and humid — expect highs around 85°F. We suggest semi-formal attire and comfortable shoes for the outdoor ceremony."
+        "icon": "",
+        "label": "Weather & attire",
+        "body": "If the weather is kind to us, we’ll say our vows outdoors in the Garden Courtyard, and then head indoors to celebrate. We’d love for you to wear semi-formal or cocktail attire—dressy, but shy of a tux or gown."
       },
       {
-        "icon": "car",
-        "label": "Transportation & Parking",
-        "body": "Free street parking is available near the venue. We'll share shuttle information closer to the date for guests staying downtown."
+        "icon": "",
+        "label": "Location & parking",
+        "body": "Excelsior is located at 125 E King Street, one of the main roads in the city. While street parking is available throughout Lancaster, we’d recommend parking in the East King Parking Garage, located right across the street from Excelsior.",
+        "bodySegments": [
+          {
+            "text": "Excelsior is located at 125 E King Street, one of the main roads in the city. While street parking is available throughout Lancaster, we’d recommend parking in the "
+          },
+          {
+            "text": "East King Parking Garage",
+            "href": "https://www.lancasterparkingauthority.com/maps/east-king-street-garage/"
+          },
+          {
+            "text": ", located right across the street from Excelsior."
+          }
+        ]
       },
       {
-        "icon": "mappin",
-        "label": "Logistics & Accessibility",
-        "body": "Excelsior is fully accessible. If you have any questions or need accommodations, please reach out and we'll be happy to help."
+        "icon": "",
+        "label": "Post-wedding fun",
+        "body": "While our reception wraps up at 10pm, the night doesn't have to end at Excelsior. There are plenty of bars within walking distance, and we’ll plan on visiting some for after party drinks."
+      },
+      {
+        "icon": "",
+        "label": "We kindly request an adults-only celebration",
+        "body": "We love your little ones, but our wedding ceremony and reception will be adults only. Thank you for understanding and for making arrangements ahead of time — we really appreciate it, and can’t wait to celebrate with you!"
+      },
+      {
+        "icon": "",
+        "label": "Day-after brunch",
+        "body": "Sarah’s father and stepmother, Andrea and Leo Petrokonis, are graciously hosting a day-after brunch at their Airbnb next to Excelsior. Please join us for bagels and refreshments before leaving town."
       }
     ],
     "rsvpUrl": "https://zola.sarahandmatt.wedding/rsvp",
     "venueUrl": "https://excelsiorlancaster.com",
-    "mainImage": "/images/wedding-site--our-celebration-01.png",
-    "overlayImage": "/images/wedding-site--our-celebration-02.png"
+    "mainImage": "/images/wedding-site--our-celebration-01.jpg",
+    "overlayImage": "/images/wedding-site--our-celebration-02.jpg"
   },
   "travel": {
     "heading": "Travel & Stay",
@@ -77,141 +105,174 @@
   "whereToStay": [
     {
       "overline": "Downtown Lancaster",
-      "heading": "Lancaster Arts Hotel",
-      "body": "Our top pick for out-of-town guests — art-forward, right downtown, walking distance to everything."
+      "heading": "Lancaster Marriott at Penn Square",
+      "body": "A 1-minute walk from our venue—the closest hotel to the ceremony, and home to Plough downstairs.",
+      "link": "https://www.marriott.com/en-us/hotels/lnsmc-lancaster-marriott-at-penn-square/overview/"
     },
     {
       "overline": "Downtown Lancaster",
-      "heading": "Lancaster Marriott at Penn Square",
-      "body": "Right on Penn Square, easy for everyone to find. Modern amenities in the heart of the city."
+      "heading": "Holiday Inn Lancaster",
+      "body": "A 7-minute walk from our venue. Solid, affordable, convenient — a clean place to land for the night."
+    },
+    {
+      "overline": "Downtown Lancaster",
+      "heading": "Lancaster Arts Hotel",
+      "body": "A 5-minute drive from our venue. A boutique stay with rotating local art and a design-forward feel.",
+      "link": "https://www.lancasterartshotel.com/"
     },
     {
       "overline": "Downtown Lancaster",
       "heading": "Cork Factory Hotel",
-      "body": "A converted 19th-century cork factory with a lot of character, tucked along the river."
-    },
-    {
-      "overline": "Lancaster County",
-      "heading": "The Inn at Leola Village",
-      "body": "A restored 1920s village in the countryside, about 10 minutes from the city."
+      "body": "A 5-minute drive from our venue, set in a converted historic factory with brick-and-beam character.",
+      "link": "https://www.corkfactoryhotel.com/"
     },
     {
       "overline": "Lancaster County",
       "heading": "Eden Resort & Suites",
-      "body": "Pools, spa, and a full-service restaurant — great for families or anyone making a weekend of it."
+      "body": "A 12-minute drive from our venue, with resort amenities and a pool for guests staying the weekend."
     },
     {
-      "overline": "Budget-Friendly",
-      "heading": "Holiday Inn Lancaster",
-      "body": "Solid, affordable, convenient — a good pick for guests who just need a clean place to sleep."
+      "overline": "Lancaster County",
+      "heading": "The Inn at Leola Village",
+      "body": "A 17-minute drive from our venue, set in a quaint country village setting just outside the city."
     }
   ],
   "whereToEat": [
     {
-      "overline": "The Steakhouse",
-      "heading": "401 Prime",
-      "body": "Downtown's benchmark for a proper night out — dry-aged cuts, serious wine list, no shortcuts."
-    },
-    {
-      "overline": "Italian, Wood-Fired",
+      "overline": "Italian",
       "heading": "Luca",
-      "body": "Our go-to for handmade pasta and a room that actually feels special."
-    },
-    {
-      "overline": "Farm-to-Table",
-      "heading": "Plough",
-      "body": "Seasonal and locally sourced inside the Lancaster Arts Hotel — quietly one of the best meals in the city."
+      "body": "Our favorite date spot for dinner and drinks whenever we’re in Lancaster.",
+      "link": "https://lucalancaster.com/"
     },
     {
       "overline": "Food Hall",
       "heading": "Southern Market",
-      "body": "A beautifully restored 1888 market with globally-inspired chef stations and a great central bar."
+      "body": "A restored 1888 marketplace serving lunch, dinner, and drinks food-court-style.",
+      "link": "https://www.southernmarketlancaster.com/"
     },
     {
-      "overline": "Classic Pub",
-      "heading": "The Lancaster Dispensing Co.",
-      "body": "\"DipCo\" to locals — Victorian bar, cold beer, live music on weekends, here since 1978."
+      "overline": "Farm-to-Table",
+      "heading": "Plough",
+      "body": "Located inside the Lancaster Marriott at Penn Square, serving both lunch and dinner.",
+      "link": "https://ploughrestaurant.com/"
+    },
+    {
+      "overline": "Steakhouse",
+      "heading": "401 Prime",
+      "body": "An upscale downtown dinner spot with a great lounge for drinks.",
+      "link": "https://www.401primelancaster.com/"
+    },
+    {
+      "overline": "Burger Spot",
+      "heading": "Cabalar Meat Co.",
+      "body": "Burger & sandwich spot that’s been on the top of our list to try.",
+      "link": "https://www.eatcabalar.com/"
     },
     {
       "overline": "Brewpub",
       "heading": "Spring House Brewing Co.",
-      "body": "Local craft staple with a full food menu and a tap list worth exploring."
+      "body": "A local brewery with a full food menu, serving lunch and dinner.",
+      "link": "https://springhousebeer.com/"
     },
     {
-      "overline": "Specialty Coffee",
-      "heading": "Square One Coffee",
-      "body": "Award-winning family-owned micro-roaster on Duke Street — single origins, seasonal espresso, hidden garden courtyard out back."
+      "overline": "Listening Lounge",
+      "heading": "HiFi Izakaya ",
+      "body": "A Japanese listening lounge serving cocktails and small plates.",
+      "link": "https://www.hifiizakaya.com/#food"
+    },
+    {
+      "overline": "Wine bar & kitchen",
+      "heading": "Passerine",
+      "body": "French-inspired small plates and a bottle shop.",
+      "link": "https://cafepasserine.com/"
+    },
+    {
+      "overline": "Speakeasy",
+      "heading": "Proof ",
+      "body": "A speakeasy-style bar for cocktails, wines, and small plates.",
+      "link": "https://www.prooflancaster.com/"
     },
     {
       "overline": "Crêperie",
       "heading": "Rachel's Café & Creperie",
-      "body": "Freshly made sweet and savory crêpes, great coffee, covered patio — perfect before a busy day."
+      "body": "A cozy downtown breakfast and lunch spot serving sweet and savory crêpes.",
+      "link": "https://www.rachelscreperie.com/"
     },
     {
-      "overline": "Classic Diner",
-      "heading": "Route 30 Diner",
-      "body": "24 hours, giant pancakes, all-day breakfast — the reliable call when someone needs eggs at 11pm."
+      "overline": "Classic Pub",
+      "heading": "The Lancaster Dispensing Co.",
+      "body": "A casual downtown lunch and dinner spot.",
+      "link": "https://www.dispensingco.com/"
+    },
+    {
+      "overline": "Craft Beer & Pizza",
+      "heading": "The Fridge",
+      "body": "Casual lunch and dinner location serving craft beer and pizza.",
+      "link": "https://beerfridgelancaster.com/"
     }
   ],
   "activities": [
     {
-      "overline": "America's Oldest Farmers Market",
-      "heading": "Lancaster Central Market",
-      "body": "Open Tue, Fri & Sat in the heart of downtown — local produce, PA Dutch specialties, and the best way to spend a slow morning."
-    },
-    {
-      "overline": "Guided Amish Tours",
-      "heading": "The Amish Village",
-      "body": "Farmhouse tours, a 12-acre village, and backroads bus tours through working Amish countryside — ask for AJ, Sarah's brother and one of their best guides."
-    },
-    {
-      "overline": "Steam Train Through Farm Country",
-      "heading": "Strasburg Rail Road",
-      "body": "A 45-minute ride through rolling Amish farmland on a working steam locomotive. Genuinely great, not just a tourist thing."
-    },
-    {
-      "overline": "Historic Walking Tour",
+      "overline": "Explore Downtown",
       "heading": "Downtown Lancaster",
-      "body": "A guided walk through 300 years of history — churches, colonial architecture, and streets most visitors walk right past."
+      "body": "More on where to go and what to do near our wedding venue.",
+      "link": "https://www.discoverlancaster.com/regions-towns/downtown/"
+    },
+    {
+      "overline": "Farmers Market",
+      "heading": "Lancaster Central Market",
+      "body": "A historic public market open Tuesday, Friday, and Saturday in Penn Square.",
+      "link": "https://centralmarketlancaster.com/"
+    },
+    {
+      "overline": "Guided Tour",
+      "heading": "The Amish Village",
+      "body": "Farmhouse tours and backroads bus rides through Amish countryside. One of Sarah’s brothers, AJ, is the best tourguide there! ;)",
+      "link": "https://www.amishvillage.com/"
+    },
+    {
+      "overline": "Small Town ",
+      "heading": "Strasburg",
+      "body": "A charming small town 15 minutes outside Lancaster City where Sarah's family lived for years. We especially love Cherry Crest Farm!",
+      "link": "https://www.discoverlancaster.com/regions-towns/amish-countryside/strasburg/"
     },
     {
       "overline": "Living History Museum",
       "heading": "Landis Valley Village & Farm",
-      "body": "100 acres of Pennsylvania German rural life with working trades and open fields — best in summer when everything is active."
-    },
-    {
-      "overline": "Kayaking the Susquehanna",
-      "heading": "kayakLanCo",
-      "body": "Rent a kayak and paddle the Susquehanna. Late August is peak season — calm water, great scenery, easy half-day trip."
+      "body": "A museum of Pennsylvania German history, heritage, and farming.",
+      "link": "https://www.landisvalleymuseum.org/"
     },
     {
       "overline": "Local Winery",
       "heading": "Waltz Vineyards",
-      "body": "A laid-back Lancaster County winery with great outdoor seating — built for a slow afternoon in the sun."
-    },
-    {
-      "overline": "Free Summer Concerts",
-      "heading": "Long's Park",
-      "body": "Outdoor concerts on the amphitheater lawn all summer long — bring a blanket, grab food nearby, stay for the evening."
-    },
-    {
-      "overline": "Scenic Countryside",
-      "heading": "Covered bridge drive",
-      "body": "Lancaster County has 28 intact covered bridges. Pick up a map and spend an afternoon getting pleasantly lost."
+      "body": "A laid-back winery with outdoor seating.",
+      "link": "https://www.waltzvineyards.com/"
     }
   ],
   "rsvp": {
-    "body": "We'd love to know if you can make it. Please RSVP by June 1, 2026 so we can plan accordingly.",
+    "body": "We’d love to know if you can make it, and we’re so grateful for your consideration. Please RSVP and make your meal selections by June 15, 2026 so we can plan accordingly.",
     "url": "https://zola.sarahandmatt.wedding/rsvp"
   },
   "registry": {
     "heading": "Registry",
-    "body": "Your presence is the greatest gift, but if you wish to celebrate with us, we've registered at the following:",
+    "body": "Your presence is by far the greatest gift, but if you’d like to contribute further, we're registered at the link below.",
     "viewAllUrl": "https://zola.sarahandmatt.wedding/registry",
     "items": [
-      { "name": "Our honeymoon", "url": "#", "description": "Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable." },
-      { "name": "Cooking", "url": "#", "description": "Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable." },
-      { "name": "House", "url": "#", "description": "Lancaster is a beautiful destination with plenty to explore. Here are our recommendations to make your visit memorable." }
+      {
+        "name": "Our honeymoon",
+        "url": "https://zola.sarahandmatt.wedding/registry",
+        "description": "We’re heading to Cap Cana, Dominican Republic in September, and can’t wait to unwind after all the wedding excitement. If you’d like to contribute to our honeymoon fund, you can do so on our registry!"
+      },
+      {
+        "name": "In the kitchen",
+        "url": "https://zola.sarahandmatt.wedding/registry",
+        "description": "We love hosting and cooking together, and we can’t wait to create more memories in the heart of our home."
+      },
+      {
+        "name": "Around the house",
+        "url": "https://zola.sarahandmatt.wedding/registry",
+        "description": "We're building a home together and we appreciate anything that helps us settle in."
+      }
     ],
     "photo": "/images/engagement-wide.jpg"
   }

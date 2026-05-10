@@ -3,68 +3,47 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 
-// ─── Gallery images — varying aspect ratios for visual rhythm ────────────────
-
 const IMAGES = [
-  { src: '/images/timeline/wedding-site--timeline-gallery-01.webp', alt: 'Sarah and Matt', aspect: '3/4' },
-  { src: '/images/timeline/wedding-site--timeline-gallery-02.webp', alt: 'Sarah and Matt', aspect: '1/1' },
-  { src: '/images/timeline/wedding-site--timeline-gallery-03.webp', alt: 'Sarah and Matt', aspect: '2/3' },
-  { src: '/images/timeline/wedding-site--timeline-gallery-04.webp', alt: 'Sarah and Matt', aspect: '1/1' },
-  { src: '/images/timeline/wedding-site--timeline-gallery-05.webp', alt: 'Sarah and Matt', aspect: '3/4' },
-  { src: '/images/timeline/wedding-site--timeline-gallery-06.webp', alt: 'Sarah and Matt', aspect: '2/3' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-01.jpg', alt: 'Sarah and Matt', aspect: '3/4' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-02.jpg', alt: 'Sarah and Matt', aspect: '1/1' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-03.jpg', alt: 'Sarah and Matt', aspect: '2/3' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-04.jpg', alt: 'Sarah and Matt', aspect: '1/1' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-05.jpg', alt: 'Sarah and Matt', aspect: '3/4' },
+  { src: '/images/timeline/wedding-site--timeline-gallery-06.jpg', alt: 'Sarah and Matt', aspect: '2/3' },
 ]
 
 const GAP = 16
-// Responsive: 70vw on mobile, 500px cap on desktop
 const MAX_W_CSS = 'min(500px, 70vw)'
 
-// ─── Component ───────────────────────────────────────────────────────────────
-
 export default function TimelineGallery() {
-  const sectionRef = useRef<HTMLElement>(null)
   const stripRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const section = sectionRef.current
     const strip = stripRef.current
-    if (!section || !strip) return
+    if (!strip) return
 
-    // Cache overflow — reading scrollWidth forces layout, so only do it on resize
-    let overflow = Math.max(0, strip.scrollWidth - window.innerWidth)
-
-    const handleResize = () => {
-      overflow = Math.max(0, strip.scrollWidth - window.innerWidth)
+    const update = () => {
+      const overflow = Math.max(0, strip.scrollWidth - window.innerWidth)
+      strip.style.setProperty('--strip-overflow', `${overflow}px`)
     }
 
-    const handleScroll = () => {
-      const rect = section.getBoundingClientRect()
-      const vh = window.innerHeight
-      const raw = 1 - rect.bottom / (vh + rect.height)
-      const progress = Math.max(0, Math.min(1, raw))
-      strip.style.transform = `translateX(${-overflow * progress}px)`
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleResize, { passive: true })
-    handleScroll()
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleResize)
-    }
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(strip)
+    return () => ro.disconnect()
   }, [])
 
   return (
     <section
       id="gallery"
-      ref={sectionRef}
       data-theme="default"
-      className="w-full overflow-hidden"
+      className="gallery-section w-full"
       style={{ paddingBottom: 'var(--sp-2xl)' }}
     >
       <div
         ref={stripRef}
-        className="flex items-start"
-        style={{ gap: GAP, willChange: 'transform' }}
+        className="gallery-strip flex items-start"
+        style={{ gap: GAP }}
       >
         {IMAGES.map((img, i) => (
           <div

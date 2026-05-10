@@ -75,13 +75,26 @@ export default function SiteNav() {
     const heroEl = document.getElementById('hero')
     const sectionEls = NAV_LINKS.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
 
+    let heroBottom = 0 // heroEl.offsetTop + heroEl.offsetHeight
+    type CachedSection = { el: HTMLElement; top: number; bottom: number }
+    let cachedSections: CachedSection[] = []
+
+    const measure = () => {
+      if (heroEl) heroBottom = heroEl.offsetTop + heroEl.offsetHeight
+      cachedSections = sectionEls.map(el => ({
+        el,
+        top: el.offsetTop,
+        bottom: el.offsetTop + el.offsetHeight,
+      }))
+    }
+    measure()
+
     const onScroll = () => {
       const currentY = window.scrollY
       const delta = currentY - lastScrollY.current
       const vh = window.innerHeight
-      const heroRect = heroEl?.getBoundingClientRect()
 
-      const heroVisible = heroRect ? heroRect.bottom > vh * 0.25 : false
+      const heroVisible = heroEl ? (heroBottom - currentY) > vh * 0.25 : false
 
       if (heroVisible) {
         setInHero(true)
@@ -106,23 +119,28 @@ export default function SiteNav() {
       startIdle(true)
 
       let best: string | null = null, bestDist = Infinity
-      for (const el of sectionEls) {
-        const rect = el.getBoundingClientRect()
-        if (rect.top < vh * 0.5 && rect.bottom > 0) {
-          const dist = Math.abs(rect.top)
+      for (const { el, top, bottom } of cachedSections) {
+        const rectTop = top - currentY
+        const rectBottom = bottom - currentY
+        if (rectTop < vh * 0.5 && rectBottom > 0) {
+          const dist = Math.abs(rectTop)
           if (dist < bestDist) { bestDist = dist; best = el.id }
         }
       }
       setActiveSection(best)
     }
 
-    const heroRect = heroEl?.getBoundingClientRect()
-    if (heroRect && heroRect.bottom > window.innerHeight * 0.25) {
+    if (heroEl && (heroBottom - window.scrollY) > window.innerHeight * 0.25) {
       setInHero(true); setVisible(true)
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => { window.removeEventListener('scroll', onScroll); clearIdle() }
+    window.addEventListener('resize', measure, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', measure)
+      clearIdle()
+    }
   }, [startIdle, clearIdle])
 
   // ── Hero state — transparent bar at top of hero ───────────────────────────
@@ -195,8 +213,8 @@ export default function SiteNav() {
             paddingRight: 'var(--mpds-space-32)',
             borderRadius: 4,
             lineHeight: '1.25',
-            backgroundColor: 'var(--mpds-color-yellow-s-600)',
-            color: 'var(--mpds-color-clay-100)',
+            backgroundColor: 'var(--theme-action)',
+            color: 'var(--theme-btn-text)',
           }}
         >
           RSVP

@@ -172,7 +172,8 @@ export default function TravelSection({ heading, body, whereToStayFineprint, whe
                 src={CATEGORY_IMAGES[active]}
                 alt=""
                 className="w-full h-full object-cover transition-opacity duration-500"
-                loading="eager"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -210,10 +211,8 @@ export default function TravelSection({ heading, body, whereToStayFineprint, whe
         </div>
       </section>
 
-      {/* ── CMYK background image — overlaps content by space-2xl via negative margin ── */}
-      <div
-        className="w-full lg:[margin-top:calc(-2*var(--sp-2xl))]"
-      >
+      {/* ── Background image — overlaps content by space-2xl via negative margin ── */}
+      <div className="w-full lg:[margin-top:calc(-2*var(--sp-2xl))]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/wedding-site--travel-stay-background.webp"
