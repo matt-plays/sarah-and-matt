@@ -125,12 +125,9 @@ export default function ColophonModal() {
           </h2>
 
           {/* Definition */}
-          <div
-            className="flex items-baseline"
-            style={{ gap: 10, marginBottom: 'var(--mpds-space-80)' }}
-          >
+          <p style={{ marginBottom: 'var(--mpds-space-80)' }}>
             <span
-              className="font-spezia uppercase shrink-0"
+              className="font-spezia uppercase"
               style={{
                 fontSize: 'var(--fs-xs)',
                 color: 'var(--theme-action)',
@@ -140,6 +137,7 @@ export default function ColophonModal() {
             >
               col·o·phon
             </span>
+            {' '}
             <span
               className="font-instrument italic leading-[1.625]"
               style={{
@@ -149,7 +147,7 @@ export default function ColophonModal() {
             >
               a brief note about how a book or document was made, usually placed at the end
             </span>
-          </div>
+          </p>
 
           {/* Body copy */}
           <div
