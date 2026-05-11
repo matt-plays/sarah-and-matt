@@ -94,23 +94,30 @@ export default function Hero() {
           matching Figma's 32px card margin. lg+ caps at 960px centered. */}
       <div className="relative flex justify-center" style={{ zIndex: 1 }}>
         <div
-          className="w-full lg:max-w-[960px] max-sm:w-[calc(100%_+_4rem)]"
-          style={{
-            opacity: cardEntrance ? 1 : 0,
-            transition: 'opacity 0.8s ease',
-            // Shadow lives here, not on the canvas — box-shadow never needs to read
-            // canvas pixels so it doesn't force per-frame CPU/GPU readback.
-            boxShadow: [
-              '0px 42px 61px rgba(43,13,0,0.12)',
-              '0px 165px 110px rgba(43,13,0,0.105)',
-              '0px 370px 149px rgba(43,13,0,0.06)',
-            ].join(', '),
-          }}
+          className="relative w-full lg:max-w-[960px] max-sm:w-[calc(100%_+_4rem)]"
+          style={{ opacity: cardEntrance ? 1 : 0, transition: 'opacity 0.8s ease' }}
         >
-          <InviteCanvas
-            onReady={() => setReady(true)}
-            triggerEntrance={cardEntrance}
+          {/* Static shadow div — same footprint as the card, sits behind the canvas.
+              Using a sibling element (not the canvas itself) means the browser computes
+              the shadow once and never needs to read back canvas pixels. */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              zIndex: 0,
+              boxShadow: [
+                '0px 42px 61px rgba(43,13,0,0.12)',
+                '0px 165px 110px rgba(43,13,0,0.105)',
+                '0px 370px 149px rgba(43,13,0,0.06)',
+              ].join(', '),
+            }}
           />
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <InviteCanvas
+              onReady={() => setReady(true)}
+              triggerEntrance={cardEntrance}
+            />
+          </div>
           <noscript>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
