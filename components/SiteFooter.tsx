@@ -1,5 +1,6 @@
 'use client'
 // Figma node: 419:2852
+import ColophonModal from './ColophonModal'
 // Footer — dark theme, 12-col grid layout, large shader type at bottom.
 // Desktop:  logo 3 / nav 3 / address 6
 // Tablet:   logo 12 (own row) / nav 4 / address 8
@@ -59,9 +60,10 @@ export default function SiteFooter() {
           style={{ fontSize: 'var(--mpds-font-size-lg)', gap: 'var(--mpds-space-8)' }}
         >
           <a href="#celebration" className="hover:text-[var(--theme-headline)] transition-colors">Our celebration</a>
-          <a href="#travel" className="hover:text-[var(--theme-headline)] transition-colors">Travel &amp; Stay</a>
+          <a href="#travel" className="hover:text-[var(--theme-headline)] transition-colors">Travel &amp; stay</a>
           <a href="#registry" className="hover:text-[var(--theme-headline)] transition-colors">Registry</a>
           <a href="https://zola.sarahandmatt.wedding/rsvp" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--theme-headline)] transition-colors">RSVP</a>
+          <ColophonModal />
         </nav>
 
         {/* Address lockup — mobile: full centered | tablet: 8 cols | desktop: 5 cols */}

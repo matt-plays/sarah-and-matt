@@ -78,7 +78,6 @@ const config: Config = {
       fontFamily: {
         romie: ["Romie", "Cormorant Garamond", "Georgia", "serif"],
         instrument: ["Instrument Sans", "system-ui", "sans-serif"],
-        "gans-fleurons": ["Gans Classical Fleurons", "serif"],
         spezia: ["Spezia Extended", "system-ui", "sans-serif"],
       },
       maxWidth: {

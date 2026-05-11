@@ -52,16 +52,6 @@
   font-display: swap;
 }
 
-/* ─── Gans Classical Fleurons ───────────────────────────────────── */
-@font-face {
-  font-family: "Gans Classical Fleurons";
-  src: url("/fonts/gansclassicalfleurons-webfont.woff2") format("woff2"),
-       url("/fonts/gansclassicalfleurons-webfont.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* ─── Fluid Design Tokens ───────────────────────────────────────── */
 /*
   Viewport range: 390px (mobile) → 1600px (desktop)
@@ -457,5 +447,22 @@ body {
   .font-instrument {
     font-variation-settings: "wdth" 100;
     font-feature-settings: "ss01" on, "ss04" on, "ss05" on, "ss07" on, "ss08" on, "ss09" on;
+  }
+
+  /* Colophon modal */
+  .colophon-body p {
+    margin-bottom: 1em;
+  }
+
+  .colophon-link {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--theme-text) 40%, transparent);
+    text-underline-offset: 0.33em;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.2s;
+  }
+
+  .colophon-link:hover {
+    text-decoration-color: var(--theme-text);
   }
 }

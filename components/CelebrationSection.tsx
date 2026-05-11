@@ -84,7 +84,7 @@ function AccordionItem({
         onClick={onToggle}
         className="flex items-center justify-between w-full text-left cursor-pointer"
         style={{
-          paddingTop: isOpen ? 'var(--mpds-space-32)' : 'var(--mpds-space-16)',
+          paddingTop: 'var(--mpds-space-16)',
           paddingBottom: isOpen ? '0' : 'var(--mpds-space-16)',
         }}
         aria-expanded={isOpen}
@@ -288,7 +288,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
           </div>
 
           {/* Right column — photos; overlay is not clipped so it can extend outside the column */}
-          <div className="xl:col-start-7 xl:col-end-13 relative w-full">
+          <div className="xl:col-start-7 xl:col-end-13 xl:self-start relative w-full">
             <div className="rounded-2xl overflow-hidden w-full bg-[var(--theme-tonal)] max-w-[784px]" style={{ aspectRatio: '3 / 4' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
