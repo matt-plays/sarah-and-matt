@@ -122,19 +122,23 @@ export default function SiteNav() {
     }
   }, [startIdle, clearIdle])
 
-  // ── Hero state — transparent bar at top of page ───────────────────────────
-  // position:absolute so it scrolls off naturally through Timeline / Gallery /
-  // Marquee sections without needing any JS to hide it.
-  if (inHero) {
-    return (
+  // Render both navs simultaneously so each can fade independently.
+  // The early-return pattern caused the pill to unmount instantly with no
+  // transition when inHero flipped to true.
+  const heroNavVisible = inHero && visible && heroReady
+  const pillVisible    = !inHero && visible
+
+  return (
+    <>
+      {/* ── Hero nav — absolute, scrolls off naturally ── */}
       <nav
         className="absolute top-0 left-0 w-full z-50"
         style={{
           paddingTop: 'var(--mpds-space-24)',
           paddingBottom: 'var(--mpds-space-24)',
-          opacity: visible && heroReady ? 1 : 0,
+          opacity: heroNavVisible ? 1 : 0,
           transition: 'opacity 0.5s ease',
-          pointerEvents: visible && heroReady ? 'auto' : 'none',
+          pointerEvents: heroNavVisible ? 'auto' : 'none',
         }}
         aria-label="Main navigation"
       >
@@ -146,27 +150,96 @@ export default function SiteNav() {
             paddingRight: 'var(--mpds-space-48)',
           }}
         >
-        {/* Mark — logo ornament */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/wedding-site--nav-mark.svg"
-          alt=""
-          aria-hidden="true"
-          style={{ width: 'var(--mpds-dimension-128)', height: 'var(--mpds-dimension-128)' }}
-        />
+          {/* Mark — logo ornament */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/wedding-site--nav-mark.svg"
+            alt=""
+            aria-hidden="true"
+            style={{ width: 'var(--mpds-dimension-128)', height: 'var(--mpds-dimension-128)' }}
+          />
 
-        {/* Links */}
-        <div className="hidden md:flex items-center" style={{ gap: 'var(--mpds-space-32)' }}>
+          {/* Links */}
+          <div className="hidden md:flex items-center" style={{ gap: 'var(--mpds-space-32)' }}>
+            {NAV_LINKS.map(({ label, href, id }) => (
+              <a
+                key={href}
+                href={href}
+                className="font-instrument transition-colors whitespace-nowrap"
+                style={{
+                  fontSize: 'var(--mpds-font-size-lg)',
+                  color: activeSection === id
+                    ? 'var(--mpds-color-neutral-clay-1200)'
+                    : 'color-mix(in srgb, var(--mpds-color-neutral-clay-1200) 72%, transparent)',
+                }}
+                onClick={(e) => {
+                  if (href.startsWith('http')) return
+                  e.preventDefault()
+                  document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+
+          {/* RSVP */}
+          <a
+            href="https://zola.sarahandmatt.wedding/rsvp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-instrument font-semibold whitespace-nowrap transition-colors"
+            style={{
+              fontSize: 'var(--mpds-font-size-lg)',
+              paddingTop: 'var(--mpds-space-14)',
+              paddingBottom: 'var(--mpds-space-16)',
+              paddingLeft: 'var(--mpds-space-32)',
+              paddingRight: 'var(--mpds-space-32)',
+              borderRadius: 4,
+              lineHeight: '1.25',
+              backgroundColor: 'var(--theme-action)',
+              color: 'var(--theme-btn-text)',
+            }}
+          >
+            RSVP
+          </a>
+        </div>
+      </nav>
+
+      {/* ── Pill nav — fixed at bottom, visible at/past Our Celebration ── */}
+      <nav
+        data-theme="footer"
+        className="fixed left-1/2 z-50 flex flex-col md:flex-row md:items-center bg-[var(--theme-bg)]"
+        style={{
+          bottom: 'var(--mpds-space-48)',
+          gap: 'var(--mpds-space-8)',
+          padding: 'var(--mpds-space-8)',
+          borderRadius: 12,
+          opacity: pillVisible ? 1 : 0,
+          transform: pillVisible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(20px)',
+          pointerEvents: pillVisible ? 'auto' : 'none',
+          transition: 'opacity 0.5s ease, transform 0.5s ease',
+        }}
+        aria-label="Main navigation"
+      >
+        {/* Links — always a row */}
+        <div className="flex flex-row items-center" style={{ gap: 'var(--mpds-space-4)' }}>
           {NAV_LINKS.map(({ label, href, id }) => (
             <a
               key={href}
               href={href}
-              className="font-instrument transition-colors whitespace-nowrap"
+              className={`font-instrument transition-colors whitespace-nowrap rounded-lg ${
+                activeSection === id
+                  ? 'text-[var(--theme-btn-text)]'
+                  : 'text-[var(--theme-text)] hover:text-[var(--theme-btn-text)]'
+              }`}
               style={{
                 fontSize: 'var(--mpds-font-size-lg)',
-                color: activeSection === id
-                  ? 'var(--mpds-color-neutral-clay-1200)'
-                  : 'color-mix(in srgb, var(--mpds-color-neutral-clay-1200) 72%, transparent)',
+                paddingTop: 'var(--mpds-space-12)',
+                paddingBottom: 'var(--mpds-space-12)',
+                paddingLeft: 'var(--mpds-space-16)',
+                paddingRight: 'var(--mpds-space-16)',
               }}
               onClick={(e) => {
                 if (href.startsWith('http')) return
@@ -179,98 +252,25 @@ export default function SiteNav() {
             </a>
           ))}
         </div>
-
         {/* RSVP */}
         <a
           href="https://zola.sarahandmatt.wedding/rsvp"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-instrument font-semibold whitespace-nowrap transition-colors"
+          className="font-instrument font-semibold bg-[var(--theme-action)] text-[var(--theme-btn-text)] whitespace-nowrap text-center transition-colors hover:bg-[var(--theme-action-hovered)]"
           style={{
             fontSize: 'var(--mpds-font-size-lg)',
             paddingTop: 'var(--mpds-space-14)',
             paddingBottom: 'var(--mpds-space-16)',
             paddingLeft: 'var(--mpds-space-32)',
             paddingRight: 'var(--mpds-space-32)',
-            borderRadius: 4,
+            borderRadius: 6,
             lineHeight: '1.25',
-            backgroundColor: 'var(--theme-action)',
-            color: 'var(--theme-btn-text)',
           }}
         >
           RSVP
         </a>
-        </div>
       </nav>
-    )
-  }
-
-  // ── Fixed state — dark pill at viewport bottom ────────────────────────────
-  // Only renders once inHero = false (at/past Our Celebration).
-  const pillVisible = visible
-  return (
-    <nav
-      data-theme="footer"
-      className="fixed left-1/2 z-50 flex flex-col md:flex-row md:items-center bg-[var(--theme-bg)]"
-      style={{
-        bottom: 'var(--mpds-space-48)',
-        gap: 'var(--mpds-space-8)',
-        padding: 'var(--mpds-space-8)',
-        borderRadius: 12,
-        opacity: pillVisible ? 1 : 0,
-        transform: pillVisible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(20px)',
-        pointerEvents: pillVisible ? 'auto' : 'none',
-        transition: 'opacity 0.5s ease, transform 0.5s ease',
-      }}
-      aria-label="Main navigation"
-    >
-      {/* Links — always a row */}
-      <div className="flex flex-row items-center" style={{ gap: 'var(--mpds-space-4)' }}>
-        {NAV_LINKS.map(({ label, href, id }) => (
-          <a
-            key={href}
-            href={href}
-            className={`font-instrument transition-colors whitespace-nowrap rounded-lg ${
-              activeSection === id
-                ? 'text-[var(--theme-btn-text)]'
-                : 'text-[var(--theme-text)] hover:text-[var(--theme-btn-text)]'
-            }`}
-            style={{
-              fontSize: 'var(--mpds-font-size-lg)',
-              paddingTop: 'var(--mpds-space-12)',
-              paddingBottom: 'var(--mpds-space-12)',
-              paddingLeft: 'var(--mpds-space-16)',
-              paddingRight: 'var(--mpds-space-16)',
-            }}
-            onClick={(e) => {
-              if (href.startsWith('http')) return
-              e.preventDefault()
-              document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
-            }}
-            {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-          >
-            {label}
-          </a>
-        ))}
-      </div>
-      {/* RSVP */}
-      <a
-        href="https://zola.sarahandmatt.wedding/rsvp"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="font-instrument font-semibold bg-[var(--theme-action)] text-[var(--theme-btn-text)] whitespace-nowrap text-center transition-colors hover:bg-[var(--theme-action-hovered)]"
-        style={{
-          fontSize: 'var(--mpds-font-size-lg)',
-          paddingTop: 'var(--mpds-space-14)',
-          paddingBottom: 'var(--mpds-space-16)',
-          paddingLeft: 'var(--mpds-space-32)',
-          paddingRight: 'var(--mpds-space-32)',
-          borderRadius: 6,
-          lineHeight: '1.25',
-        }}
-      >
-        RSVP
-      </a>
-    </nav>
+    </>
   )
 }
