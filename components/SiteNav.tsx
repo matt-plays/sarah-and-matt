@@ -1,8 +1,8 @@
 'use client'
 // Simplified site navigation — Figma node 615:8601.
-// Hero state: transparent on pink, sits at the top of the hero section.
-// Fixed state: dark pill at viewport bottom (scroll-up to reveal, idle timer).
-// Suppressed in timeline/gallery/marquee sections.
+// Hero state: transparent bar, position:absolute at top of page — scrolls off naturally.
+// inHero = true while scrollY is above the Our Celebration section.
+// Fixed pill state: appears only once the user reaches Our Celebration.
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 
@@ -13,15 +13,11 @@ const NAV_LINKS = [
 ]
 
 const IDLE_TIMEOUT = 15000
-const SUPPRESSED_IDS = ['timeline', 'gallery', 'marquee']
 
 export default function SiteNav() {
   const [visible, setVisible] = useState(true)
   const [inHero, setInHero] = useState(true)
   const [heroReady, setHeroReady] = useState(false)
-  const [suppressed, setSuppressed] = useState(false)
-  // Nav is invisible until the user has scrolled to Our Celebration
-  const [celebrationReached, setCelebrationReached] = useState(false)
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const lastScrollY = useRef(0)
   const scrollUpDistance = useRef(0)
@@ -42,40 +38,12 @@ export default function SiteNav() {
     return () => window.removeEventListener('hero-ready', handler)
   }, [])
 
-  // Unlock nav once Our Celebration section has entered the viewport (one-way latch)
-  useEffect(() => {
-    const el = document.getElementById('celebration')
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setCelebrationReached(true) },
-      { threshold: 0.05 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  // Suppress fixed nav when timeline/gallery/marquee sections are visible
-  useEffect(() => {
-    const els = SUPPRESSED_IDS.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[]
-    const visible = new Set<Element>()
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) visible.add(entry.target)
-        else visible.delete(entry.target)
-      })
-      setSuppressed(visible.size > 0)
-    // rootMargin bottom buffer: suppress the nav before the section actually
-    // enters the viewport, eliminating the race-condition flash during gallery.
-    }, { threshold: 0, rootMargin: '0px 0px 120px 0px' })
-    els.forEach(el => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
-
   useEffect(() => {
     const heroEl = document.getElementById('hero')
     const sectionEls = NAV_LINKS.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
 
-    let heroBottom = 0 // heroEl.offsetTop + heroEl.offsetHeight
+    let heroBottom = 0
+    let celebrationTop = Infinity
     type CachedSection = { el: HTMLElement; top: number; bottom: number }
     let cachedSections: CachedSection[] = []
 
@@ -86,6 +54,8 @@ export default function SiteNav() {
         top: el.offsetTop,
         bottom: el.offsetTop + el.offsetHeight,
       }))
+      const cel = cachedSections.find(s => s.el.id === 'celebration')
+      celebrationTop = cel?.top ?? Infinity
     }
     measure()
 
@@ -94,18 +64,23 @@ export default function SiteNav() {
       const delta = currentY - lastScrollY.current
       const vh = window.innerHeight
 
+      // Hero nav (absolute, top of page) while above Our Celebration;
+      // pill only once at/past celebration. The hero nav scrolls off naturally
+      // through Timeline / Gallery / Marquee — no nav gap, no premature pill.
+      const nowInHero = currentY < celebrationTop - vh * 0.5
+      setInHero(nowInHero)
+
+      // Force-show while actually inside the hero section; scroll-direction
+      // logic applies once the user has scrolled past the hero's bottom.
       const heroVisible = heroEl ? (heroBottom - currentY) > vh * 0.25 : false
 
       if (heroVisible) {
-        setInHero(true)
         setVisible(true)
         scrollUpDistance.current = 0
         lastScrollY.current = currentY
         clearIdle()
         return
       }
-
-      setInHero(false)
 
       if (delta < 0) {
         scrollUpDistance.current += Math.abs(delta)
@@ -131,8 +106,11 @@ export default function SiteNav() {
       setActiveSection(best)
     }
 
+    // Set initial state without waiting for a scroll event
+    const initialInHero = window.scrollY < celebrationTop - window.innerHeight * 0.5
+    setInHero(initialInHero)
     if (heroEl && (heroBottom - window.scrollY) > window.innerHeight * 0.25) {
-      setInHero(true); setVisible(true)
+      setVisible(true)
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -144,7 +122,9 @@ export default function SiteNav() {
     }
   }, [startIdle, clearIdle])
 
-  // ── Hero state — transparent bar at top of hero ───────────────────────────
+  // ── Hero state — transparent bar at top of page ───────────────────────────
+  // position:absolute so it scrolls off naturally through Timeline / Gallery /
+  // Marquee sections without needing any JS to hide it.
   if (inHero) {
     return (
       <nav
@@ -154,7 +134,7 @@ export default function SiteNav() {
           paddingBottom: 'var(--mpds-space-24)',
           opacity: visible && heroReady ? 1 : 0,
           transition: 'opacity 0.5s ease',
-          pointerEvents: visible ? 'auto' : 'none',
+          pointerEvents: visible && heroReady ? 'auto' : 'none',
         }}
         aria-label="Main navigation"
       >
@@ -226,7 +206,8 @@ export default function SiteNav() {
   }
 
   // ── Fixed state — dark pill at viewport bottom ────────────────────────────
-  const pillVisible = celebrationReached && visible && !suppressed
+  // Only renders once inHero = false (at/past Our Celebration).
+  const pillVisible = visible
   return (
     <nav
       data-theme="footer"
@@ -239,8 +220,7 @@ export default function SiteNav() {
         opacity: pillVisible ? 1 : 0,
         transform: pillVisible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(20px)',
         pointerEvents: pillVisible ? 'auto' : 'none',
-        // Instant hide when suppressed (no animation over gallery); smooth entrance only
-        transition: suppressed ? 'none' : 'opacity 0.5s ease, transform 0.5s ease',
+        transition: 'opacity 0.5s ease, transform 0.5s ease',
       }}
       aria-label="Main navigation"
     >

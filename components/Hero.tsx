@@ -37,12 +37,18 @@ export default function Hero() {
     return () => clearTimeout(id)
   }, [ready])
 
-  // Staggered reveal: nav at 500ms, card entrance at 1200ms
+  // Always fire hero-ready after 1 s — decoupled from texture loading so the
+  // nav can never be missed due to a race between Hero mounting and the event.
+  useEffect(() => {
+    const id = setTimeout(() => window.dispatchEvent(new CustomEvent('hero-ready')), 1000)
+    return () => clearTimeout(id)
+  }, [])
+
+  // Card entrance fires after textures are revealed
   useEffect(() => {
     if (!revealed) return
-    const navId = setTimeout(() => window.dispatchEvent(new CustomEvent('hero-ready')), 500)
     const cardId = setTimeout(() => setCardEntrance(true), 700)
-    return () => { clearTimeout(navId); clearTimeout(cardId) }
+    return () => clearTimeout(cardId)
   }, [revealed])
 
   return (
