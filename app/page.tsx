@@ -56,7 +56,7 @@ export default async function Home() {
       <RegistrySection registry={c.registry} />
 
       {/* ⑩ Footer */}
-      <SiteFooter />
+      <SiteFooter colophon={c.colophon} />
     </main>
   );
 }

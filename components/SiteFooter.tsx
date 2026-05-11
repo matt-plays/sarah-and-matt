@@ -1,6 +1,7 @@
 'use client'
 // Figma node: 419:2852
 import ColophonModal from './ColophonModal'
+import type { ColophonContent } from '@/types/content'
 // Footer — dark theme, 12-col grid layout, large shader type at bottom.
 // Desktop:  logo 3 / nav 3 / address 6
 // Tablet:   logo 12 (own row) / nav 4 / address 8
@@ -30,7 +31,7 @@ function SlashSep() {
 
 // ─── Footer ──────────────────────────────────────────────────────────────────
 
-export default function SiteFooter() {
+export default function SiteFooter({ colophon }: { colophon: ColophonContent }) {
   return (
     <footer
       data-theme="footer"
@@ -63,7 +64,7 @@ export default function SiteFooter() {
           <a href="#travel" className="hover:text-[var(--theme-headline)] transition-colors">Travel &amp; stay</a>
           <a href="#registry" className="hover:text-[var(--theme-headline)] transition-colors">Registry</a>
           <a href="https://zola.sarahandmatt.wedding/rsvp" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--theme-headline)] transition-colors">RSVP</a>
-          <ColophonModal />
+          <ColophonModal content={colophon} />
         </nav>
 
         {/* Address lockup — mobile: full centered | tablet: 8 cols | desktop: 5 cols */}

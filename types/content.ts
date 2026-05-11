@@ -66,6 +66,17 @@ export interface RegistryContent {
   photo: string;
 }
 
+export interface ColophonContent {
+  definition: string;
+  para1: string;
+  para2: string;
+  para2Segments?: RichTextSegment[];
+  para3: string;
+  para3Segments?: RichTextSegment[];
+  para4: string;
+  para4Segments?: RichTextSegment[];
+}
+
 export interface SiteContent {
   story: StoryCard[];
   marquee: { text: string };
@@ -76,6 +87,7 @@ export interface SiteContent {
   activities: TravelCard[];
   rsvp: RSVPContent;
   registry: RegistryContent;
+  colophon: ColophonContent;
 }
 
 export interface HistorySnapshot {

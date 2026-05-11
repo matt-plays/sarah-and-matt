@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import type { ColophonContent } from '@/types/content'
 
 function CloseIcon() {
   return (
@@ -24,7 +25,16 @@ function ColophonLink({ href, children }: { href: string; children: React.ReactN
   )
 }
 
-export default function ColophonModal() {
+function renderPara(text: string, segments?: { text: string; href?: string }[]) {
+  if (!segments?.length) return text
+  return segments.map((seg, i) =>
+    seg.href
+      ? <ColophonLink key={i} href={seg.href}>{seg.text}</ColophonLink>
+      : <span key={i}>{seg.text}</span>
+  )
+}
+
+export default function ColophonModal({ content }: { content: ColophonContent }) {
   const [isOpen, setIsOpen] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -145,7 +155,7 @@ export default function ColophonModal() {
                 color: 'var(--theme-text)',
               }}
             >
-              a brief note about how a book or document was made, usually placed at the end
+              {content.definition}
             </span>
           </p>
 
@@ -157,32 +167,10 @@ export default function ColophonModal() {
               color: 'var(--theme-text)',
             }}
           >
-            <p>
-              This website is typeset in three typefaces. Romie Light handles display moments.
-              It's a contemporary serif with just enough romance for the occasion. Instrument Sans
-              carries body copy and navigation, and Spezia Extended Bold shows up throughout as an
-              all-caps label face.
-            </p>
-            <p>
-              The design foundation is MPDS, a personal design system and token library. Layouts
-              and components were designed by hand in Figma and
-              built in Next.js 15 with React 19 and Three.js. Background textures and grain effects
-              are powered by{' '}
-              <ColophonLink href="https://shaders.paper.design">Paper Design Shaders</ColophonLink>
-              . The site is hosted on Vercel, RSVP is handled through Zola, and content syncs from
-              Notion via a custom script. It was developed with{' '}
-              <ColophonLink href="https://claude.ai/code">Claude Code</ColophonLink> across 41
-              sessions and 434 prompts.
-            </p>
-            <p>
-              The invitations were printed letterpress by{' '}
-              <ColophonLink href="https://mandatepress.com">Mandate Press</ColophonLink> on 200#
-              Mohawk Mosaic Blush.
-            </p>
-            <p style={{ marginBottom: 0 }}>
-              Professional photography by{' '}
-              <ColophonLink href="https://www.zacxwolf.com">Zac Wolf</ColophonLink>.
-            </p>
+            <p>{renderPara(content.para1)}</p>
+            <p>{renderPara(content.para2, content.para2Segments)}</p>
+            <p>{renderPara(content.para3, content.para3Segments)}</p>
+            <p style={{ marginBottom: 0 }}>{renderPara(content.para4, content.para4Segments)}</p>
           </div>
         </div>
         </div>

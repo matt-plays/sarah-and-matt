@@ -208,6 +208,16 @@ export async function getNotionContent(): Promise<SiteContent> {
         })),
         photo: get('registry.photo', fallback.registry.photo),
       },
+      colophon: {
+        definition:    get('colophon.definition', fallback.colophon.definition),
+        para1:         get('colophon.para1',      fallback.colophon.para1),
+        para2:         get('colophon.para2',      fallback.colophon.para2),
+        para2Segments: infoRich['colophon.para2'],
+        para3:         get('colophon.para3',      fallback.colophon.para3),
+        para3Segments: infoRich['colophon.para3'],
+        para4:         get('colophon.para4',      fallback.colophon.para4),
+        para4Segments: infoRich['colophon.para4'],
+      },
     }
   } catch (err) {
     console.error('[notion] Failed to fetch content, falling back to local JSON:', err)
