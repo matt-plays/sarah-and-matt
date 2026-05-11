@@ -287,6 +287,11 @@ a {
   text-decoration: none;
 }
 
+::selection {
+  background-color: var(--blush);
+  color: var(--mpds-color-slate-1200);
+}
+
 body {
   background-color: var(--theme-bg);
   color: var(--theme-text);
