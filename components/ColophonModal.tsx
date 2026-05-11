@@ -124,6 +124,33 @@ export default function ColophonModal() {
             Colophon
           </h2>
 
+          {/* Definition */}
+          <div
+            className="flex items-baseline"
+            style={{ gap: 10, marginBottom: 'var(--mpds-space-80)' }}
+          >
+            <span
+              className="font-spezia uppercase shrink-0"
+              style={{
+                fontSize: 'var(--fs-xs)',
+                color: 'var(--theme-action)',
+                letterSpacing: '0.12em',
+                lineHeight: 1.125,
+              }}
+            >
+              col·o·phon
+            </span>
+            <span
+              className="font-instrument italic leading-[1.625]"
+              style={{
+                fontSize: 'var(--fs-sm)',
+                color: 'var(--theme-text)',
+              }}
+            >
+              a brief note about how a book or document was made, usually placed at the end
+            </span>
+          </div>
+
           {/* Body copy */}
           <div
             className="font-instrument leading-[1.625] colophon-body"
@@ -133,22 +160,20 @@ export default function ColophonModal() {
             }}
           >
             <p>
-              This site is typeset in three faces. Romie Light handles display moments and the big
-              headline type—it's a contemporary serif with just enough romance for the occasion.
-              Instrument Sans carries body copy and navigation, and Spezia Extended Bold shows up
-              throughout as an all-caps label face.
+              This website is typeset in three typefaces. Romie Light handles display moments.
+              It's a contemporary serif with just enough romance for the occasion. Instrument Sans
+              carries body copy and navigation, and Spezia Extended Bold shows up throughout as an
+              all-caps label face.
             </p>
             <p>
-              The design foundation is{' '}
-              <ColophonLink href="https://github.com/matt-plays/mpds">MPDS</ColophonLink>—a
-              personal design system and token library I've been building and refining across
-              projects over the years. Layouts and components were designed in Figma and built in
-              Next.js 15 with React 19 and Three.js. Background textures and grain effects are
-              powered by{' '}
+              The design foundation is MPDS, a personal design system and token library. Layouts
+              and components were designed by hand in Figma and
+              built in Next.js 15 with React 19 and Three.js. Background textures and grain effects
+              are powered by{' '}
               <ColophonLink href="https://shaders.paper.design">Paper Design Shaders</ColophonLink>
               . The site is hosted on Vercel, RSVP is handled through Zola, and content syncs from
               Notion via a custom script. It was developed with{' '}
-              <ColophonLink href="https://claude.ai/code">Claude Code</ColophonLink> across 38
+              <ColophonLink href="https://claude.ai/code">Claude Code</ColophonLink> across 41
               sessions and 434 prompts.
             </p>
             <p>
