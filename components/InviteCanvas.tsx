@@ -307,6 +307,9 @@ export default function InviteCanvas({ onReady, triggerEntrance }: {
       style={{
         position: 'relative', width: '100%', aspectRatio: '720 / 1008', cursor: 'ew-resize',
         mixBlendMode: 'multiply',
+        // Single drop-shadow follows the card's alpha channel (not a rectangle).
+        // One blur pass vs the original five — 80% cheaper.
+        filter: 'drop-shadow(0px 80px 100px rgba(43,13,0,0.18))',
       }}
     >
     </div>
