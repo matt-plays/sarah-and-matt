@@ -14,12 +14,7 @@ function CloseIcon() {
 
 function ColophonLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="colophon-link"
-    >
+    <a href={href} target="_blank" rel="noopener noreferrer" className="colophon-link">
       {children}
     </a>
   )
@@ -34,43 +29,54 @@ function renderPara(text: string, segments?: { text: string; href?: string }[]) 
   )
 }
 
-export default function ColophonModal({ content }: { content: ColophonContent }) {
-  const [isOpen, setIsOpen] = useState(false)
+export default function ColophonModal({
+  content,
+  isOpen,
+  onClose,
+}: {
+  content: ColophonContent
+  isOpen: boolean
+  onClose: () => void
+}) {
   const [isVisible, setIsVisible] = useState(false)
+  const [shouldRender, setShouldRender] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [showScrim, setShowScrim] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { setMounted(true) }, [])
 
-  // Fade in on mount — trigger opacity after portal paints
+  // Sync external isOpen → internal render + fade state
   useEffect(() => {
-    if (!isOpen) return
-    const raf = requestAnimationFrame(() => setIsVisible(true))
-    return () => cancelAnimationFrame(raf)
+    if (isOpen) {
+      setShouldRender(true)
+      const raf = requestAnimationFrame(() => setIsVisible(true))
+      return () => cancelAnimationFrame(raf)
+    } else {
+      setIsVisible(false)
+    }
   }, [isOpen])
-
-  const close = () => setIsVisible(false)
 
   // Escape key to close
   useEffect(() => {
-    if (!isOpen) return
+    if (!shouldRender) return
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close()
+      if (e.key === 'Escape') onClose()
     }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
-  }, [isOpen])
+  }, [shouldRender, onClose])
 
   // Body scroll lock while open
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : ''
+    if (!shouldRender) return
+    document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
-  }, [isOpen])
+  }, [shouldRender])
 
   // Gradient scrim — show when content overflows and user hasn't scrolled to bottom
   useEffect(() => {
-    if (!isOpen) return
+    if (!shouldRender) return
     const el = scrollRef.current
     if (!el) return
 
@@ -80,7 +86,6 @@ export default function ColophonModal({ content }: { content: ColophonContent })
       setShowScrim(overflows && !atBottom)
     }
 
-    // Small delay so the DOM has painted before measuring
     const t = setTimeout(check, 50)
     el.addEventListener('scroll', check, { passive: true })
     const ro = new ResizeObserver(check)
@@ -91,7 +96,9 @@ export default function ColophonModal({ content }: { content: ColophonContent })
       el.removeEventListener('scroll', check)
       ro.disconnect()
     }
-  }, [isOpen])
+  }, [shouldRender])
+
+  if (!mounted || !shouldRender) return null
 
   const modal = (
     <div
@@ -102,11 +109,11 @@ export default function ColophonModal({ content }: { content: ColophonContent })
         opacity: isVisible ? 1 : 0,
         transition: 'opacity 0.3s ease',
       }}
-      onTransitionEnd={() => { if (!isVisible) setIsOpen(false) }}
+      onTransitionEnd={() => { if (!isVisible) setShouldRender(false) }}
     >
       {/* Close button */}
       <button
-        onClick={close}
+        onClick={onClose}
         aria-label="Close colophon"
         className="absolute top-6 right-6 z-10 flex items-center justify-center rounded-full w-12 h-12 transition-opacity hover:opacity-60"
         style={{ color: 'var(--theme-text)' }}
@@ -189,16 +196,5 @@ export default function ColophonModal({ content }: { content: ColophonContent })
     </div>
   )
 
-  return (
-    <>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="font-instrument text-[var(--theme-text)] hover:text-[var(--theme-headline)] transition-colors leading-[1.625] text-left"
-        style={{ fontSize: 'var(--fs-lg)' }}
-      >
-        Colophon
-      </button>
-      {mounted && isOpen && createPortal(modal, document.body)}
-    </>
-  )
+  return createPortal(modal, document.body)
 }

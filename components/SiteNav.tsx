@@ -5,6 +5,8 @@
 // Fixed pill state: appears only once the user reaches Our Celebration.
 
 import { useEffect, useState, useRef, useCallback } from 'react'
+import ColophonTooltip from './ColophonTooltip'
+import type { ColophonContent } from '@/types/content'
 
 const NAV_LINKS = [
   { label: 'Our Celebration', href: '#celebration', id: 'celebration' },
@@ -14,9 +16,10 @@ const NAV_LINKS = [
 
 const IDLE_TIMEOUT = 15000
 
-export default function SiteNav() {
+export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
   const [visible, setVisible] = useState(true)
   const [inHero, setInHero] = useState(true)
+  const [inFooter, setInFooter] = useState(false)
   const [heroReady, setHeroReady] = useState(false)
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const lastScrollY = useRef(0)
@@ -40,15 +43,18 @@ export default function SiteNav() {
 
   useEffect(() => {
     const heroEl = document.getElementById('hero')
+    const footerEl = document.querySelector('footer')
     const sectionEls = NAV_LINKS.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
 
     let heroBottom = 0
+    let footerTop = Infinity
     let celebrationTop = Infinity
     type CachedSection = { el: HTMLElement; top: number; bottom: number }
     let cachedSections: CachedSection[] = []
 
     const measure = () => {
       if (heroEl) heroBottom = heroEl.offsetTop + heroEl.offsetHeight
+      if (footerEl) footerTop = (footerEl as HTMLElement).offsetTop
       cachedSections = sectionEls.map(el => ({
         el,
         top: el.offsetTop,
@@ -69,6 +75,10 @@ export default function SiteNav() {
       // through Timeline / Gallery / Marquee — no nav gap, no premature pill.
       const nowInHero = currentY < celebrationTop - vh * 0.5
       setInHero(nowInHero)
+
+      // Suppress pill once the footer crosses the viewport — pill sits at the
+      // bottom and would otherwise overlap footer content.
+      setInFooter(currentY + vh > footerTop)
 
       // Force-show while actually inside the hero section; scroll-direction
       // logic applies once the user has scrolled past the hero's bottom.
@@ -122,11 +132,10 @@ export default function SiteNav() {
     }
   }, [startIdle, clearIdle])
 
-  // Render both navs simultaneously so each can fade independently.
-  // The early-return pattern caused the pill to unmount instantly with no
-  // transition when inHero flipped to true.
-  const heroNavVisible = inHero && visible && heroReady
-  const pillVisible    = !inHero && visible
+  // Hero nav is absolute-positioned at the top, so it scrolls off naturally
+  // — no fade logic needed. The pill (fixed) still uses scroll-direction visibility.
+  const heroNavVisible = heroReady
+  const pillVisible    = !inHero && visible && !inFooter
 
   return (
     <>
@@ -150,14 +159,20 @@ export default function SiteNav() {
             paddingRight: 'var(--mpds-space-48)',
           }}
         >
-          {/* Mark — logo ornament */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/wedding-site--nav-mark.svg"
-            alt=""
-            aria-hidden="true"
-            style={{ width: 'var(--mpds-dimension-128)', height: 'var(--mpds-dimension-128)' }}
-          />
+          {/* Mark — logo ornament (opens colophon) */}
+          <ColophonTooltip content={colophon}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/wedding-site--nav-mark.svg"
+              alt=""
+              aria-hidden="true"
+              style={{
+                width: 'var(--mpds-dimension-128)',
+                height: 'var(--mpds-dimension-128)',
+                display: 'block',
+              }}
+            />
+          </ColophonTooltip>
 
           {/* Links */}
           <div className="hidden md:flex items-center" style={{ gap: 'var(--mpds-space-32)' }}>

@@ -13,10 +13,14 @@ const REGISTRY_ICONS = [Sunrise2, Pot2, Home]
 
 export default function RegistrySection({ registry }: { registry: RegistryContent }) {
   const sectionRef = useScrollSection<HTMLElement>('taupe')
+  // Pseudo "tail" — an invisible IO target positioned below the section that
+  // extends into the footer area. Keeps activeTheme === 'taupe' while the
+  // footer is in view so this section stays taupe (instead of flipping green
+  // when the body theme would otherwise hand off to default).
+  const tailRef = useScrollSection<HTMLDivElement>('taupe')
   const { activeTheme } = useTheme()
   const content = registry
 
-  // Green until taupe takes over. Once taupe, stay taupe (even when body reverts to default at footer).
   const localTheme = activeTheme === 'taupe' ? 'taupe' : 'green'
 
   return (
@@ -114,6 +118,18 @@ export default function RegistrySection({ registry }: { registry: RegistryConten
           className="w-full h-full object-cover"
         />
       </div>
+
+      {/* ── Pseudo taupe-theme tail ── invisible IO target overlapping the
+           section's bottom area. Activates before the section's own IO
+           deactivates (overlap closes the gap that caused the green flash)
+           and stays active through max scroll. Stays inside the section's
+           bounds so it doesn't extend the document scrollHeight. */}
+      <div
+        ref={tailRef}
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
+        style={{ height: '25vh' }}
+      />
     </section>
   )
 }

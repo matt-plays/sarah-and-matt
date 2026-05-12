@@ -1,6 +1,6 @@
 'use client'
 // Figma node: 419:2852
-import ColophonModal from './ColophonModal'
+import ColophonTooltip from './ColophonTooltip'
 import type { ColophonContent } from '@/types/content'
 // Footer — dark theme, 12-col grid layout, large shader type at bottom.
 // Desktop:  logo 3 / nav 3 / address 6
@@ -46,25 +46,30 @@ export default function SiteFooter({ colophon }: { colophon: ColophonContent }) 
 
         {/* Logo — mobile: full | tablet: 12 cols own row | desktop: 5 cols */}
         <div className="md:col-span-12 lg:col-span-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/wedding-site--footer-mark.svg"
-            alt=""
-            className="opacity-60"
-            style={{ width: 99, height: 99 }}
-          />
+          <ColophonTooltip content={colophon}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/wedding-site--footer-mark.svg"
+              alt=""
+              className="opacity-60"
+              style={{
+                width: 'var(--mpds-dimension-128)',
+                height: 'var(--mpds-dimension-128)',
+                display: 'block',
+              }}
+            />
+          </ColophonTooltip>
         </div>
 
         {/* Nav links — mobile: full | tablet: 4 cols | desktop: 2 cols */}
         <nav
           className="md:col-span-4 lg:col-span-3 flex flex-col font-instrument text-[var(--theme-text)] leading-[1.625]"
-          style={{ fontSize: 'var(--mpds-font-size-lg)', gap: 'var(--mpds-space-8)' }}
+          style={{ fontSize: 'var(--mpds-font-size-lg)', gap: 'var(--mpds-space-12)' }}
         >
           <a href="#celebration" className="hover:text-[var(--theme-headline)] transition-colors">Our celebration</a>
           <a href="#travel" className="hover:text-[var(--theme-headline)] transition-colors">Travel &amp; Stay</a>
           <a href="#registry" className="hover:text-[var(--theme-headline)] transition-colors">Registry</a>
           <a href="https://zola.sarahandmatt.wedding/rsvp" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--theme-headline)] transition-colors">RSVP</a>
-          <ColophonModal content={colophon} />
         </nav>
 
         {/* Address lockup — mobile: full centered | tablet: 8 cols | desktop: 5 cols */}
@@ -130,9 +135,11 @@ export default function SiteFooter({ colophon }: { colophon: ColophonContent }) 
       </div>
 
       {/* ── Large type — texture PNG masked through SVG letterforms ── */}
-      <div
+      <ColophonTooltip
+        content={colophon}
+        ariaLabel="Open colophon"
         className="w-full overflow-hidden"
-        style={{ marginTop: 'var(--mpds-space-xl)', fontSize: 0, lineHeight: 0 }}
+        style={{ marginTop: 'var(--mpds-space-xl)', fontSize: 0, lineHeight: 0, display: 'block' }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -151,7 +158,7 @@ export default function SiteFooter({ colophon }: { colophon: ColophonContent }) 
             WebkitMaskPosition: 'bottom left',
           }}
         />
-      </div>
+      </ColophonTooltip>
     </footer>
   )
 }

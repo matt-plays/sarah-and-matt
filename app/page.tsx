@@ -23,7 +23,7 @@ export default async function Home() {
       {/* ① Hero + inline nav wrapper */}
       <div className="relative" style={{ marginBottom: 'var(--sp-2xl)' }}>
         <Hero />
-        <SiteNav />
+        <SiteNav colophon={c.colophon} />
       </div>
 
       {/* ③ Timeline */}
