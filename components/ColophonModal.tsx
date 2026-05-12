@@ -103,12 +103,13 @@ export default function ColophonModal({
   const modal = (
     <div
       data-theme="footer"
-      className="fixed inset-0 z-[200] flex flex-col overflow-hidden"
+      className="fixed inset-0 z-[200] flex flex-col overflow-hidden cursor-pointer"
       style={{
         backgroundColor: 'var(--theme-bg)',
         opacity: isVisible ? 1 : 0,
         transition: 'opacity 0.3s ease',
       }}
+      onClick={onClose}
       onTransitionEnd={() => { if (!isVisible) setShouldRender(false) }}
     >
       {/* Close button */}
@@ -128,7 +129,10 @@ export default function ColophonModal({
         style={{ padding: 'var(--mpds-space-80)' }}
       >
         <div className="flex items-center justify-center min-h-full">
-        <div className="w-full max-w-[784px]">
+        <div
+          className="w-full max-w-[784px] cursor-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
           {/* Headline */}
           <h2
             className="font-romie font-light leading-none"
