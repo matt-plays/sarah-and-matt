@@ -297,9 +297,12 @@ body {
   color: var(--theme-text);
   /* Animate the CSS variables themselves — with @property + inherits: true,
      all descendants automatically see the smooth interpolated values. */
+  /* --theme-tonal is intentionally excluded — interpolating between dark
+     and light tonal values produces visible mid-color flashes on borders /
+     dividers as the body theme hands off between sections. Letting it snap
+     while the bg/text colors still fade keeps the overall feel smooth. */
   transition:
     --theme-bg 0.3s ease,
-    --theme-tonal 0.3s ease,
     --theme-headline 0.3s ease,
     --theme-text 0.3s ease,
     --theme-action 0.3s ease,
