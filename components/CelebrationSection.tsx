@@ -143,7 +143,7 @@ function AccordionItem({
 // ─── Section ─────────────────────────────────────────────────────────────────
 
 export default function CelebrationSection({ content }: { content: CelebrationContent }) {
-  const sectionRef = useScrollSection<HTMLElement>('maroon')
+  const sectionRef = useScrollSection<HTMLElement>('maroon', 0.5)
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
@@ -151,7 +151,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
       ref={sectionRef}
       id="celebration"
       className="w-full flex justify-center bg-[var(--theme-bg)]"
-      style={{ paddingTop: 'var(--sp-2xl)', paddingBottom: 'var(--sp-2xl)', marginBottom: 'var(--sp-2xl)' }}
+      style={{ paddingTop: 'var(--sp-2xl)', paddingBottom: 'var(--sp-2xl)', marginBottom: 'var(--sp-xl)' }}
     >
       <div className="site-container flex flex-col" style={{ gap: 'var(--mpds-space-xl)' }}>
 

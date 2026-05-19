@@ -5,7 +5,7 @@
 import { useEffect, useRef } from 'react';
 import defaultContent from '@/content/content.json';
 
-const imgFill = '/images/lancaster-bg.webp';
+const imgFill = '/images/wedding-site--hero-background.webp';
 
 interface MarqueeTextProps {
   text?: string;
@@ -27,7 +27,6 @@ export default function MarqueeText({ text = defaultContent.marquee.text }: Marq
 
   const textStyle: React.CSSProperties = {
     fontSize:             'clamp(64px, 22vw, 320px)',
-    paddingBottom:        '0.2em',
     backgroundImage:      `url('${imgFill}'), linear-gradient(90deg, rgb(220, 211, 202) 0%, rgb(220, 211, 202) 100%)`,
     backgroundSize:       'cover, auto auto',
     backgroundRepeat:     'no-repeat, repeat',
@@ -42,6 +41,7 @@ export default function MarqueeText({ text = defaultContent.marquee.text }: Marq
       id="marquee"
       data-theme="default"
       className="w-full overflow-hidden pt-6"
+      style={{ paddingBottom: 'var(--sp-2xl)', marginBottom: 'var(--sp-xl)' }}
       aria-hidden="true"
     >
       <div

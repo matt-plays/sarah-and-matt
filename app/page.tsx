@@ -32,11 +32,11 @@ export default async function Home() {
       {/* ④ Photo gallery */}
       <TimelineGallery />
 
-      {/* ⑤ Marquee */}
-      <MarqueeText text={c.marquee.text} />
-
       {/* ⑥ Our Celebration */}
       <CelebrationSection content={c.celebration} />
+
+      {/* ⑤ Marquee */}
+      <MarqueeText text={c.marquee.text} />
 
       {/* ⑦ Travel & Stay */}
       <TravelSection
