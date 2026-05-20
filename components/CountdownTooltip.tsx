@@ -34,7 +34,7 @@ export default function CountdownTooltip({ children }: { children: React.ReactNo
   return (
     <>
       <div
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'default' }}
         onMouseEnter={(e) => { updatePos(e.clientX, e.clientY); setShow(true) }}
         onMouseLeave={() => setShow(false)}
         onMouseMove={(e) => updatePos(e.clientX, e.clientY)}
