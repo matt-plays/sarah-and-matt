@@ -7,6 +7,7 @@ import { prepare, layout, type PreparedText } from '@chenglou/pretext'
 import { ChevronRight } from '@mattplays/mpds/icons'
 import { CelebrationContent, InfoRowData } from '@/types/content'
 import { useScrollSection } from '@/context/ThemeContext'
+import CountdownTooltip from './CountdownTooltip'
 
 // ─── Accordion Item ─────────────────────────────────────────────────────────
 
@@ -143,7 +144,7 @@ function AccordionItem({
 // ─── Section ─────────────────────────────────────────────────────────────────
 
 export default function CelebrationSection({ content }: { content: CelebrationContent }) {
-  const sectionRef = useScrollSection<HTMLElement>('maroon', 0.5)
+  const sectionRef = useScrollSection<HTMLElement>('maroon')
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
@@ -181,12 +182,14 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
           >
             {/* Event details block */}
             <div className="flex flex-col" style={{ gap: 'var(--mpds-space-md)' }}>
-              <h3
-                className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
-                style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.01em' }}
-              >
-                Friday, August 28, 2026
-              </h3>
+              <CountdownTooltip>
+                <h3
+                  className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
+                  style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.01em' }}
+                >
+                  Friday, August 28, 2026
+                </h3>
+              </CountdownTooltip>
 
               {/* Time boxes — left-bordered */}
               <div className="flex flex-col sm:flex-row" style={{ gap: 'var(--mpds-space-48)' }}>
