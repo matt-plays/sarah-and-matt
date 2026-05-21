@@ -247,7 +247,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                   style={{
                     fontSize: 'var(--mpds-font-size-2xl)',
                     letterSpacing: '-0.01em',
-                    paddingBottom: 'var(--mpds-space-48)',
+                    paddingBottom: 'var(--mpds-space-32)',
                   }}
                 >
                   The finer details
