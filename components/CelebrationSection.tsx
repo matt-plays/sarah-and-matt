@@ -185,7 +185,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
               <CountdownTooltip>
                 <h3
                   className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
-                  style={{ fontSize: 'var(--mpds-font-size-3xl)', letterSpacing: '-0.01em' }}
+                  style={{ fontSize: 'var(--mpds-font-size-5xl)', letterSpacing: '-0.01em' }}
                 >
                   Friday, August 28, 2026
                 </h3>
@@ -245,7 +245,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                 <h3
                   className="font-instrument font-medium text-[var(--theme-headline)] leading-[1.125]"
                   style={{
-                    fontSize: 'var(--mpds-font-size-3xl)',
+                    fontSize: 'var(--mpds-font-size-2xl)',
                     letterSpacing: '-0.01em',
                     paddingBottom: 'var(--mpds-space-48)',
                   }}
