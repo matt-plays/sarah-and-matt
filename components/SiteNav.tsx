@@ -204,7 +204,7 @@ export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
             href="https://zola.sarahandmatt.wedding/rsvp"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-instrument font-semibold whitespace-nowrap transition-colors"
+            className="font-instrument font-semibold whitespace-nowrap transition-colors bg-[var(--theme-action)] text-[var(--theme-btn-text)] hover:bg-[var(--theme-action-hovered)] active:bg-[var(--theme-action-pressed)]"
             style={{
               fontSize: 'var(--mpds-font-size-lg)',
               paddingTop: 'var(--mpds-space-16)',
@@ -213,8 +213,6 @@ export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
               paddingRight: 'var(--mpds-space-32)',
               borderRadius: 4,
               lineHeight: '1.25',
-              backgroundColor: 'var(--theme-action)',
-              color: 'var(--theme-btn-text)',
             }}
           >
             RSVP
@@ -272,7 +270,7 @@ export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
           href="https://zola.sarahandmatt.wedding/rsvp"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-instrument font-semibold bg-[var(--theme-action)] text-[var(--theme-btn-text)] whitespace-nowrap text-center transition-colors hover:bg-[var(--theme-action-hovered)]"
+          className="font-instrument font-semibold bg-[var(--theme-action)] text-[var(--theme-btn-text)] whitespace-nowrap text-center transition-colors hover:bg-[var(--theme-action-hovered)] active:bg-[var(--theme-action-pressed)]"
           style={{
             fontSize: 'var(--mpds-font-size-lg)',
             paddingTop: 'var(--mpds-space-16)',

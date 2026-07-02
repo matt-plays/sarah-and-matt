@@ -271,7 +271,7 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                   href={content.rsvpUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[var(--theme-action)] text-[var(--theme-btn-text)] font-instrument font-semibold rounded px-8 py-4 leading-[1.25] transition-opacity hover:opacity-90 text-center"
+                  className="bg-[var(--theme-action)] text-[var(--theme-btn-text)] font-instrument font-semibold rounded px-8 py-4 leading-[1.25] transition-colors hover:bg-[var(--theme-action-hovered)] active:bg-[var(--theme-action-pressed)] text-center"
                   style={{ fontSize: 'var(--mpds-font-size-lg)' }}
                 >
                   RSVP today
