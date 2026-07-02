@@ -207,7 +207,7 @@ export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
             className="font-instrument font-semibold whitespace-nowrap transition-colors"
             style={{
               fontSize: 'var(--mpds-font-size-lg)',
-              paddingTop: 'var(--mpds-space-14)',
+              paddingTop: 'var(--mpds-space-16)',
               paddingBottom: 'var(--mpds-space-16)',
               paddingLeft: 'var(--mpds-space-32)',
               paddingRight: 'var(--mpds-space-32)',
@@ -275,7 +275,7 @@ export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
           className="font-instrument font-semibold bg-[var(--theme-action)] text-[var(--theme-btn-text)] whitespace-nowrap text-center transition-colors hover:bg-[var(--theme-action-hovered)]"
           style={{
             fontSize: 'var(--mpds-font-size-lg)',
-            paddingTop: 'var(--mpds-space-14)',
+            paddingTop: 'var(--mpds-space-16)',
             paddingBottom: 'var(--mpds-space-16)',
             paddingLeft: 'var(--mpds-space-32)',
             paddingRight: 'var(--mpds-space-32)',

@@ -24,8 +24,7 @@ export default function Button({ children, className = '', ...props }: ButtonPro
         'transition-colors',
         className,
       ].join(' ')}
-      // Figma: 14px top / 16px bottom for optical baseline alignment, 32px sides
-      style={{ paddingTop: 14, paddingBottom: 16, paddingLeft: 32, paddingRight: 32 }}
+      style={{ paddingTop: 16, paddingBottom: 16, paddingLeft: 32, paddingRight: 32 }}
       {...props}
     >
       {children}
