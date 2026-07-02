@@ -17,6 +17,7 @@
     "@notionhq/client": "^5.15.0",
     "@paper-design/shaders-react": "^0.0.72",
     "@types/three": "^0.183.1",
+    "@vercel/analytics": "^2.0.1",
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
