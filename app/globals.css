@@ -311,7 +311,11 @@ body {
     --theme-btn-text 0.3s ease;
   font-family: "Instrument Sans", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  /* clip (not hidden): iOS Safari ignores overflow-x: hidden at the document
+     level and still lets touch panning reach horizontal overflow. clip truly
+     removes the overscroll; hidden stays as a fallback for older browsers. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ─── Utilities ─────────────────────────────────────────────────── */
@@ -375,7 +379,10 @@ body {
 
   /* Gallery horizontal scroll — driven by CSS scroll timeline (no JS on scroll) */
   .gallery-section {
-    clip-path: inset(0);         /* clip overflow without creating a scroll container */
+    /* overflow-x: clip removes the strip's layout overflow without creating a
+       scroll container (clip-path only clipped painting, so the strip still
+       widened the page — iOS Safari let users pan sideways into that space). */
+    overflow-x: clip;
     view-timeline-name: --gallery;
     view-timeline-axis: block;
   }
