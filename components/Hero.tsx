@@ -29,6 +29,17 @@ export default function Hero() {
     return () => clearInterval(id)
   }, [ready])
 
+  // Failsafe: InviteCanvas calls onReady only once all six textures have resolved,
+  // and none of its loaders handle rejection — so a single failed fetch, or a
+  // browser that can't give us a WebGL context, would leave the curtain below
+  // covering the page forever. Declare ready anyway and let the normal reveal
+  // sequence run; a card that never painted is far better than a blank site.
+  useEffect(() => {
+    if (ready) return
+    const id = setTimeout(() => setReady(true), 8000)
+    return () => clearTimeout(id)
+  }, [ready])
+
   // When all textures loaded: jump to 100%, then start reveal sequence
   useEffect(() => {
     if (!ready) return
@@ -64,12 +75,36 @@ export default function Hero() {
       }}
     >
 
-{/* ── Progress bar (loading state) ── */}
+      {/* ── Boot curtain + progress bar (loading state) ──
+          Opaque, full-viewport, and part of the server-rendered HTML, so the very
+          first painted frame is a blank blush screen. Everything below the hero
+          (timeline, gallery) is real SSR content that paints immediately, and the
+          card itself is a client-only canvas that cannot — without this cover the
+          page briefly shows the timeline and gallery scrolled up to the top before
+          the canvas mounts and shoves them back down.
+
+          Sits above SiteNav (z-50) and the modals (z-200/300); nothing else can be
+          open this early. `revealed` is watchdog-backed above, and the <noscript>
+          rule below removes the curtain entirely when JS never runs. */}
       <div
         className="fixed inset-0 flex items-center justify-center pointer-events-none"
+        id="boot-curtain"
         aria-hidden="true"
-        style={{ zIndex: 2, opacity: revealed ? 0 : 1, transition: 'opacity 1.2s ease' }}
+        style={{
+          zIndex: 900,
+          // Literal fallback so the curtain is still opaque in the window where
+          // globals.css hasn't parsed and --blush doesn't resolve yet.
+          backgroundColor: 'var(--blush, #EAC5C0)',
+          opacity: revealed ? 0 : 1,
+          // Drop it out of the paint path once faded so it can never intercept
+          // a click or trap a stray focus ring.
+          visibility: revealed ? 'hidden' : 'visible',
+          transition: 'opacity 1.2s ease, visibility 0s linear 1.2s',
+        }}
       >
+        <noscript>
+          <style dangerouslySetInnerHTML={{ __html: '#boot-curtain{display:none!important}' }} />
+        </noscript>
         <div
           style={{
             width: 320,
@@ -101,7 +136,15 @@ export default function Hero() {
       <div className="relative flex justify-center" style={{ zIndex: 1 }}>
         <div
           className="w-full lg:max-w-[960px] max-sm:w-[calc(100%_+_4rem)]"
-          style={{ opacity: cardEntrance ? 1 : 0, transition: 'opacity 0.8s ease' }}
+          style={{
+            opacity: cardEntrance ? 1 : 0,
+            transition: 'opacity 0.8s ease',
+            // Mirrors InviteCanvas's own aspect ratio. InviteCanvas is loaded with
+            // ssr:false, so it contributes no height to the server-rendered HTML;
+            // without this the hero collapses to its padding until the client chunk
+            // arrives, and every section below it jumps down by ~a full card height.
+            aspectRatio: '720 / 1008',
+          }}
         >
           <InviteCanvas
             onReady={() => setReady(true)}
