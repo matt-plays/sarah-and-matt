@@ -145,7 +145,9 @@ export default function TravelSection({ heading, body, whereToStayFineprint, whe
           {/* Left sidebar — 4 cols: category nav + photo */}
           <div className="lg:col-span-4 flex flex-col" style={{ gap: 'var(--sp-2xl)' }}>
             {/* Category nav */}
-            <nav className="flex flex-row lg:flex-col gap-4 lg:gap-[var(--mpds-space-14)] overflow-x-auto scrollbar-none pb-[var(--mpds-space-lg)]">
+            {/* Stacks below 480px: at phone widths the three labels overflow the
+                row and the last one gets clipped behind the horizontal scroll. */}
+            <nav className="flex flex-row max-[479px]:flex-col lg:flex-col gap-4 lg:gap-[var(--mpds-space-14)] overflow-x-auto scrollbar-none pb-[var(--mpds-space-lg)]">
               {CATEGORIES.map(({ key, label }) => (
                 <button
                   key={key}
