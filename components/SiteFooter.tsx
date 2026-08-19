@@ -21,7 +21,7 @@ function HRLine() {
 function SlashSep() {
   return (
     <span
-      className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] opacity-40 select-none"
+      className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] select-none"
       style={{ fontSize: 'var(--mpds-font-size-sm)' }}
     >
       /
@@ -106,11 +106,11 @@ export default function SiteFooter({ colophon }: { colophon: ColophonContent }) 
           >
             <div className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between" style={{ gap: 'var(--mpds-space-16)' }}>
               <span className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0 text-center sm:text-left" style={{ fontSize: 'var(--mpds-font-size-sm)' }}>Excelsior</span>
-              <div className="w-full sm:hidden h-px opacity-40" style={{ backgroundColor: 'var(--theme-text)' }} />
-              <span className="hidden sm:inline font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] opacity-40 select-none" style={{ fontSize: 'var(--mpds-font-size-sm)' }}>/</span>
+              <div className="w-full sm:hidden h-px" style={{ backgroundColor: 'var(--theme-tonal)' }} />
+              <span className="hidden sm:inline font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] select-none" style={{ fontSize: 'var(--mpds-font-size-sm)' }}>/</span>
               <span className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0 text-center sm:text-left" style={{ fontSize: 'var(--mpds-font-size-sm)' }}>125 E King Street</span>
-              <div className="w-full sm:hidden h-px opacity-40" style={{ backgroundColor: 'var(--theme-text)' }} />
-              <span className="hidden sm:inline font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] opacity-40 select-none" style={{ fontSize: 'var(--mpds-font-size-sm)' }}>/</span>
+              <div className="w-full sm:hidden h-px" style={{ backgroundColor: 'var(--theme-tonal)' }} />
+              <span className="hidden sm:inline font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] select-none" style={{ fontSize: 'var(--mpds-font-size-sm)' }}>/</span>
               <span className="font-spezia text-[var(--theme-text)] uppercase tracking-[0.12em] leading-[1.125] whitespace-nowrap shrink-0 text-center sm:text-left" style={{ fontSize: 'var(--mpds-font-size-sm)' }}>Lancaster, PA</span>
             </div>
           </div>
