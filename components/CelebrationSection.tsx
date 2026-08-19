@@ -225,12 +225,12 @@ export default function CelebrationSection({ content }: { content: CelebrationCo
                     Excelsior
                   </span>
                   <div className="w-full sm:hidden" style={{ height: 1, backgroundColor: 'var(--theme-tonal)' }} />
-                  <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
+                  <span className="font-instrument text-[var(--theme-headline)] hidden sm:inline">/</span>
                   <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase text-center sm:text-left shrink-0">
                     125 E King Street
                   </span>
                   <div className="w-full sm:hidden" style={{ height: 1, backgroundColor: 'var(--theme-tonal)' }} />
-                  <span className="font-instrument text-[var(--theme-tonal)] hidden sm:inline">/</span>
+                  <span className="font-instrument text-[var(--theme-headline)] hidden sm:inline">/</span>
                   <span className="font-spezia text-[var(--theme-headline)] text-fs-sm tracking-[0.12em] uppercase text-center sm:text-left shrink-0">
                     Lancaster, PA
                   </span>
