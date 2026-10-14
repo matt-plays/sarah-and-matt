@@ -16,7 +16,9 @@ const NAV_LINKS = [
 
 const IDLE_TIMEOUT = 15000
 
-export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
+// linkBase: prefix for section anchors — '/' on pages other than home so the
+// links route back to the home page sections instead of scrolling in place.
+export default function SiteNav({ colophon, linkBase = '' }: { colophon: ColophonContent; linkBase?: string }) {
   const [visible, setVisible] = useState(true)
   const [inHero, setInHero] = useState(true)
   const [inFooter, setInFooter] = useState(false)
@@ -179,7 +181,7 @@ export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
             {NAV_LINKS.map(({ label, href, id }) => (
               <a
                 key={href}
-                href={href}
+                href={`${linkBase}${href}`}
                 className="font-instrument transition-colors whitespace-nowrap"
                 style={{
                   fontSize: 'var(--mpds-font-size-lg)',
@@ -188,11 +190,12 @@ export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
                     : 'color-mix(in srgb, var(--mpds-color-neutral-clay-1200) 72%, transparent)',
                 }}
                 onClick={(e) => {
-                  if (href.startsWith('http')) return
+                  // Off the home page the section isn't here — let the link navigate
+                  const target = document.querySelector(href)
+                  if (!target) return
                   e.preventDefault()
-                  document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+                  target.scrollIntoView({ behavior: 'smooth' })
                 }}
-                {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
                 {label}
               </a>
@@ -241,7 +244,7 @@ export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
           {NAV_LINKS.map(({ label, href, id }) => (
             <a
               key={href}
-              href={href}
+              href={`${linkBase}${href}`}
               className={`font-instrument transition-colors whitespace-nowrap rounded-lg ${
                 activeSection === id
                   ? 'text-[var(--theme-btn-text)]'
@@ -255,11 +258,12 @@ export default function SiteNav({ colophon }: { colophon: ColophonContent }) {
                 paddingRight: 'var(--mpds-space-16)',
               }}
               onClick={(e) => {
-                if (href.startsWith('http')) return
+                // Off the home page the section isn't here — let the link navigate
+                const target = document.querySelector(href)
+                if (!target) return
                 e.preventDefault()
-                document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+                target.scrollIntoView({ behavior: 'smooth' })
               }}
-              {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             >
               {label}
             </a>
