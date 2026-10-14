@@ -6,6 +6,7 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 import ColophonTooltip from './ColophonTooltip'
+import HoverTooltip from './HoverTooltip'
 import type { ColophonContent } from '@/types/content'
 
 const NAV_LINKS = [
@@ -16,9 +17,22 @@ const NAV_LINKS = [
 
 const IDLE_TIMEOUT = 15000
 
+const RSVP_URL = 'https://zola.sarahandmatt.wedding/rsvp'
+export const ALREADY_MARRIED = 'We’re already married!'
+
 // linkBase: prefix for section anchors — '/' on pages other than home so the
 // links route back to the home page sections instead of scrolling in place.
-export default function SiteNav({ colophon, linkBase = '' }: { colophon: ColophonContent; linkBase?: string }) {
+// postWedding: for pages shared after the day (/photos) — the mark links home
+// instead of opening the colophon, and RSVP looks the same but only shows a tooltip.
+export default function SiteNav({
+  colophon,
+  linkBase = '',
+  postWedding = false,
+}: {
+  colophon: ColophonContent
+  linkBase?: string
+  postWedding?: boolean
+}) {
   const [visible, setVisible] = useState(true)
   const [inHero, setInHero] = useState(true)
   const [inFooter, setInFooter] = useState(false)
@@ -139,6 +153,30 @@ export default function SiteNav({ colophon, linkBase = '' }: { colophon: Colopho
   const heroNavVisible = heroReady
   const pillVisible    = !inHero && visible && !inFooter
 
+  const mark = (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/images/wedding-site--nav-mark.svg"
+      alt=""
+      aria-hidden="true"
+      style={{
+        width: 'var(--mpds-dimension-128)',
+        height: 'var(--mpds-dimension-128)',
+        display: 'block',
+      }}
+    />
+  )
+
+  const rsvpStyle: React.CSSProperties = {
+    fontSize: 'var(--mpds-font-size-lg)',
+    paddingTop: 'var(--mpds-space-16)',
+    paddingBottom: 'var(--mpds-space-16)',
+    paddingLeft: 'var(--mpds-space-32)',
+    paddingRight: 'var(--mpds-space-32)',
+    borderRadius: 4,
+    lineHeight: '1.25',
+  }
+
   return (
     <>
       {/* ── Hero nav — absolute, scrolls off naturally ── */}
@@ -161,20 +199,12 @@ export default function SiteNav({ colophon, linkBase = '' }: { colophon: Colopho
             paddingRight: 'var(--mpds-space-48)',
           }}
         >
-          {/* Mark — logo ornament (opens colophon) */}
-          <ColophonTooltip content={colophon}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/wedding-site--nav-mark.svg"
-              alt=""
-              aria-hidden="true"
-              style={{
-                width: 'var(--mpds-dimension-128)',
-                height: 'var(--mpds-dimension-128)',
-                display: 'block',
-              }}
-            />
-          </ColophonTooltip>
+          {/* Mark — logo ornament (opens colophon, or links home after the wedding) */}
+          {postWedding ? (
+            <a href="/" aria-label="Sarah & Matt home">{mark}</a>
+          ) : (
+            <ColophonTooltip content={colophon}>{mark}</ColophonTooltip>
+          )}
 
           {/* Links */}
           <div className="hidden md:flex items-center" style={{ gap: 'var(--mpds-space-32)' }}>
@@ -187,7 +217,7 @@ export default function SiteNav({ colophon, linkBase = '' }: { colophon: Colopho
                   fontSize: 'var(--mpds-font-size-lg)',
                   color: activeSection === id
                     ? 'var(--mpds-color-neutral-clay-1200)'
-                    : 'color-mix(in srgb, var(--mpds-color-neutral-clay-1200) 72%, transparent)',
+                    : 'var(--mpds-color-slate-900)',
                 }}
                 onClick={(e) => {
                   // Off the home page the section isn't here — let the link navigate
@@ -203,23 +233,28 @@ export default function SiteNav({ colophon, linkBase = '' }: { colophon: Colopho
           </div>
 
           {/* RSVP */}
-          <a
-            href="https://zola.sarahandmatt.wedding/rsvp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-instrument font-semibold whitespace-nowrap transition-colors bg-[var(--theme-action)] text-[var(--theme-btn-text)] hover:bg-[var(--theme-action-hovered)] active:bg-[var(--theme-action-pressed)]"
-            style={{
-              fontSize: 'var(--mpds-font-size-lg)',
-              paddingTop: 'var(--mpds-space-16)',
-              paddingBottom: 'var(--mpds-space-16)',
-              paddingLeft: 'var(--mpds-space-32)',
-              paddingRight: 'var(--mpds-space-32)',
-              borderRadius: 4,
-              lineHeight: '1.25',
-            }}
-          >
-            RSVP
-          </a>
+          {postWedding ? (
+            <HoverTooltip label={ALREADY_MARRIED}>
+              <span
+                role="link"
+                aria-disabled="true"
+                className="block font-instrument font-semibold whitespace-nowrap bg-[var(--theme-action)] text-[var(--theme-btn-text)]"
+                style={rsvpStyle}
+              >
+                RSVP
+              </span>
+            </HoverTooltip>
+          ) : (
+            <a
+              href={RSVP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-instrument font-semibold whitespace-nowrap transition-colors bg-[var(--theme-action)] text-[var(--theme-btn-text)] hover:bg-[var(--theme-action-hovered)] active:bg-[var(--theme-action-pressed)]"
+              style={rsvpStyle}
+            >
+              RSVP
+            </a>
+          )}
         </div>
       </nav>
 
@@ -271,7 +306,7 @@ export default function SiteNav({ colophon, linkBase = '' }: { colophon: Colopho
         </div>
         {/* RSVP */}
         <a
-          href="https://zola.sarahandmatt.wedding/rsvp"
+          href={RSVP_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="font-instrument font-semibold bg-[var(--theme-action)] text-[var(--theme-btn-text)] whitespace-nowrap text-center transition-colors hover:bg-[var(--theme-action-hovered)] active:bg-[var(--theme-action-pressed)]"
