@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://sarahandmatt.wedding"),
   title: "Sarah & Matt — August 28, 2026",
   description: "Join us as we celebrate our wedding at Excelsior, Lancaster, PA.",
+  // Keep every page out of search results — the site is shared by link only.
+  // Applies to / and /photos (and anything added later) via the root layout.
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
   // The share image itself is NOT listed here. It comes from the app/opengraph-image.png
   // and app/twitter-image.png file conventions, which always win over an `images` entry
   // in this object — listing it in both places let the two copies drift apart, which is

@@ -31,7 +31,7 @@ function SlashSep() {
 
 // ─── Footer ──────────────────────────────────────────────────────────────────
 
-export default function SiteFooter({ colophon }: { colophon: ColophonContent }) {
+export default function SiteFooter({ colophon, linkBase = '' }: { colophon: ColophonContent; linkBase?: string }) {
   return (
     <footer
       data-theme="footer"
@@ -66,9 +66,9 @@ export default function SiteFooter({ colophon }: { colophon: ColophonContent }) 
           className="md:col-span-4 lg:col-span-3 flex flex-col font-instrument text-[var(--theme-text)] leading-[1.625]"
           style={{ fontSize: 'var(--mpds-font-size-lg)', gap: 'var(--mpds-space-12)' }}
         >
-          <a href="#celebration" className="hover:text-[var(--theme-headline)] transition-colors">Our celebration</a>
-          <a href="#travel" className="hover:text-[var(--theme-headline)] transition-colors">Travel &amp; Stay</a>
-          <a href="#registry" className="hover:text-[var(--theme-headline)] transition-colors">Registry</a>
+          <a href={`${linkBase}#celebration`} className="hover:text-[var(--theme-headline)] transition-colors">Our celebration</a>
+          <a href={`${linkBase}#travel`} className="hover:text-[var(--theme-headline)] transition-colors">Travel &amp; Stay</a>
+          <a href={`${linkBase}#registry`} className="hover:text-[var(--theme-headline)] transition-colors">Registry</a>
           <a href="https://zola.sarahandmatt.wedding/rsvp" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--theme-headline)] transition-colors">RSVP</a>
         </nav>
 
