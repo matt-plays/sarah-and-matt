@@ -62,8 +62,11 @@ export default function PhotosHero() {
           sizes="(min-width: 640px) 100vw, 200vw"
           alt=""
           decoding="async"
-          className="w-[200%] sm:w-full max-w-none h-auto block -translate-x-1/4 sm:translate-x-0"
-          style={{ marginBottom: '-4%', scale: '-1 1' }}
+          // Mirrored inside the same transform as the shift, so it flips before
+          // moving — the standalone `scale` property applies after it and pushed
+          // the 200%-wide mobile image half a screen right
+          className="w-[200%] sm:w-full max-w-none h-auto block -translate-x-1/4 sm:translate-x-0 -scale-x-100"
+          style={{ marginBottom: '-4%' }}
         />
       </div>
 
@@ -92,10 +95,10 @@ export default function PhotosHero() {
                 className="font-instrument font-medium leading-[1.125]"
                 style={{ fontSize: 'var(--mpds-font-size-2xl)', letterSpacing: '-0.02em' }}
               >
-                The photos are here
+                The photos are here!
               </h2>
               <p className="font-instrument leading-[1.625]" style={{ fontSize: 'var(--mpds-font-size-lg)' }}>
-                Thank you for celebrating with us. Below you’ll find our favorites from Zach, the photo booth, and every disposable camera we could get back. Tap any photo to see it larger or save it for yourself.
+                Below you’ll find our favorite shots from our photographer, the photo booth, and your table’s disposable camera. Tap on any photo to see it larger or save it for yourself.
               </p>
             </div>
             <Button

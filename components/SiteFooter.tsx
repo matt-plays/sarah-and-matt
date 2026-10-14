@@ -1,6 +1,8 @@
 'use client'
 // Figma node: 419:2852
 import ColophonTooltip from './ColophonTooltip'
+import HoverTooltip from './HoverTooltip'
+import { ALREADY_MARRIED } from './SiteNav'
 import type { ColophonContent } from '@/types/content'
 // Footer — dark theme, 12-col grid layout, large shader type at bottom.
 // Desktop:  logo 3 / nav 3 / address 6
@@ -31,7 +33,52 @@ function SlashSep() {
 
 // ─── Footer ──────────────────────────────────────────────────────────────────
 
-export default function SiteFooter({ colophon, linkBase = '' }: { colophon: ColophonContent; linkBase?: string }) {
+// postWedding: same as SiteNav — the mark and wordmark link home instead of
+// opening the colophon, and RSVP looks the same but only shows a tooltip.
+export default function SiteFooter({
+  colophon,
+  linkBase = '',
+  postWedding = false,
+}: {
+  colophon: ColophonContent
+  linkBase?: string
+  postWedding?: boolean
+}) {
+  const mark = (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/images/wedding-site--footer-mark.svg"
+      alt=""
+      className="opacity-60"
+      style={{
+        width: 'var(--mpds-dimension-128)',
+        height: 'var(--mpds-dimension-128)',
+        display: 'block',
+      }}
+    />
+  )
+
+  const wordmark = (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/images/wedding-site--footer-texture.png"
+      alt="Sarah & Matt"
+      className="w-full"
+      style={{
+        display: 'block',
+        maskImage: 'url(/images/wedding-site--footer-type.svg)',
+        WebkitMaskImage: 'url(/images/wedding-site--footer-type.svg)',
+        maskSize: '100% auto',
+        WebkitMaskSize: '100% auto',
+        maskRepeat: 'no-repeat',
+        WebkitMaskRepeat: 'no-repeat',
+        maskPosition: 'bottom left',
+        WebkitMaskPosition: 'bottom left',
+      }}
+    />
+  )
+  const wordmarkStyle: React.CSSProperties = { marginTop: 'var(--mpds-space-xl)', fontSize: 0, lineHeight: 0, display: 'block' }
+
   return (
     <footer
       data-theme="footer"
@@ -46,19 +93,11 @@ export default function SiteFooter({ colophon, linkBase = '' }: { colophon: Colo
 
         {/* Logo — mobile: full | tablet: 12 cols own row | desktop: 5 cols */}
         <div className="md:col-span-12 lg:col-span-3">
-          <ColophonTooltip content={colophon}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/wedding-site--footer-mark.svg"
-              alt=""
-              className="opacity-60"
-              style={{
-                width: 'var(--mpds-dimension-128)',
-                height: 'var(--mpds-dimension-128)',
-                display: 'block',
-              }}
-            />
-          </ColophonTooltip>
+          {postWedding ? (
+            <a href="/" aria-label="Sarah & Matt home" className="inline-block">{mark}</a>
+          ) : (
+            <ColophonTooltip content={colophon}>{mark}</ColophonTooltip>
+          )}
         </div>
 
         {/* Nav links — mobile: full | tablet: 4 cols | desktop: 2 cols */}
@@ -69,7 +108,13 @@ export default function SiteFooter({ colophon, linkBase = '' }: { colophon: Colo
           <a href={`${linkBase}#celebration`} className="hover:text-[var(--theme-headline)] transition-colors">Our celebration</a>
           <a href={`${linkBase}#travel`} className="hover:text-[var(--theme-headline)] transition-colors">Travel &amp; Stay</a>
           <a href={`${linkBase}#registry`} className="hover:text-[var(--theme-headline)] transition-colors">Registry</a>
-          <a href="https://zola.sarahandmatt.wedding/rsvp" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--theme-headline)] transition-colors">RSVP</a>
+          {postWedding ? (
+            <HoverTooltip label={ALREADY_MARRIED} className="self-start">
+              <span role="link" aria-disabled="true">RSVP</span>
+            </HoverTooltip>
+          ) : (
+            <a href="https://zola.sarahandmatt.wedding/rsvp" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--theme-headline)] transition-colors">RSVP</a>
+          )}
         </nav>
 
         {/* Address lockup — mobile: full centered | tablet: 8 cols | desktop: 5 cols */}
@@ -135,30 +180,13 @@ export default function SiteFooter({ colophon, linkBase = '' }: { colophon: Colo
       </div>
 
       {/* ── Large type — texture PNG masked through SVG letterforms ── */}
-      <ColophonTooltip
-        content={colophon}
-        ariaLabel="Open colophon"
-        className="w-full overflow-hidden"
-        style={{ marginTop: 'var(--mpds-space-xl)', fontSize: 0, lineHeight: 0, display: 'block' }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/wedding-site--footer-texture.png"
-          alt="Sarah & Matt"
-          className="w-full"
-          style={{
-            display: 'block',
-            maskImage: 'url(/images/wedding-site--footer-type.svg)',
-            WebkitMaskImage: 'url(/images/wedding-site--footer-type.svg)',
-            maskSize: '100% auto',
-            WebkitMaskSize: '100% auto',
-            maskRepeat: 'no-repeat',
-            WebkitMaskRepeat: 'no-repeat',
-            maskPosition: 'bottom left',
-            WebkitMaskPosition: 'bottom left',
-          }}
-        />
-      </ColophonTooltip>
+      {postWedding ? (
+        <a href="/" className="w-full overflow-hidden" style={wordmarkStyle}>{wordmark}</a>
+      ) : (
+        <ColophonTooltip content={colophon} ariaLabel="Open colophon" className="w-full overflow-hidden" style={wordmarkStyle}>
+          {wordmark}
+        </ColophonTooltip>
+      )}
     </footer>
   )
 }

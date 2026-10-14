@@ -29,7 +29,7 @@ export default async function PhotosPage() {
     <main>
       <div className="relative">
         <PhotosHero />
-        <SiteNav colophon={c.colophon} linkBase="/" />
+        <SiteNav colophon={c.colophon} linkBase="/" postWedding />
       </div>
 
       <section
@@ -49,8 +49,9 @@ export default async function PhotosPage() {
             accent="the photo booth"
             accentHref={PHOTO_BOOTH_URL}
             photos={PHOTO_BOOTH}
+            limit={12}
           />
-          <PhotoGallerySection title="Snapshots from our disposable cameras" photos={FILM} />
+          <PhotoGallerySection title="Snapshots from our disposable cameras" photos={FILM} limit={12} />
 
           {/* ── Share CTA — Figma node 1420:11397 ── */}
           <div className="flex flex-col xl:flex-row xl:items-end xl:justify-between" style={{ gap: 'var(--mpds-space-lg)' }}>
@@ -77,7 +78,7 @@ export default async function PhotosPage() {
         </div>
       </section>
 
-      <SiteFooter colophon={c.colophon} linkBase="/" />
+      <SiteFooter colophon={c.colophon} linkBase="/" postWedding />
     </main>
   )
 }
