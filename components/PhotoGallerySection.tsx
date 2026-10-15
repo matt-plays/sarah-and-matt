@@ -6,7 +6,7 @@
 // gradient and link out while the grid grows to its full height; the lightbox
 // always pages through the full set.
 
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { TextLinkButton } from './TextLink'
 import PhotoLightbox from './PhotoLightbox'
 import type { Photo } from '@/lib/photos'
@@ -17,6 +17,8 @@ const FADE = [0, 0.013, 0.049, 0.104, 0.175, 0.259, 0.352, 0.45, 0.55, 0.648, 0.
   .join(', ')
 
 const GROW_MS = 700
+// Hidden photos download this many at a time, so they don't crowd out the visible ones
+const PREFETCH_CONCURRENCY = 4
 const FADE_MS = 300
 const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)'
 
@@ -92,6 +94,37 @@ export default function PhotoGallerySection({
     return () => clearTimeout(done)
   }, [phase, animating])
 
+  // Once the grid is within a screen of view, quietly download the photos
+  // behind "See more" so it opens onto images the browser already has
+  useEffect(() => {
+    if (!truncated) return
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+    if (connection?.saveData) return
+
+    let cancelled = false
+    const queue = photos.slice(limit).map((p) => p.thumb ?? p.src)
+    const next = async (): Promise<void> => {
+      const src = queue.shift()
+      if (!src || cancelled) return
+      const img = new Image()
+      img.src = src
+      await img.decode().catch(() => {})
+      return next()
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      observer.disconnect()
+      for (let i = 0; i < PREFETCH_CONCURRENCY; i++) next()
+    }, { rootMargin: '100% 0px' })
+    observer.observe(rootRef.current!)
+
+    return () => {
+      cancelled = true
+      observer.disconnect()
+    }
+  }, [photos, limit, truncated])
+
   return (
     <div ref={rootRef} className="flex flex-col" style={{ gap: 'var(--mpds-space-sm)' }}>
       <h2
@@ -141,8 +174,12 @@ export default function PhotoGallerySection({
                   alt={photo.alt}
                   loading="lazy"
                   decoding="async"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                  style={{ objectPosition: photo.position }}
+                  // Fades in once loaded rather than popping in; the ref catches
+                  // images that finished before hydration and never fire onLoad
+                  ref={(img) => { if (img?.complete) img.style.opacity = '1' }}
+                  onLoad={(e) => { e.currentTarget.style.opacity = '1' }}
+                  className="absolute inset-0 w-full h-full object-cover transition-[transform,opacity] duration-500 ease-out group-hover:scale-[1.03]"
+                  style={{ objectPosition: photo.position, opacity: 0 }}
                 />
               </button>
             ))}
