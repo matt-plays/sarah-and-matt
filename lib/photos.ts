@@ -49,11 +49,10 @@ export const PHOTOGRAPHER = {
 export const PHOTO_BOOTH_URL = 'https://secure.smugmug.com/download/verify/pf8pjjsVkBJhDzXGWDLn6hgVPq4DfwRt'
 
 // Portraits in landscape tiles, recropped in Figma to keep them well composed
-// (tiles 4, 7 and 11)
+// (tiles 4 and 7)
 const SELECT_POSITIONS: Record<number, string> = {
   3: cropY(0.4445, 0.1581),
   6: cropY(0.4445, 0.1829),
-  10: cropY(0.4445, 0.1612),
 }
 
 export const SELECTS: Photo[] = selectPhotos.map(({ src, thumb }, i) => ({
