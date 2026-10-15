@@ -42,7 +42,7 @@ export const HERO_SLOTS: { aspect: string; photos: Photo[] }[] = SLOT_ASPECTS.ma
 
 export const PHOTOGRAPHER = {
   handle: '@zacxwolf',
-  // The full gallery on Zach’s Pixieset
+  // The full gallery on Zac’s Pixieset
   url: 'https://zacxwolf.pixieset.com/mattsarah/',
 }
 
