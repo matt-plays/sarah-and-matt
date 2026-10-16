@@ -12,6 +12,8 @@
  *   --min-rating=3   lowest xmp:Rating to keep
  *   --only=039,048   hand-picked files by filename prefix, kept in this order
  *                    (skips the rating check)
+ *   --skip=Disc10_Asset0012,…          leave these files out, by filename prefix
+ *   --rotate=Disc08_Asset0009:270,…    turn these clockwise by 90/180/270 degrees
  *   --size=2400      long edge of the full-size copy, in px
  *   --no-thumb       skip the grid thumbnails
  * Then shrink the full-size files with: npm run tinify-photos -- <gallery>
@@ -26,9 +28,17 @@ const option = (name) => process.argv.find((a) => a.startsWith(`--${name}=`))?.s
 const only = option('only')?.split(',')
 const minRating = only ? 0 : Number(option('min-rating') ?? 3)
 const thumbs = !process.argv.includes('--no-thumb')
+const skip = option('skip')?.split(',') ?? []
+const rotations = Object.fromEntries(
+  (option('rotate')?.split(',') ?? []).map((pair) => {
+    const [prefix, degrees] = pair.split(':')
+    return [prefix, Number(degrees)]
+  }),
+)
+const rotationFor = (file) => Object.entries(rotations).find(([prefix]) => file.startsWith(prefix))?.[1] ?? 0
 
 if (!sourceDir || !gallery) {
-  console.error('Usage: node scripts/import-photos.mjs <source-dir> <gallery> [--min-rating=3] [--only=…] [--size=2400] [--no-thumb]')
+  console.error('Usage: node scripts/import-photos.mjs <source-dir> <gallery> [--min-rating=3] [--only=…] [--skip=…] [--rotate=…] [--size=2400] [--no-thumb]')
   process.exit(1)
 }
 
@@ -53,7 +63,7 @@ const files = only
       if (!match) throw new Error(`No file in ${sourceDir} starts with "${prefix}"`)
       return match
     })
-  : jpgs
+  : jpgs.filter((f) => !skip.some((prefix) => f.startsWith(prefix)))
 
 await rm(OUT_DIR, { recursive: true, force: true })
 await mkdir(join(OUT_DIR, thumbs ? 'thumb' : ''), { recursive: true })
@@ -64,7 +74,10 @@ for (const file of files) {
   if (readRating(buf) < minRating) continue
 
   const name = `${basename(file, extname(file)).toLowerCase()}.webp`
-  const resize = (edge) => sharp(buf).rotate().resize(edge, edge, { fit: 'inside', withoutEnlargement: true })
+  // Apply the camera's own orientation first, then any extra turn asked for
+  const upright = await sharp(buf).rotate().toBuffer()
+  const resize = (edge) =>
+    sharp(upright).rotate(rotationFor(file)).resize(edge, edge, { fit: 'inside', withoutEnlargement: true })
 
   const { width, height } = await resize(FULL_EDGE).webp({ quality: 85 }).toFile(join(OUT_DIR, name))
   if (thumbs) await resize(THUMB_EDGE).webp({ quality: 78 }).toFile(join(OUT_DIR, 'thumb', name))
