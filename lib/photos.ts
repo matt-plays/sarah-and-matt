@@ -62,9 +62,13 @@ export const SELECTS: Photo[] = selectPhotos.map(({ src, thumb }, i) => ({
   position: SELECT_POSITIONS[i],
 }))
 export const PHOTO_BOOTH: Photo[] = boothPhotos.map(({ src, thumb }) => ({ src, thumb, alt: 'Guests in the photo booth' }))
-// The disposables import in filename order. Keyed by filename so a re-import
-// keeps these: swap the DJ booth out of the opening row for one of Sarah and
-// Matt, and frame a portrait whose faces sit above the default center crop.
+// The disposables come from Lightroom's Auto white balance export, imported with
+//   npm run import-photos -- "/Volumes/Sabrent 4 Bay/Personal/2026/Photography/08 Wedding/Disposable/White Balanced" film \
+//     --skip=Disc10_Asset0012 --rotate=Disc08_Asset0009:270
+// then npm run tinify-photos -- film (and again with --thumbs).
+// They import in filename order. Keyed by filename so a re-import keeps these:
+// swap the DJ booth out of the opening row for one of Sarah and Matt, and frame
+// a portrait whose faces sit above the default center crop.
 const FILM_SWAPS: [string, string][] = [['disc01_asset0007', 'disc04_asset0008']]
 const FILM_POSITIONS: Record<string, string> = { disc01_asset0003: '50% 20%' }
 
